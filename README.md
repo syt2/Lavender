@@ -42,5 +42,5 @@ About Me
 ~~About Lavender~~
 -----------------
 [~~Lavender是薰衣草的意思。为什么会起这个名呢，因为薰衣草是她最喜欢的花了，而薰衣草有个花语，“等待无望的爱”，描述我也最合适不过了。  
-谨以此名，献给终将与我分离的她。~~](http://danyang.party/wordpress/)
+谨以此名，献给终将与我分离的她。~~](http://danyang.party/)
 
