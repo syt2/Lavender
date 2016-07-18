@@ -2,6 +2,12 @@
 第三方国家地理每日精选Android客户端。
 
 
+Download
+-----------------
+[![Lavender]](http://fir.im/Lavender116beta)  
+[Lavender]:http://firicon.fir.im/4e6ac9a108c5adb3e9db6edbfd57577e44d2c67a?t=1468848643.5803108 "Lavender"
+
+
 ##ScreenShot
 ![](http://firimg.fir.im/0ad81ade77624c40dc07cb94baa69c027a92c331?imageView2/0/w/300/h/197)  ![](http://firimg.fir.im/4e8c046d7878bd86e4c1a1641c81735ae35f9d0a?imageView2/0/w/300/h/197)  ![](http://firimg.fir.im/e0fe429f1086529c354dbc2d2562067e379a7e2b?imageView2/0/w/300/h/197)  ![](http://firimg.fir.im/e276589dff26818cf9a739a9aafbfc35faa6d8bf?imageView2/0/w/300/h/197)
 
@@ -25,12 +31,6 @@ TODO
 * 选择图标后launcher刷新几秒才能加载新的，尝试做成立即刷新
 * 转屏失效（未找到bug所在）
 * 白色背景（手机上状态栏暗色背景设置无效）
-
-
-Download
------------------
-[![Lavender]](http://fir.im/Lavender116beta)  
-[Lavender]:http://firicon.fir.im/4e6ac9a108c5adb3e9db6edbfd57577e44d2c67a?t=1468848643.5803108 "Lavender"
 
 
 Thanks
