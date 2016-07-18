@@ -1,0 +1,29 @@
+<resources>
+    <string name="action_delete_cache">清理缓存</string>
+    <string name="action_about">关于</string>
+    <string name="action_crash_report">问题反馈</string>
+    <string name="action_set_icon">设置图标</string>
+    <string name="action_share">分享</string>
+    <string name="content_copy">内容已复制</string>
+    <string name="suggest">建议</string>
+    <string name="no_more">没有更多了</string>
+    <string name="error">貌似出现了点小问题</string>
+    <string name="cache_cleaned">缓存已清空</string>
+    <string name="save_in_file">图片已保存至 %s 文件夹</string>
+    <string name="save_img">保存图片</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="author">摄影</string>
+    <string name="ok">确认</string>
+    <string name="choose_icon">选择图标</string>
+    <string name="permission_denided">权限被拒绝</string>
+    <string name="cannot_download_pic">下载图片出错</string>
+    <string name="about_choose_icon">感谢酷友为Lavender做的图标，如果您有好的图标也可以发来让我添加进去。
+        （更改图标后请耐心等待启动器刷新，可能需要几秒钟的时间）</string>
+    <string name="about_content">Lavender系第三方国家地理每日精选应用，个人开发，仅保留最简单的功能，如Lavender有侵犯国家地理权益，本人将第一时间撤回及停止更新。
+        \n\nLavender为流量杀手，建议在wifi下加载图片。
+        \n\n如果Lavender在使用过程中出现bug，希望您能在问题反馈内，以邮件形式打开并发送，我会尽力解决问题。
+        \n\n如果对Lavender有什么建议及意见的话，也欢迎通过上面的方式联系我。
+        \n\n最后，感谢使用Lavender。\n^。^</string>
+    <string name="attention">本应用为流量杀手，建议在wifi下加载图片！！！壕略过</string>
+</resources>
