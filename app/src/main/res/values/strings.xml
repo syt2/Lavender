@@ -32,13 +32,5 @@
         \n\nIf you have any suggestions and comments to Lavender, then also welcome to contact me through the above method.
         \n\nFinally, Thanks for using Lavender.\n^. ^</string>
     <string name="attention">pay attention to your mobile traffic. I suggest use this app in wifi.</string>
-    <string name="change_log">
-            增加动态选择图标功能
-            图片描述长按复制
-            采用RxPermission和RxBinding优化代码
-    TODO：选择图标后launcher刷新几秒才能加载新的，尝试做成立即刷新
-            转屏失效（未找到bug所在）
-            白色背景（手机上状态栏暗色背景设置无效）
-            国家地理文章接口</string>
     <string name="my_email">dreamcontinue.cd@gmail.com</string>
 </resources>
