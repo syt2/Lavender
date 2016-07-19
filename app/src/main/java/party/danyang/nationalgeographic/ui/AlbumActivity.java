@@ -86,14 +86,6 @@ public class AlbumActivity extends SwipeBackActivity {
         content = (TextView) findViewById(R.id.tv_content);
         author = (TextView) findViewById(R.id.tv_author);
         scrollContent = findViewById(R.id.scroll_content);
-
-        //长按图片内容复制剪切报
-        RxView.longClicks(findViewById(R.id.container)).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-                saveContentToClipboard();
-            }
-        });
         //初始化title content author
         setTextToTextViews(index);
         adapter = new PagerAdapter();
@@ -115,19 +107,6 @@ public class AlbumActivity extends SwipeBackActivity {
             author.setText(getString(R.string.author) + "(" + pictures.get(position).getAuthor() + ")");
         } else {
             author.setText("");
-        }
-    }
-
-    private void saveContentToClipboard() {
-        ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        String s = "";
-        if (title != null) {
-            s = title.getText() + "\n" + content.getText() + "\n" + author.getText();
-        }
-        ClipData data = ClipData.newPlainText("text", s);
-        cm.setPrimaryClip(data);
-        if (scrollContent != null) {
-            Snackbar.make(scrollContent, R.string.content_copy, Snackbar.LENGTH_SHORT).show();
         }
     }
 

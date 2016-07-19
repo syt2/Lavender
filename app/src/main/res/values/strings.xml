@@ -18,19 +18,20 @@
     <string name="cancel">cancel</string>
     <string name="author">author</string>
     <string name="ok">OK</string>
+    <string name="go_to_github">Go to github</string>
     <string name="choose_icon">Choose icon</string>
     <string name="permission_denided">permission denied</string>
     <string name="cannot_download_pic">cannot download pic</string>
     <string name="about_choose_icon">Thanks coolapk friends to make icon for Lavender, if you have a good icon can also send it to me added.
     (After change icon please wait the launcher refresh ,it may take several seconds)</string>
-    <string name="about_content">Lavender-based National Geographic daily selection of third-party applications, personal development,
-        retaining only the most simple functions, such as National Geographic Lavender has violated rights,
+    <string name="about_content">Lavender-based National Geographic daily selection of third-party applications， such as National Geographic Lavender has violated rights,
         it will be the first time to withdraw and stop updating.
         \n\nLavender is flow traffic killer, it is recommended to load image in wifi.
         \n\nIf Lavender bug occurs during use, I hope you can issue in the feedback in the form of email and send, I will
         try to solve the problem.
         \n\nIf you have any suggestions and comments to Lavender, then also welcome to contact me through the above method.
-        \n\nFinally, Thanks for using Lavender.\n^. ^</string>
+        \n\nLavender open source on:<a href="https://github.com/dreamcontinue/Lavender">github</a>, welcomed to star and fork^. ^</string>
     <string name="attention">pay attention to your mobile traffic. I suggest use this app in wifi.</string>
     <string name="my_email">dreamcontinue.cd@gmail.com</string>
+    <string name="github_address">https://github.com/dreamcontinue/Lavender</string>
 </resources>
