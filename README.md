@@ -9,8 +9,7 @@ Download
 
 
 ##ScreenShot
-![](http://firimg.fir.im/0ad81ade77624c40dc07cb94baa69c027a92c331?imageView2/0/w/300/h/197)  ![](http://firimg.fir.im/4e8c046d7878bd86e4c1a1641c81735ae35f9d0a?imageView2/0/w/300/h/197)  ![](http://firimg.fir.im/e0fe429f1086529c354dbc2d2562067e379a7e2b?imageView2/0/w/300/h/197)  ![](http://firimg.fir.im/e276589dff26818cf9a739a9aafbfc35faa6d8bf?imageView2/0/w/300/h/197)
-
+![](screenshot/screenshot_1.png)  ![](screenshot/screenshot_2.png)  ![](screenshot/screenshot_3.png)  ![](screenshot/screenshot_4.png)
 
 Discription:
 -----------------
@@ -24,6 +23,7 @@ Change log
 * 增加动态选择图标功能
 * 图片描述长按复制
 * 采用RxPermission和RxBinding优化代码
+* 去除5.0以下布局
 
 
 TODO
@@ -55,6 +55,6 @@ About Me
 
 ~~About Lavender~~
 -----------------
-[~~Lavender是薰衣草的意思。为什么会起这个名呢，因为薰衣草是她最喜欢的花了，而薰衣草有个花语，“等待无望的爱”，描述我也最合适不过了。  
-谨以此名，献给终将与我分离的她。~~](http://danyang.party/)
-
+~~Lavender是薰衣草的意思。为什么会起这个名呢，因为薰衣草是她最喜欢的花了，而薰衣草有个花语，“等待无望的爱”，描述我也最合适不过了。~~  
+![](screenshot/Lavender.png)  
+~~谨以此名，献给终将与我分离的她。即便如此，我依旧等你~~
