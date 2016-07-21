@@ -83,7 +83,6 @@ public class AlbumFragment extends Fragment {
             @Override
             public boolean onPreDraw() {
                 imageView.getViewTreeObserver().removeOnPreDrawListener(this);
-                imageView.requestLayout();
                 getActivity().supportStartPostponedEnterTransition();
                 return true;
             }

@@ -4,7 +4,7 @@
 
 Download
 -----------------
-[![Lavender]](http://fir.im/Lavender116beta)  
+[![Lavender]](http://fir.im/Lavender)  
 [Lavender]:http://firicon.fir.im/4e6ac9a108c5adb3e9db6edbfd57577e44d2c67a?t=1468848643.5803108 "Lavender"
 
 
