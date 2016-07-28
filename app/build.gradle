@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 24
@@ -6,14 +7,18 @@ android {
 
     defaultConfig {
         applicationId "party.danyang.nationalgeographic"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 24
-        versionCode 7
-        versionName "1.1.7 beta"
+        versionCode 9
+        versionName "1.1.9"
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     buildTypes {
-        debug{
+        debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
         }
         release {
@@ -31,14 +36,16 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
-    lintOptions{
+    lintOptions {
         disable 'MissingTranslation'
+        checkReleaseBuilds false
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    //    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
@@ -53,13 +60,15 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'me.yokeyword:swipebackfragment:0.2.1'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
-    compile 'io.realm:realm-android:0.87.5'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+    compile 'com.github.javiersantos:AppUpdater:2.2'
+    //    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //    compile 'com.umeng.analytics:analytics:latest.integration'
+    //    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.9.3'
 }

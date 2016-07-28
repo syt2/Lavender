@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_about">
+
+    <data>
+
+        <variable
+            name="clicks"
+            type="party.danyang.nationalgeographic.ui.AboutActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/default_margin">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:foreground="?selectableItemBackground"
+                android:padding="@dimen/default_margin"
+                android:text="@string/about_use_attention"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/md_grey_700"
+                app:onClickListener="@{clicks::onClickUseAttention}" />
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/about_image_from"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small.Title"
+            android:textColor="?attr/colorAccent" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin">
+
+            <party.danyang.nationalgeographic.widget.LinkTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:foreground="?selectableItemBackground"
+                android:padding="@dimen/default_margin"
+                android:text="@string/about_from_ng"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/md_light_blue_500" />
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/about_go_to_github"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small.Title"
+            android:textColor="?attr/colorAccent" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin">
+
+            <party.danyang.nationalgeographic.widget.LinkTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:foreground="?selectableItemBackground"
+                android:padding="@dimen/default_margin"
+                android:text="@string/about_github_address"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/about_used_libs"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small.Title"
+            android:textColor="?attr/colorAccent" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_picasso"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_retrofit"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_okhttp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_rxjava"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_rxandroid"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_rxpermissions"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_rxbinding"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_picasso2_okhttp3_downloader"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_gson"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_swipebackfragment"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_realm"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_touch_image_view"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_appupdater"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="@dimen/default_margin"
+            android:text="@string/about_me"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/md_grey_300" />
+
+    </LinearLayout>
+
+</layout>

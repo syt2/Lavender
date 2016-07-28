@@ -17,6 +17,9 @@
 package party.danyang.nationalgeographic.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -67,7 +70,7 @@ public class RadioImageView extends ImageView {
         }
     }
 
-//    @Override
+    //    @Override
 //    protected void onDetachedFromWindow() {
 //        super.onDetachedFromWindow();
 //        setImageDrawable(null);

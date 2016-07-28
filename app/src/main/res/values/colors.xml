@@ -18,4 +18,6 @@
     <color name="md_white_1000">#ffffff</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="md_light_blue_500">#03A9F4</color>
 </resources>

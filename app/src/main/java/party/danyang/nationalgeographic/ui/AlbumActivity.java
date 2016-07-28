@@ -2,23 +2,19 @@ package party.danyang.nationalgeographic.ui;
 
 import android.annotation.SuppressLint;
 import android.app.SharedElementCallback;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
 
 import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +22,7 @@ import java.util.Map;
 
 import me.yokeyword.swipebackfragment.SwipeBackActivity;
 import party.danyang.nationalgeographic.R;
+import party.danyang.nationalgeographic.databinding.ActivityAlbumBinding;
 import party.danyang.nationalgeographic.model.album.Picture;
 import rx.functions.Action1;
 
@@ -34,13 +31,9 @@ public class AlbumActivity extends SwipeBackActivity {
     public static final String INTENT_PICTURES = "party.danyang.ng.pictures";
     public static final String INTENT_INDEX = "party.danyang.ng.index";
 
-    private ViewPager viewPager;
-    private PagerAdapter adapter;
+    private ActivityAlbumBinding binding;
 
-    private TextView title;
-    private TextView content;
-    private TextView author;
-    private View scrollContent;
+    private PagerAdapter adapter;
     public boolean mVisible = true;
 
     private ArrayList<Picture> pictures;
@@ -50,7 +43,7 @@ public class AlbumActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_album);
         supportPostponeEnterTransition();
         Intent intent = getIntent();
         if (intent != null) {
@@ -59,12 +52,16 @@ public class AlbumActivity extends SwipeBackActivity {
         }
         initViews();
 
+        setEnterAnimator();
+    }
+
+    private void setEnterAnimator() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setEnterSharedElementCallback(new SharedElementCallback() {
                 @Override
                 public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                    String url = pictures.get(viewPager.getCurrentItem()).getUrl();
-                    AlbumFragment fragment = (AlbumFragment) adapter.instantiateItem(viewPager, viewPager.getCurrentItem());
+                    String url = pictures.get(binding.viewPager.getCurrentItem()).getUrl();
+                    AlbumFragment fragment = (AlbumFragment) adapter.instantiateItem(binding.viewPager, binding.viewPager.getCurrentItem());
                     sharedElements.clear();
                     sharedElements.put(url, fragment.getSharedElement());
                 }
@@ -75,39 +72,47 @@ public class AlbumActivity extends SwipeBackActivity {
     @Override
     public void supportFinishAfterTransition() {
         Intent data = new Intent();
-        data.putExtra(INTENT_INDEX, viewPager.getCurrentItem());
+        data.putExtra(INTENT_INDEX, binding.viewPager.getCurrentItem());
         setResult(RESULT_OK, data);
         super.supportFinishAfterTransition();
     }
 
     private void initViews() {
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        title = (TextView) findViewById(R.id.tv_title);
-        content = (TextView) findViewById(R.id.tv_content);
-        author = (TextView) findViewById(R.id.tv_author);
-        scrollContent = findViewById(R.id.scroll_content);
-        //初始化title content author
-        setTextToTextViews(index);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_grey_300_24dp);
+        setSupportActionBar(binding.toolbar);
+        setTitle(null);
+        RxToolbar.navigationClicks(binding.toolbar).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                supportFinishAfterTransition();
+            }
+        });
         adapter = new PagerAdapter();
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(index);
+        binding.viewPager.setAdapter(adapter);
+        binding.viewPager.setCurrentItem(index);
+        //初始化title content author
+        binding.setPicture(pictures.get(index));
+        //初始化为可见
+        binding.setFullScreen(false);
         //viewPage 滑动时改变title content author
-        RxViewPager.pageSelections(viewPager).subscribe(new Action1<Integer>() {
+        RxViewPager.pageSelections(binding.viewPager).subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer position) {
-                setTextToTextViews(position);
+                binding.setPicture(pictures.get(position));
             }
         });
     }
 
-    private void setTextToTextViews(int position) {
-        title.setText(pictures.get(position).getTitle());
-        content.setText(pictures.get(position).getContent());
-        if (!TextUtils.isEmpty(pictures.get(position).getAuthor())) {
-            author.setText(getString(R.string.author) + "(" + pictures.get(position).getAuthor() + ")");
-        } else {
-            author.setText("");
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     private class PagerAdapter extends FragmentStatePagerAdapter {
@@ -134,7 +139,7 @@ public class AlbumActivity extends SwipeBackActivity {
         @SuppressLint("InlinedApi")
         @Override
         public void run() {
-            viewPager.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+            binding.viewPager.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -149,7 +154,7 @@ public class AlbumActivity extends SwipeBackActivity {
             if (actionBar != null) {
                 actionBar.show();
             }
-            scrollContent.setVisibility(View.VISIBLE);
+            binding.setFullScreen(false);
         }
     };
 
@@ -158,7 +163,7 @@ public class AlbumActivity extends SwipeBackActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-        scrollContent.setVisibility(View.GONE);
+        binding.setFullScreen(true);
         mVisible = false;
 
         mHideHandler.removeCallbacks(mShowPart2Runnable);
@@ -166,7 +171,7 @@ public class AlbumActivity extends SwipeBackActivity {
     }
 
     public void show() {
-        viewPager.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        binding.viewPager.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mVisible = true;
 

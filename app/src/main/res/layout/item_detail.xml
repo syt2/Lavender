@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:clickable="true"
-    android:foreground="?selectableItemBackground">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.AlbumActivity">
 
-    <party.danyang.nationalgeographic.widget.RadioImageView
-        android:id="@+id/iv_album_detail"
-        android:layout_width="wrap_content"
+    <data>
+
+        <variable
+            name="picture"
+            type="party.danyang.nationalgeographic.model.album.Picture" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop" />
+        android:layout_margin="4dp"
+        android:clickable="true"
+        android:foreground="?selectableItemBackground">
 
-</android.support.v7.widget.CardView>
+        <party.danyang.nationalgeographic.widget.RadioImageView
+            app:image="@{picture.thumb}"
+            android:id="@+id/iv_album_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop" />
+
+    </android.support.v7.widget.CardView>
+</layout>

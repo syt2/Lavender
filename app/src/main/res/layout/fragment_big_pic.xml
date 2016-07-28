@@ -1,4 +1,18 @@
-<party.danyang.nationalgeographic.widget.TouchImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/img_touch"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.AlbumActivity">
+
+    <data>
+
+        <variable
+            name="url"
+            type="String" />
+    </data>
+
+    <party.danyang.nationalgeographic.widget.TouchImageView
+        android:id="@+id/img_touch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:image="@{url}" />
+</layout>

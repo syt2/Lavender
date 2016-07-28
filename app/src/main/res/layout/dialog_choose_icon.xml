@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -12,7 +13,8 @@
         android:paddingStart="16dp"
         android:paddingTop="16dp"
         android:text="@string/about_choose_icon"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="16sp"
         android:textColor="@color/md_grey_700" />
 
     <LinearLayout
@@ -39,8 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/icon1"
                 android:layout_centerHorizontal="true"
-                android:text="柠冰羽痕Ice"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:text="\@柠冰羽痕Ice"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/md_grey_700" />
         </RelativeLayout>
 
@@ -64,7 +66,7 @@
                 android:layout_below="@id/icon2"
                 android:layout_centerHorizontal="true"
                 android:text="WangMT"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/md_grey_700" />
         </RelativeLayout>
     </LinearLayout>

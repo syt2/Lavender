@@ -4,7 +4,7 @@ package party.danyang.nationalgeographic.ui;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,18 +18,18 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.squareup.picasso.Picasso;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import party.danyang.nationalgeographic.R;
+import party.danyang.nationalgeographic.databinding.FragmentBigPicBinding;
 import party.danyang.nationalgeographic.model.album.Picture;
 import party.danyang.nationalgeographic.utils.PicassoHelper;
 import party.danyang.nationalgeographic.utils.Utils;
-import party.danyang.nationalgeographic.widget.TouchImageView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -43,8 +43,7 @@ public class AlbumFragment extends Fragment {
     private static final String INDEX = "party.danyang.ng.af.index";
 
     private AlbumActivity activity;
-
-    private TouchImageView imageView;
+    private FragmentBigPicBinding binding;
 
     private List<Picture> pictures;
     private int index;
@@ -78,23 +77,23 @@ public class AlbumFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        imageView = (TouchImageView) inflater.inflate(R.layout.fragment_big_pic, container, false);
-        imageView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_big_pic, container, false);
+        binding.imgTouch.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
-                imageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                binding.imgTouch.getViewTreeObserver().removeOnPreDrawListener(this);
                 getActivity().supportStartPostponedEnterTransition();
                 return true;
             }
         });
-        RxView.clicks(imageView).subscribe(new Action1<Void>() {
+        RxView.clicks(binding.imgTouch).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
                 toggle();
             }
         });
         //检查读写权限
-        RxView.longClicks(imageView)
+        RxView.longClicks(binding.imgTouch)
                 .compose(RxPermissions.getInstance(activity).ensure(Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 .subscribe(new Action1<Boolean>() {
                     @Override
@@ -102,13 +101,11 @@ public class AlbumFragment extends Fragment {
                         if (aBoolean) {//有权限
                             showSaveImgDialog();
                         } else {//无权限
-                            if (imageView != null) {
-                                Snackbar.make(imageView, R.string.permission_denided, Snackbar.LENGTH_SHORT).show();
-                            }
+                            makeSnackBar(R.string.permission_denied, true);
                         }
                     }
                 });
-        return imageView;
+        return binding.getRoot();
     }
 
 
@@ -150,16 +147,12 @@ public class AlbumFragment extends Fragment {
                     public void onCompleted() {
                         File appDir = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name));
                         String msg = String.format(getString(R.string.save_in_file), appDir.getAbsolutePath());
-                        if (imageView != null) {
-                            Snackbar.make(imageView, msg, Snackbar.LENGTH_SHORT).show();
-                        }
+                        makeSnackBar(msg, true);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        if (imageView != null) {
-                            Snackbar.make(imageView, e.toString(), Snackbar.LENGTH_SHORT).show();
-                        }
+                        makeSnackBar(e.toString(), true);
                     }
 
                     @Override
@@ -172,15 +165,11 @@ public class AlbumFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        PicassoHelper.getInstance(activity)
-                .load(pictures.get(index).getUrl())
-                .config(Bitmap.Config.ARGB_8888)
-                .priority(Picasso.Priority.HIGH)
-                .into(imageView);
+        binding.setUrl(pictures.get(index).getUrl());
     }
 
     public View getSharedElement() {
-        return imageView;
+        return binding.imgTouch;
     }
 
     @Override
@@ -188,6 +177,24 @@ public class AlbumFragment extends Fragment {
         super.onDestroy();
         if (mSubscriptions != null) {
             mSubscriptions.unsubscribe();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        PicassoHelper.getInstance(getContext()).cancelRequest(binding.imgTouch);
+        super.onDestroyView();
+    }
+
+    private void makeSnackBar(String msg, boolean lengthShort) {
+        if (binding != null && binding.getRoot() != null) {
+            Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    private void makeSnackBar(int resId, boolean lengthShort) {
+        if (binding != null && binding.getRoot() != null) {
+            Snackbar.make(binding.getRoot(), resId, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
         }
     }
 }

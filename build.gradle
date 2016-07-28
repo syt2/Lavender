@@ -2,14 +2,10 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url "https://jitpack.io"
-        }
-        mavenCentral()
-
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'io.realm:realm-gradle-plugin:1.1.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -19,6 +15,9 @@ allprojects {
         jcenter()
         maven {
             url "https://jitpack.io"
+        }
+        maven {
+            url "http://maven.bughd.com/public"
         }
         mavenCentral()
     }

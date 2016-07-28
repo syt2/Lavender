@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".App"
@@ -13,10 +15,22 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5799db4c67e58e698400024b" />
+
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="coolapk" />
+
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="87b930d4f293d9dc69ea74ddc468de7c" />
+
         <activity
             android:name=".ui.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity-alias
             android:name=".ui.HomeActivity-icon1"
@@ -25,7 +39,6 @@
             android:label="@string/app_name"
             android:targetActivity=".ui.HomeActivity">
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -38,7 +51,6 @@
             android:label="@string/app_name"
             android:targetActivity=".ui.HomeActivity">
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -51,6 +63,13 @@
         <activity
             android:name=".ui.AlbumActivity"
             android:theme="@style/AppTheme.NoActionBar.ALBUM" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:label="@string/settings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.AboutActivity"
+            android:label="@string/settings_about" />
     </application>
 
 </manifest>

@@ -1,75 +1,62 @@
 package party.danyang.nationalgeographic.ui;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
+import com.umeng.analytics.MobclickAgent;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import me.yokeyword.swipebackfragment.SwipeBackActivity;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.adapter.AlbumListAdapter;
-import party.danyang.nationalgeographic.model.album.PictureRealm;
+import party.danyang.nationalgeographic.adapter.BaseAdapter;
+import party.danyang.nationalgeographic.databinding.ActivityHomeBinding;
 import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.model.albumlist.AlbumList;
 import party.danyang.nationalgeographic.model.albumlist.AlbumRealm;
 import party.danyang.nationalgeographic.net.NGApi;
+import party.danyang.nationalgeographic.utils.BindingAdapters;
+import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.PicassoHelper;
-import party.danyang.nationalgeographic.utils.Utils;
+import party.danyang.nationalgeographic.utils.PreferencesHelper;
+import party.danyang.nationalgeographic.utils.SettingsModel;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class HomeActivity extends SwipeBackActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
+
     private static final String SP_FIRST_USE = "party.danyang.ng.first_use";
 
-    private Toolbar toolbar;
-    private CollapsingToolbarLayout toolbarLayout;
-    private RecyclerView recyclerView;
-    private SwipeRefreshLayout refresher;
+    private ActivityHomeBinding binding;
 
     private Realm realm;
     private AlbumListAdapter adapter;
@@ -85,89 +72,93 @@ public class HomeActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_home);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+
         mSubscription = new CompositeSubscription();
-        realm = Realm.getInstance(this);
+
+        Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this).build());
+        realm = Realm.getDefaultInstance();
+
         initViews();
         //第一次使打开则提醒用户Lavender为流量杀手
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SP_FIRST_USE, true)) {
+        if (PreferencesHelper.getInstance(this).getBoolean(SP_FIRST_USE, true)) {
             showAttention();
         }
     }
 
     private void initViews() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        refresher = (SwipeRefreshLayout) findViewById(R.id.refresher);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         //双击toolbar recyclerView回滚
-        RxView.clicks(toolbar).subscribe(new Action1<Void>() {
+        RxView.clicks(binding.toolbar).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
                 onToolbarClicked();
             }
         });
-        //toolbar的menu单击事件
-        RxToolbar.itemClicks(toolbar).subscribe(
-                new Action1<MenuItem>() {
-                    @Override
-                    public void call(MenuItem menuItem) {
-                        onToolbarMenuItemClicked(menuItem);
-                    }
-                }
-        );
-        toolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.md_grey_100));
-        toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.md_grey_100));
+        //toolbar menu事件
+        RxToolbar.itemClicks(binding.toolbar).subscribe(new Action1<MenuItem>() {
+            @Override
+            public void call(MenuItem menuItem) {
+                onToolbarMenuItemClicked(menuItem);
+            }
+        });
+        binding.toolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.md_grey_100));
+        binding.toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.md_grey_100));
 
         adapter = new AlbumListAdapter(null);
-        adapter.setOnRecyclerViewItemClickListener(
-                new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+        adapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                startDetailActivity(view, position);
+            }
+        });
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        binding.recycler.setAdapter(adapter);
+        binding.recycler.setLayoutManager(layoutManager);
+        //滑动是暂停加载
+        RxRecyclerView.scrollStateChanges(binding.recycler)
+                .subscribe(new Action1<Integer>() {
                     @Override
-                    public void onItemClick(View view, int i) {
-                        startDetailActivity(view, i);
+                    public void call(Integer newState) {
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                            PicassoHelper.getInstance(HomeActivity.this).resumeTag(BindingAdapters.TAG_HOME_ACTIVITY);
+                        } else {
+                            PicassoHelper.getInstance(HomeActivity.this).pauseTag(BindingAdapters.TAG_HOME_ACTIVITY);
+                        }
                     }
                 });
-        recyclerView.setAdapter(adapter);
-        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        RxRecyclerView.scrollStateChanges(recyclerView)
-                .subscribe(new Action1<Integer>() {
-                               @Override
-                               public void call(Integer newState) {
-                                   if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                       PicassoHelper.getInstance(HomeActivity.this).resumeTag("1");
-                                   } else {
-                                       PicassoHelper.getInstance(HomeActivity.this).pauseTag("1");
-                                   }
-                               }
-                           }
-
-                );
-        RxRecyclerView.scrollEvents(recyclerView)
+        //load more
+        RxRecyclerView.scrollEvents(binding.recycler)
                 .subscribe(new Action1<RecyclerViewScrollEvent>() {
-                               @Override
-                               public void call(RecyclerViewScrollEvent recyclerViewScrollEvent) {
-                                   int[] positions = new int[layoutManager.getSpanCount()];
-                                   layoutManager.findLastVisibleItemPositions(positions);
-                                   int position = Math.max(positions[0], positions[1]);
-                                   if (position == layoutManager.getItemCount() - 1) {
-                                       loadMore();
-                                   }
-                               }
-                           }
-
-                );
-        refresher.setColorSchemeResources(R.color.md_grey_600, R.color.md_grey_800);
-        RxSwipeRefreshLayout.refreshes(refresher)
+                    @Override
+                    public void call(RecyclerViewScrollEvent recyclerViewScrollEvent) {
+                        int[] positions = new int[layoutManager.getSpanCount()];
+                        layoutManager.findLastVisibleItemPositions(positions);
+                        int maxPosition = positions[0];
+                        for (int position : positions) {
+                            maxPosition = Math.max(position, maxPosition);
+                        }
+                        if (maxPosition == layoutManager.getItemCount() - 1) {
+                            loadMore();
+                        }
+                    }
+                });
+        binding.refresher.setColorSchemeResources(R.color.md_grey_600, R.color.md_grey_800);
+        RxSwipeRefreshLayout.refreshes(binding.refresher)
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
                         sendToLoad(1);
                     }
                 });
-        getAlbumFromRealm();
+        //init data
+        //in wifi from net ,others from realm
+        if (NetUtils.isWiFi(this)) {
+            sendToLoad(1);
+        } else {
+            getAlbumFromRealm();
+        }
     }
 
     private void loadMore() {
@@ -206,6 +197,11 @@ public class HomeActivity extends SwipeBackActivity {
     }
 
     private void sendToLoad(int page) {
+        //if wifionly and not in wifi
+        if (PreferencesHelper.getInstance(this).getBoolean(SettingsModel.PREF_WIFI_ONLY, false) && !NetUtils.isWiFi(this)) {
+            makeSnackBar(R.string.load_not_in_wifi_while_in_wifi_only, true);
+            return;
+        }
         this.page = page;
         getAlbumList();
     }
@@ -231,14 +227,10 @@ public class HomeActivity extends SwipeBackActivity {
                         if (BuildConfig.LOG_DEBUG)
                             Log.e(TAG, e.toString());
                         if (e.toString().trim().equals(getString(R.string.notfound404))) {
-                            if (refresher != null) {
-                                Snackbar.make(refresher, getString(R.string.no_more) + ">.<", Snackbar.LENGTH_SHORT).show();
-                            }
+                            makeSnackBar(R.string.no_more, true);
                         } else {
-                            if (refresher != null) {
-                                Snackbar.make(refresher, getString(R.string.error) + ">.<", Snackbar.LENGTH_SHORT).show();
-                                if (page >= 2) page--;
-                            }
+                            makeSnackBar(R.string.error, true);
+                            if (page >= 2) page--;
                         }
                     }
 
@@ -252,7 +244,7 @@ public class HomeActivity extends SwipeBackActivity {
                         if (page == 1) {
                             adapter.setNewData(albumList.getAlbum());
                         } else {
-                            adapter.addData(albumList.getAlbum());
+                            adapter.addAll(albumList.getAlbum());
                         }
 
                         realm.beginTransaction();
@@ -265,23 +257,48 @@ public class HomeActivity extends SwipeBackActivity {
     }
 
     private void setRefresher(boolean isRefresh) {
-        if (refresher != null) {
-            refresher.setRefreshing(isRefresh);
+        if (binding.refresher != null) {
+            binding.refresher.setRefreshing(isRefresh);
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mSubscription == null) {
+        PicassoHelper.getInstance(this).cancelTag(BindingAdapters.TAG_HOME_ACTIVITY);
+        if (mSubscription != null) {
             mSubscription.unsubscribe();
         }
         realm.close();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PicassoHelper.getInstance(this).pauseTag(BindingAdapters.TAG_HOME_ACTIVITY);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PicassoHelper.getInstance(this).resumeTag(BindingAdapters.TAG_HOME_ACTIVITY);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
     private void startDetailActivity(View v, int i) {
         Intent intent = new Intent(HomeActivity.this, DetailActivity.class);
-        intent.putExtra(DetailActivity.INTENT_ALBUM, adapter.getItem(i));
+        intent.putExtra(DetailActivity.INTENT_ALBUM, adapter.get(i));
 
         ImageView imageView = (ImageView) v.findViewById(R.id.iv_album_list);
         Bitmap bitmap = null;
@@ -303,8 +320,8 @@ public class HomeActivity extends SwipeBackActivity {
 
     private void onToolbarClicked() {
         if (System.currentTimeMillis() - lastClickTime < 300) {
-            if (recyclerView != null) {
-                recyclerView.smoothScrollToPosition(0);
+            if (binding.recycler != null) {
+                binding.recycler.smoothScrollToPosition(0);
             }
         } else {
             lastClickTime = System.currentTimeMillis();
@@ -313,111 +330,28 @@ public class HomeActivity extends SwipeBackActivity {
 
     private void onToolbarMenuItemClicked(MenuItem menuItem) {
         int id = menuItem.getItemId();
-        if (id == R.id.action_delete_cache) {
-            clearCache();
-        } else if (id == R.id.action_about) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-            builder.setMessage(R.string.about_content);
-            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-            builder.setNegativeButton(R.string.go_to_github, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(getString(R.string.github_address)));
-                    startActivity(intent);
-                }
-            });
-            builder.show();
-        } else if (id == R.id.action_crash_report) {
-
-            File file = new File(
-                    getExternalCacheDir() + "/Crash.log");
-
-
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.my_email)});
-            intent.putExtra(Intent.EXTRA_SUBJECT,
-                    getString(R.string.app_name) + " " + getString(R.string.suggest) + "&" + getString(R.string.action_crash_report));
-            if (file.exists()) {
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-            }
-            intent.setType("message/rfc822");
-            startActivity(intent);
-        } else if (id == R.id.action_set_icon) {
-            View v = LayoutInflater.from(HomeActivity.this).inflate(R.layout.dialog_choose_icon, null, false);
-            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-            builder.setView(v);
-            builder.setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-            final AlertDialog dialog = builder.create();
-            dialog.show();
-            RxView.clicks(v.findViewById(R.id.icon1)).subscribe(new Action1<Void>() {
-                @Override
-                public void call(Void aVoid) {
-                    dialog.dismiss();
-                    setIcon(R.mipmap.ic_launcher_1);
-                }
-            });
-            RxView.clicks(v.findViewById(R.id.icon2)).subscribe(new Action1<Void>() {
-                @Override
-                public void call(Void aVoid) {
-                    dialog.dismiss();
-                    setIcon(R.mipmap.ic_launcher_2);
-                }
-            });
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            ActivityOptionsCompat options = ActivityOptionsCompat
+                    .makeCustomAnimation(this, R.anim.slide_right_in, R.anim.slide_right_out);
+            ActivityCompat.startActivity(this, intent, options.toBundle());
         }
-    }
-
-    private void setIcon(int iconId) {
-        PackageManager pm = getPackageManager();
-        ActivityManager am = (ActivityManager) getSystemService(Activity.ACTIVITY_SERVICE);
-
-        pm.setComponentEnabledSetting(
-                new ComponentName(this, "party.danyang.nationalgeographic.ui.HomeActivity-icon1"),
-                iconId == R.mipmap.ic_launcher_1 ?
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
-
-        pm.setComponentEnabledSetting(
-                new ComponentName(this, "party.danyang.nationalgeographic.ui.HomeActivity-icon2"),
-                iconId == R.mipmap.ic_launcher_2 ?
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
-    }
-
-    private void clearCache() {
-        mSubscription.add(Utils.deleteFileObservable(getString(R.string.dir_picasso_cache))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        realm.beginTransaction();
-                        realm.clear(PictureRealm.class);
-                        realm.clear(AlbumRealm.class);
-                        realm.commitTransaction();
-                        if (recyclerView != null) {
-                            Snackbar.make(recyclerView, R.string.cache_cleaned, Snackbar.LENGTH_SHORT).show();
-                        }
-                    }
-                }));
     }
 
     private void showAttention() {
-        if (recyclerView != null) {
-            Snackbar.make(recyclerView, R.string.attention, Snackbar.LENGTH_LONG).show();
+        makeSnackBar(R.string.attention, false);
+        PreferencesHelper.getInstance(this).edit().putBoolean(SP_FIRST_USE, false).apply();
+    }
+
+    private void makeSnackBar(String msg, boolean lengthShort) {
+        if (binding != null && binding.getRoot() != null) {
+            Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
         }
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(SP_FIRST_USE, false).apply();
+    }
+
+    private void makeSnackBar(int resId, boolean lengthShort) {
+        if (binding != null && binding.getRoot() != null) {
+            Snackbar.make(binding.getRoot(), resId, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
+        }
     }
 }

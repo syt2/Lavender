@@ -1,37 +1,67 @@
 <resources>
     <string name="app_name">Lavender</string>
-    <string name="action_delete_cache">Clear cache</string>
-    <string name="action_about">About</string>
-    <string name="action_crash_report">Crash report</string>
-    <string name="action_set_icon">Set icon</string>
     <string name="action_share">Share</string>
-    <string name="content_copy">Content copy done</string>
-    <string name="suggest">suggest</string>
+    <string name="report_email_title">Lavender suggests and reports</string>
     <string name="notfound404">retrofit2.adapter.rxjava.HttpException: HTTP 404 Not Found</string>
     <string name="no_more">no more</string>
     <string name="error">Error</string>
-    <string name="cache_cleaned">cache cleared</string>
     <string name="dir_picasso_cache">/data/data/party.danyang.nationalgeographic/cache/picasso-cache</string>
     <string name="save_in_file">image saved in %s </string>
     <string name="save_img">save image</string>
     <string name="save">save</string>
-    <string name="cancel">cancel</string>
-    <string name="author">author</string>
+    <string name="cancel">Cancel</string>
+    <string name="author">author(%s)</string>
     <string name="ok">OK</string>
-    <string name="go_to_github">Go to github</string>
     <string name="choose_icon">Choose icon</string>
-    <string name="permission_denided">permission denied</string>
+    <string name="permission_denied">permission denied</string>
     <string name="cannot_download_pic">cannot download pic</string>
-    <string name="about_choose_icon">Thanks coolapk friends to make icon for Lavender, if you have a good icon can also send it to me added.
+    <string name="about_choose_icon">Thanks coolapk guys to design icon for Lavender, if you have a good icon can also send it to me added.
     (After change icon please wait the launcher refresh ,it may take several seconds)</string>
-    <string name="about_content">Lavender-based National Geographic daily selection of third-party applications， such as National Geographic Lavender has violated rights,
-        it will be the first time to withdraw and stop updating.
-        \n\nLavender is flow traffic killer, it is recommended to load image in wifi.
-        \n\nIf Lavender bug occurs during use, I hope you can issue in the feedback in the form of email and send, I will
-        try to solve the problem.
-        \n\nIf you have any suggestions and comments to Lavender, then also welcome to contact me through the above method.
-        \n\nLavender open source on:<a href="https://github.com/dreamcontinue/Lavender">github</a>, welcomed to star and fork^. ^</string>
     <string name="attention">pay attention to your mobile traffic. I suggest use this app in wifi.</string>
     <string name="my_email">dreamcontinue.cd@gmail.com</string>
-    <string name="github_address">https://github.com/dreamcontinue/Lavender</string>
+
+
+    <string name="settings_title_conventional">Conventional</string>
+
+    <string name="settings_wifi_only">WIFI only</string>
+    <string name="settings_wifi_only_summary">load image only in WIFI</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_icon">Lavender\'s icon</string>
+
+    <string name="settings_title_others">Others</string>
+
+    <string name="settings_clear_cache">Clear cache</string>
+    <string name="settings_check_update">Check update</string>
+    <string name="settings_report">Contact me</string>
+    <string name="settings_about">About</string>
+    <string name="settings">Settings</string>
+
+    <string name="version">v 1.1.9</string>
+    <string name="about_attention_content">Lavender-based National Geographic daily selection of third-party applications， such as National Geographic Lavender has violated rights,
+        it will be the first time to withdraw and stop updating.
+        \n\nLavender is flow traffic killer, it is recommended to load image in wifi.
+        \n\nIf you have any suggestions and comments to Lavender, welcome to contact me.</string>
+    <string name="about_use_attention">Use attention</string>
+    <string name="about_image_from">Images from</string>
+    <string name="about_from_ng"><a href="http://ng.bdatu.com/">http://ng.bdatu.com/</a></string>
+    <string name="about_go_to_github">Visit Lavender on github</string>
+    <string name="about_github_address"><a href="https://github.com/dreamcontinue/Lavender">dreamcontinue/Lavender</a></string>
+    <string name="about_used_libs">Libs</string>
+    <string name="about_libs_picasso"><a href="https://github.com/square/picasso">square/picasso</a></string>
+    <string name="about_libs_retrofit"><a href="https://github.com/square/retrofit">square/retrofit</a></string>
+    <string name="about_libs_okhttp"><a href="https://github.com/square/okhttp">square/okhttp</a></string>
+    <string name="about_libs_rxjava"><a href="https://github.com/ReactiveX/RxJava">ReactiveX/RxJava</a></string>
+    <string name="about_libs_rxandroid"><a href="https://github.com/ReactiveX/RxAndroid">ReactiveX/RxAndroid</a></string>
+    <string name="about_libs_gson"><a href="https://github.com/google/gson">google/gson</a></string>
+    <string name="about_libs_swipebackfragment"><a href="https://github.com/YoKeyword/SwipeBackFragment">YoKeyword/SwipeBackFragment</a></string>
+    <string name="about_libs_picasso2_okhttp3_downloader"><a href="https://github.com/JakeWharton/picasso2-okhttp3-downloader">JakeWharton/picasso2-okhttp3-downloader</a></string>
+    <string name="about_libs_rxpermissions"><a href="https://github.com/tbruyelle/RxPermissions">tbruyelle/RxPermissions</a></string>
+    <string name="about_libs_rxbinding"><a href="https://github.com/JakeWharton/RxBinding">JakeWharton/RxBinding</a></string>
+    <string name="about_libs_realm"><a href="https://github.com/realm/realm-java">realm/realm-java</a></string>
+    <string name="about_libs_touch_image_view"><a href="https://github.com/MikeOrtiz/TouchImageView">MikeOrtiz/TouchImageView</a></string>
+    <string name="about_libs_appupdater"><a href="https://github.com/javiersantos/AppUpdater">javiersantos/AppUpdater</a></string>
+    <string name="about_me">\@developer 梦的延续</string>
+
+    <string name="load_not_in_wifi_while_in_wifi_only">Not in wifi! if you want load, please turn off wifiOnly</string>
+
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="常规">
+        <SwitchPreference
+            android:key="pref_wifi_only"
+            android:title="wifi only" />
+        <Preference
+            android:key="pref_theme"
+            android:title="theme" />
+        <Preference
+            android:key="pref_icon"
+            android:title="launcher icon" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="others">
+        <Preference
+            android:key="pref_clear_cache"
+            android:title="clear cache" />
+        <Preference
+            android:key="pref_report"
+            android:title="report" />
+        <Preference
+            android:key="pref_about"
+            android:title="about" />
+    </PreferenceCategory>
+</PreferenceScreen>

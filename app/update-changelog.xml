@@ -1,0 +1,12 @@
+<AppUpdater>
+    <update>
+        <latestVersion>1.1.9</latestVersion>
+        <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
+        <releaseNotes>
+            - 重构项目框架
+            - 添加设置及关于界面
+            - 添加省流量模式
+            - 添加检查更新选项
+        </releaseNotes>
+    </update>
+</AppUpdater>

@@ -3,26 +3,24 @@ package party.danyang.nationalgeographic.ui;
 import android.Manifest;
 import android.app.SharedElementCallback;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 import com.jakewharton.rxbinding.view.RxView;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,16 +28,23 @@ import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import me.yokeyword.swipebackfragment.SwipeBackActivity;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.adapter.AlbumDetailAdapter;
+import party.danyang.nationalgeographic.adapter.BaseAdapter;
+import party.danyang.nationalgeographic.databinding.ActivityDetailBinding;
 import party.danyang.nationalgeographic.model.album.AlbumItem;
 import party.danyang.nationalgeographic.model.album.Picture;
 import party.danyang.nationalgeographic.model.album.PictureRealm;
 import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.net.NGApi;
+import party.danyang.nationalgeographic.utils.BindingAdapters;
+import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.PicassoHelper;
+import party.danyang.nationalgeographic.utils.PreferencesHelper;
+import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import rx.Observable;
 import rx.Subscriber;
@@ -52,10 +57,7 @@ public class DetailActivity extends SwipeBackActivity {
     public static final String TAG = DetailActivity.class.getSimpleName();
     public static final String INTENT_ALBUM = "party.danyang.ng.album";
 
-    private Toolbar toolbar;
-    private CollapsingToolbarLayout toolbarLayout;
-    private RecyclerView recyclerView;
-    private FloatingActionButton fab;
+    private ActivityDetailBinding binding;
 
     private Album album;
 
@@ -64,18 +66,29 @@ public class DetailActivity extends SwipeBackActivity {
     private CompositeSubscription mSubscription;
     StaggeredGridLayoutManager layoutManager;
 
+    private Bundle reenterState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+//        setContentView(R.layout.activity_detail);
         Intent intent = getIntent();
         if (intent != null) {
             album = intent.getParcelableExtra(INTENT_ALBUM);
         }
+
         mSubscription = new CompositeSubscription();
-        realm = Realm.getInstance(this);
+
+        Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this).build());
+        realm = Realm.getDefaultInstance();
+
         initViews();
 
+        setExitAnimator();
+    }
+
+    private void setExitAnimator() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setExitSharedElementCallback(new SharedElementCallback() {
                 @Override
@@ -83,7 +96,7 @@ public class DetailActivity extends SwipeBackActivity {
                     if (reenterState != null) {
                         int position = reenterState.getInt(AlbumActivity.INTENT_INDEX, 0);
                         sharedElements.clear();
-                        sharedElements.put(adapter.getItem(position).getUrl(), layoutManager.findViewByPosition(position));
+                        sharedElements.put(adapter.get(position).getUrl(), layoutManager.findViewByPosition(position));
                         reenterState = null;
                     }
                 }
@@ -94,65 +107,85 @@ public class DetailActivity extends SwipeBackActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mSubscription == null) {
+        PicassoHelper.getInstance(this).cancelTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+        if (mSubscription != null) {
             mSubscription.unsubscribe();
         }
         realm.close();
     }
 
-    private void initViews() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
 
-        setSupportActionBar(toolbar);
-        toolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.md_grey_100));
-        toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.md_grey_100));
-        toolbarLayout.setTitle(album.getTitle());
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PicassoHelper.getInstance(this).pauseTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PicassoHelper.getInstance(this).resumeTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+    }
+
+    private void initViews() {
+        setSupportActionBar(binding.toolbar);
+        binding.toolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.md_grey_100));
+        binding.toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.md_grey_100));
+        binding.toolbarLayout.setTitle(album.getTitle());
 
         adapter = new AlbumDetailAdapter(new ArrayList<Picture>());
-        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+        adapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int i) {
-                startAlbumActivity(view, i);
+            public void onItemClick(View view, int position) {
+                startAlbumActivity(view, position);
             }
         });
-        recyclerView.setAdapter(adapter);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        RxRecyclerView.scrollStateChanges(recyclerView).subscribe(new Action1<Integer>() {
+        binding.recycler.setAdapter(adapter);
+        binding.recycler.setLayoutManager(layoutManager);
+        RxRecyclerView.scrollStateChanges(binding.recycler).subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer integer) {
                 if (integer == RecyclerView.SCROLL_STATE_IDLE) {
-                    PicassoHelper.getInstance(DetailActivity.this).resumeTag("1");
+                    PicassoHelper.getInstance(DetailActivity.this).resumeTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
                 } else {
-                    PicassoHelper.getInstance(DetailActivity.this).pauseTag("1");
+                    PicassoHelper.getInstance(DetailActivity.this).pauseTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
                 }
             }
         });
         load();
-        RxView.clicks(fab)//点击fab
+        RxView.clicks(binding.fab)//点击fab
                 .compose(RxPermissions.getInstance(this).ensure(Manifest.permission.WRITE_EXTERNAL_STORAGE))//检查权限
                 .subscribe(new Action1<Boolean>() {
-                               @Override
-                               public void call(Boolean aBoolean) {
-                                   if (aBoolean) {//拥有该权限
-                                       saveAllImg();
-                                   } else {//拒绝该权限
-                                       if (recyclerView != null) {
-                                           Snackbar.make(recyclerView, R.string.permission_denided, Snackbar.LENGTH_SHORT).show();
-                                       }
-                                   }
-                               }
-                           }
-                );
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if (aBoolean) {//拥有该权限
+                            saveAllImg();
+                        } else {//拒绝该权限
+                            makeSnackBar(R.string.permission_denied, true);
+                        }
+                    }
+                });
     }
 
     private void saveAllImg() {
-        for (int i = 0; i < adapter.getData().size(); i++) {
-            mSubscription.add(Utils.saveImageAndGetPathObservable(DetailActivity.this, ((Picture) adapter.getData().get(i)).getUrl(),
-                    ((Picture) adapter.getData().get(i)).getAlbumid() + "_" + i)
+        if (adapter.getList().size() <= 0) {
+            return;
+        }
+        for (int i = 0; i < adapter.getList().size(); i++) {
+            mSubscription.add(Utils.saveImageAndGetPathObservable(DetailActivity.this, adapter.getList().get(i).getUrl(),
+                    adapter.getList().get(i).getAlbumid() + "_" + i)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -161,16 +194,14 @@ public class DetailActivity extends SwipeBackActivity {
                         public void onCompleted() {
                             File appDir = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name));
                             String msg = String.format(getString(R.string.save_in_file), appDir.getAbsolutePath());
-                            if (recyclerView != null) {
-                                Snackbar.make(recyclerView, msg, Snackbar.LENGTH_SHORT).show();
-                            }
+                            makeSnackBar(msg, true);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            if (recyclerView != null) {
-                                Snackbar.make(recyclerView, e.toString(), Snackbar.LENGTH_SHORT).show();
-                            }
+                            if (BuildConfig.LOG_DEBUG)
+                                Log.e("saveAllImg", e.toString());
+                            makeSnackBar(e.toString(), true);
                         }
 
                         @Override
@@ -213,6 +244,12 @@ public class DetailActivity extends SwipeBackActivity {
     }
 
     private void getAlbum() {
+        //if wifionly and not in wifi
+        if (PreferencesHelper.getInstance(this).getBoolean(SettingsModel.PREF_WIFI_ONLY, false) && !NetUtils.isWiFi(this)) {
+            makeSnackBar(R.string.load_not_in_wifi_while_in_wifi_only, true);
+            return;
+        }
+
         mSubscription.add(NGApi.loadAlbum(album.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -226,16 +263,14 @@ public class DetailActivity extends SwipeBackActivity {
                     public void onError(Throwable e) {
                         if (BuildConfig.LOG_DEBUG)
                             Log.e(TAG, e.toString());
-                        if (recyclerView != null) {
-                            Snackbar.make(recyclerView, getString(R.string.error) + ">.<", Snackbar.LENGTH_SHORT).show();
-                        }
+                        makeSnackBar(R.string.error, true);
                     }
 
                     @Override
                     public void onNext(AlbumItem albumItem) {
                         if (albumItem == null || albumItem.getPicture() == null || albumItem.getPicture().size() == 0) {
                             if (BuildConfig.LOG_DEBUG)
-                                Log.e(TAG, "get albumItem data == null and id =" + album.getId());
+                                Log.e(TAG, "get albumItem data == null and id = " + album.getId());
                             return;
                         }
                         adapter.setNewData(albumItem.getPicture());
@@ -250,28 +285,26 @@ public class DetailActivity extends SwipeBackActivity {
 
     private void startAlbumActivity(View v, int i) {
         Intent intent = new Intent(DetailActivity.this, AlbumActivity.class);
-        intent.putParcelableArrayListExtra(AlbumActivity.INTENT_PICTURES, new ArrayList<Picture>(adapter.getData()));
+        intent.putParcelableArrayListExtra(AlbumActivity.INTENT_PICTURES, new ArrayList<Picture>(adapter.getList()));
         intent.putExtra(AlbumActivity.INTENT_INDEX, i);
 
         ActivityOptionsCompat options = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(this, v, adapter.getItem(i).getUrl());
+                .makeSceneTransitionAnimation(this, v, adapter.get(i).getUrl());
         ActivityCompat.startActivity(this, intent, options.toBundle());
 
     }
-
-    private Bundle reenterState;
 
     @Override
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
         supportPostponeEnterTransition();
         reenterState = new Bundle(data.getExtras());
-        recyclerView.scrollToPosition(reenterState.getInt(AlbumActivity.INTENT_INDEX, 0));
-        recyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        binding.recycler.scrollToPosition(reenterState.getInt(AlbumActivity.INTENT_INDEX, 0));
+        binding.recycler.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
-                recyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-                recyclerView.requestLayout();
+                binding.recycler.getViewTreeObserver().removeOnPreDrawListener(this);
+                binding.recycler.requestLayout();
                 supportStartPostponedEnterTransition();
                 return true;
             }
@@ -281,5 +314,17 @@ public class DetailActivity extends SwipeBackActivity {
     @Override
     public void onBackPressed() {
         supportFinishAfterTransition();
+    }
+
+    private void makeSnackBar(String msg, boolean lengthShort) {
+        if (binding != null && binding.getRoot() != null) {
+            Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    private void makeSnackBar(int resId, boolean lengthShort) {
+        if (binding != null && binding.getRoot() != null) {
+            Snackbar.make(binding.getRoot(), resId, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
+        }
     }
 }

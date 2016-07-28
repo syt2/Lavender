@@ -24,10 +24,19 @@
     <style name="AppTheme.NoActionBar.ALBUM" parent="AppTheme">
         <item name="android:windowBackground">@color/md_grey_800</item>
         <item name="colorPrimary">@color/md_grey_800</item>
-        <item name="android:colorPrimaryDark">@color/md_grey_800</item>
         <item name="android:textColor">@color/md_grey_200</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Small.Title">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Small.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Medium.Title">
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
 </resources>
