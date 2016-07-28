@@ -16,9 +16,6 @@ allprojects {
         maven {
             url "https://jitpack.io"
         }
-        maven {
-            url "http://maven.bughd.com/public"
-        }
         mavenCentral()
     }
 }

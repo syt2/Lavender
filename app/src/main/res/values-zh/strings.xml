@@ -46,5 +46,5 @@
     <string name="appupdater_update_available">新版本可用</string>
     <string name="appupdater_update_available_description_dialog_before_release_notes">Lavender v%1$s 可供下载。\n\nchange log:\n%2$s</string>
     <string name="appupdater_update_not_available">无可用更新</string>
-    <string name="appupdater_update_not_available_description">%s</string>
+    <string name="appupdater_update_not_available_description">已是最新版</string>
 </resources>
