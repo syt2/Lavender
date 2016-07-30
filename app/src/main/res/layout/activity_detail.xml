@@ -23,6 +23,8 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
+                app:collapsedTitleTextAppearance="@style/CollapsingToolbarText"
+                app:expandedTitleTextAppearance="@style/CollapsingToolbarText"
                 app:expandedTitleMarginStart="16dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -55,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_file_download_24dp"
+            android:src="@drawable/ic_file_download_grey_300_24dp"
             app:layout_anchor="@id/recycler"
             app:layout_anchorGravity="bottom|right|end"
             app:layout_behavior="party.danyang.nationalgeographic.widget.ScrollAwareFABBehavior" />

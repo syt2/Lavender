@@ -20,6 +20,7 @@ import java.io.IOException;
 import io.realm.RealmObject;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
+import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;

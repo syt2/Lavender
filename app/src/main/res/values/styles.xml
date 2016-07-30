@@ -1,5 +1,9 @@
 <resources>
 
+    <style name="CollapsingToolbarText">
+        <item name="android:textColor">@color/md_grey_100</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>

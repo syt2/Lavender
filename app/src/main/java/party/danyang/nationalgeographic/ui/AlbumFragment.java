@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,7 +20,6 @@ import android.view.ViewTreeObserver;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.tbruyelle.rxpermissions.RxPermissions;
-import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.List;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.FragmentBigPicBinding;
 import party.danyang.nationalgeographic.model.album.Picture;
-import party.danyang.nationalgeographic.utils.PicassoHelper;
+import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import party.danyang.nationalgeographic.utils.Utils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -119,7 +119,13 @@ public class AlbumFragment extends Fragment {
 
     private void showSaveImgDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setMessage(R.string.save_img);
+        if (binding.imgTouch != null && binding.imgTouch.getDrawable() != null && ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap() != null) {
+            builder.setMessage(String.format(getString(R.string.save_img_with_resolution)
+                    , ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap().getWidth()
+                    , ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap().getHeight()));
+        } else {
+            builder.setMessage(R.string.save_img);
+        }
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

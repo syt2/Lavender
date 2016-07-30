@@ -4,12 +4,18 @@ import android.annotation.SuppressLint;
 import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
@@ -87,6 +93,12 @@ public class AlbumActivity extends SwipeBackActivity {
                 supportFinishAfterTransition();
             }
         });
+        RxToolbar.itemClicks(binding.toolbar).subscribe(new Action1<MenuItem>() {
+            @Override
+            public void call(MenuItem menuItem) {
+                onToolbarMenuItemClicked(menuItem);
+            }
+        });
         adapter = new PagerAdapter();
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setCurrentItem(index);
@@ -113,6 +125,31 @@ public class AlbumActivity extends SwipeBackActivity {
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    private void onToolbarMenuItemClicked(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        if (id == R.id.action_yourshotlink) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(pictures.get(index).getYourshotlink()));
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                makeSnackBar(R.string.not_legal_yourshotlink, true);
+            }
+        }
+    }
+
+    private void makeSnackBar(String msg, boolean lengthShort) {
+        if (binding != null && binding.getRoot() != null) {
+            Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    private void makeSnackBar(int resId, boolean lengthShort) {
+        if (binding != null && binding.getRoot() != null) {
+            Snackbar.make(binding.getRoot(), resId, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private class PagerAdapter extends FragmentStatePagerAdapter {
@@ -177,6 +214,12 @@ public class AlbumActivity extends SwipeBackActivity {
 
         mHideHandler.removeCallbacks(mHidePart2Runnable);
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_album, menu);
+        return true;
     }
 
     @Override

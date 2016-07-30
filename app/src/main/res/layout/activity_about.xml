@@ -8,10 +8,6 @@
         <variable
             name="clicks"
             type="party.danyang.nationalgeographic.ui.AboutActivity" />
-
-        <variable
-            name="icon"
-            type="int" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -31,6 +27,8 @@
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:collapsedTitleTextAppearance="@style/CollapsingToolbarText"
+                app:expandedTitleTextAppearance="@style/CollapsingToolbarText"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginStart="16dp"
@@ -49,7 +47,7 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@{icon==1?@drawable/ic_launcher_1:@drawable/ic_launcher_2}" />
+                        android:src="@mipmap/ic_launcher" />
 
                     <TextView
                         android:layout_width="wrap_content"

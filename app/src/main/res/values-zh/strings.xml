@@ -3,17 +3,16 @@
     <string name="report_email_title">Lavender 建议及反馈</string>
     <string name="no_more">没有更多了</string>
     <string name="error">貌似出现了点问题</string>
+    <string name="not_legal_yourshotlink">该图片没有有效的your shot链接</string>
     <string name="save_in_file">图片已保存至 %s 文件夹</string>
+    <string name="save_img_with_resolution">保存图片 [%1$d * %2$d]</string>
     <string name="save_img">保存图片</string>
     <string name="save">保存</string>
     <string name="cancel">取消</string>
     <string name="author">摄影（%s）</string>
     <string name="ok">确认</string>
-    <string name="choose_icon">选择应用图标</string>
     <string name="permission_denied">权限被拒绝</string>
     <string name="cannot_download_pic">下载图片出错</string>
-    <string name="about_choose_icon">感谢酷友为Lavender设计的图标，如果您有好的图标也可以发来让我添加进去。
-        （更改图标后请耐心等待启动器刷新，可能需要几秒钟的时间）</string>
     <string name="attention">本应用为流量杀手，建议在wifi下加载图片！！！壕略过</string>
 
 
@@ -22,7 +21,6 @@
     <string name="settings_wifi_only">省流量模式</string>
     <string name="settings_wifi_only_summary">仅在WIFI下加载图片</string>
     <string name="settings_theme">主题</string>
-    <string name="settings_icon">Lavender 图标</string>
 
     <string name="settings_title_others">其他</string>
 
@@ -33,11 +31,12 @@
     <string name="settings">设置</string>
 
     <string name="about_attention_content">Lavender系第三方国家地理每日精选应用，如Lavender有侵犯国家地理权益，本人将第一时间撤回及停止更新。
+        \n\n感谢酷友@柠冰羽痕Ice @WangMT 对Lavender的大力支持
         \n\nLavender为流量杀手，建议在wifi下加载图片。
         \n\n如果对Lavender有什么建议及意见的话，欢迎联系我并提出。</string>
     <string name="about_use_attention">注意事项</string>
     <string name="about_image_from">图片来自</string>
-    <string name="about_go_to_github">访问 Lavender 在 GitGub 上的源码</string>
+    <string name="about_go_to_github">访问 Lavender 在 GitHub 上的源码</string>
     <string name="about_used_libs">Lavender 用到了以下开源库</string>
     <string name="load_not_in_wifi_while_in_wifi_only">您处于非WIFI环境，可以前往设置关闭省流量模式以在非WIFI环境下加载数据</string>
     <string name="appupdater_btn_disable">忽略该版本</string>

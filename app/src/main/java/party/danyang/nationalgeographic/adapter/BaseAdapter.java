@@ -1,29 +1,16 @@
 package party.danyang.nationalgeographic.adapter;
 
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import party.danyang.nationalgeographic.BR;
-import party.danyang.nationalgeographic.R;
-import party.danyang.nationalgeographic.utils.PicassoHelper;
-import party.danyang.nationalgeographic.widget.RadioImageView;
-import party.danyang.nationalgeographic.widget.TouchImageView;
 import rx.functions.Action1;
 
 /**

@@ -40,6 +40,8 @@ public class SettingsActivity extends SwipeBackActivity {
 
     private ActivitySettingsBinding binding;
 
+    private AppUpdater appUpdater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +52,9 @@ public class SettingsActivity extends SwipeBackActivity {
 
     private void initViews() {
         binding.setWifiOnly(SettingsModel.getWifiOnly(this));
-        binding.setIcon(SettingsModel.getIcon(this));
         binding.setCacheSize(SettingsModel.getCacheSize(this));
         binding.setClicks(this);
         setSupportActionBar(binding.toolbar);
-        binding.toolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.md_grey_100));
-        binding.toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.md_grey_100));
     }
 
     //wifi only
@@ -65,58 +64,6 @@ public class SettingsActivity extends SwipeBackActivity {
 
     public void onCheckChangedWifiOnly(CompoundButton v, boolean checked) {
         SettingsModel.setWifiOnly(v.getContext(), checked);
-    }
-
-    //launcher icon
-    public void onClickIcon(View view) {
-        View v = LayoutInflater.from(this).inflate(R.layout.dialog_choose_icon, null, false);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(v);
-        builder.setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-        RxView.clicks(v.findViewById(R.id.icon1)).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-                dialog.dismiss();
-                SettingsModel.setIcon(SettingsActivity.this, 1);
-                setIcon(R.mipmap.ic_launcher_1);
-            }
-        });
-        RxView.clicks(v.findViewById(R.id.icon2)).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-                dialog.dismiss();
-                SettingsModel.setIcon(SettingsActivity.this, 2);
-                setIcon(R.mipmap.ic_launcher_2);
-            }
-        });
-    }
-
-    private void setIcon(int iconId) {
-        MobclickAgent.onEvent(this, iconId == R.mipmap.ic_launcher_1 ? "icon_1" : "icon_2");
-        binding.setIcon(SettingsModel.getIcon(this));
-        PackageManager pm = getPackageManager();
-        ActivityManager am = (ActivityManager) getSystemService(Activity.ACTIVITY_SERVICE);
-
-        pm.setComponentEnabledSetting(
-                new ComponentName(this, "party.danyang.nationalgeographic.ui.HomeActivity-icon1"),
-                iconId == R.mipmap.ic_launcher_1 ?
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
-
-        pm.setComponentEnabledSetting(
-                new ComponentName(this, "party.danyang.nationalgeographic.ui.HomeActivity-icon2"),
-                iconId == R.mipmap.ic_launcher_2 ?
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
     }
 
     //clear cache
@@ -173,14 +120,22 @@ public class SettingsActivity extends SwipeBackActivity {
     }
 
     public void onClickCheckUpdate(View view) {
-        new AppUpdater(this)
+        appUpdater = new AppUpdater(this)
                 .setUpdateFrom(UpdateFrom.XML)
                 .setUpdateXML("https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/update-changelog.xml")
                 .setDisplay(Display.DIALOG)
                 .setDialogTitleWhenUpdateAvailable("")
                 .setDialogTitleWhenUpdateNotAvailable("")
-                .showAppUpdated(true)
-                .start();
+                .showAppUpdated(true);
+        appUpdater.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (appUpdater != null) {
+            appUpdater.stop();
+        }
     }
 
     @Override

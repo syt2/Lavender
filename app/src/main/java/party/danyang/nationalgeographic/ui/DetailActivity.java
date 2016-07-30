@@ -42,8 +42,8 @@ import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.net.NGApi;
 import party.danyang.nationalgeographic.utils.BindingAdapters;
 import party.danyang.nationalgeographic.utils.NetUtils;
-import party.danyang.nationalgeographic.utils.PicassoHelper;
-import party.danyang.nationalgeographic.utils.PreferencesHelper;
+import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
+import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import rx.Observable;
@@ -140,8 +140,6 @@ public class DetailActivity extends SwipeBackActivity {
 
     private void initViews() {
         setSupportActionBar(binding.toolbar);
-        binding.toolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.md_grey_100));
-        binding.toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.md_grey_100));
         binding.toolbarLayout.setTitle(album.getTitle());
 
         adapter = new AlbumDetailAdapter(new ArrayList<Picture>());

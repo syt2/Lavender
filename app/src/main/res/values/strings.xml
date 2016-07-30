@@ -1,22 +1,22 @@
 <resources>
     <string name="app_name">Lavender</string>
     <string name="action_share">Share</string>
+    <string name="action_yourshotlink">Your shot</string>
     <string name="report_email_title">Lavender suggests and reports</string>
     <string name="notfound404">retrofit2.adapter.rxjava.HttpException: HTTP 404 Not Found</string>
     <string name="no_more">no more</string>
     <string name="error">Error</string>
+    <string name="not_legal_yourshotlink">This image has no your shot</string>
     <string name="dir_picasso_cache">/data/data/party.danyang.nationalgeographic/cache/picasso-cache</string>
     <string name="save_in_file">image saved in %s </string>
+    <string name="save_img_with_resolution">save image [%1$d * %2$d]</string>
     <string name="save_img">save image</string>
     <string name="save">save</string>
     <string name="cancel">Cancel</string>
     <string name="author">author(%s)</string>
     <string name="ok">OK</string>
-    <string name="choose_icon">Choose icon</string>
     <string name="permission_denied">permission denied</string>
     <string name="cannot_download_pic">cannot download pic</string>
-    <string name="about_choose_icon">Thanks coolapk guys to design icon for Lavender, if you have a good icon can also send it to me added.
-    (After change icon please wait the launcher refresh ,it may take several seconds)</string>
     <string name="attention">pay attention to your mobile traffic. I suggest use this app in wifi.</string>
     <string name="my_email">dreamcontinue.cd@gmail.com</string>
 
@@ -26,7 +26,6 @@
     <string name="settings_wifi_only">WIFI only</string>
     <string name="settings_wifi_only_summary">load image only in WIFI</string>
     <string name="settings_theme">Theme</string>
-    <string name="settings_icon">Lavender\'s icon</string>
 
     <string name="settings_title_others">Others</string>
 
@@ -36,9 +35,10 @@
     <string name="settings_about">About</string>
     <string name="settings">Settings</string>
 
-    <string name="version">v 1.1.9</string>
+    <string name="version">v 1.1.9.1</string>
     <string name="about_attention_content">Lavender-based National Geographic daily selection of third-party applications， such as National Geographic Lavender has violated rights,
         it will be the first time to withdraw and stop updating.
+        \n\nThanks @柠冰羽痕Ice @WangMT in coolapk
         \n\nLavender is flow traffic killer, it is recommended to load image in wifi.
         \n\nIf you have any suggestions and comments to Lavender, welcome to contact me.</string>
     <string name="about_use_attention">Use attention</string>

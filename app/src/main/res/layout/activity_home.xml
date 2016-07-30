@@ -23,6 +23,8 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
+                app:collapsedTitleTextAppearance="@style/CollapsingToolbarText"
+                app:expandedTitleTextAppearance="@style/CollapsingToolbarText"
                 app:expandedTitleMarginStart="16dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 

@@ -40,6 +40,8 @@
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:collapsedTitleTextAppearance="@style/CollapsingToolbarText"
+                app:expandedTitleTextAppearance="@style/CollapsingToolbarText"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginStart="16dp"

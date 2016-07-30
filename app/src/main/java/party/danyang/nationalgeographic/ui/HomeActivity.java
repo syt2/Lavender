@@ -5,10 +5,10 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -41,8 +41,8 @@ import party.danyang.nationalgeographic.model.albumlist.AlbumRealm;
 import party.danyang.nationalgeographic.net.NGApi;
 import party.danyang.nationalgeographic.utils.BindingAdapters;
 import party.danyang.nationalgeographic.utils.NetUtils;
-import party.danyang.nationalgeographic.utils.PicassoHelper;
-import party.danyang.nationalgeographic.utils.PreferencesHelper;
+import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
+import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import rx.Observable;
 import rx.Subscriber;
@@ -103,8 +103,6 @@ public class HomeActivity extends SwipeBackActivity {
                 onToolbarMenuItemClicked(menuItem);
             }
         });
-        binding.toolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.md_grey_100));
-        binding.toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.md_grey_100));
 
         adapter = new AlbumListAdapter(null);
         adapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {

@@ -38,7 +38,6 @@ public class AboutActivity extends SwipeBackActivity {
 
     private void initViews() {
         binding.setClicks(this);
-        binding.setIcon(SettingsModel.getIcon(this));
         setSupportActionBar(binding.toolbar);
         setTitle(null);
         binding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {

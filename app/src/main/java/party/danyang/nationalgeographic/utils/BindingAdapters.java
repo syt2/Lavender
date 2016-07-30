@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
+import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import party.danyang.nationalgeographic.widget.RadioImageView;
 import party.danyang.nationalgeographic.widget.TouchImageView;
 
@@ -23,6 +24,7 @@ public class BindingAdapters {
     public static final String TAG_DETAIL_ACTIVITY = "177";
     public static final String TAG_ALBUM_ACTIVITY = "1777";
 
+    //给HomeActivity的adapter用
     @BindingAdapter({"bind:image"})
     public static void imageLoader(ImageView imageView, String url) {
         PicassoHelper.getInstance(imageView.getContext()).load(url)
@@ -34,6 +36,7 @@ public class BindingAdapters {
                 .into(imageView);
     }
 
+    //给DetailActivity的adapter用
     @BindingAdapter({"bind:image"})
     public static void imageLoader(final RadioImageView imageView, String url) {
         PicassoHelper.getInstance(imageView.getContext()).load(url)
@@ -57,6 +60,7 @@ public class BindingAdapters {
                 });
     }
 
+    //给AlbumFragment的adapter用
     @BindingAdapter({"bind:image"})
     public static void imageLoader(TouchImageView imageView, String url) {
         //TouchImageView需要高质量的图源
