@@ -4,6 +4,7 @@
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
             - 添加缩略图选项
+            - 从1.1.9以下（不包含1.1.9）升级上来的用户请在安装完成后清除下数据再打开
             - Lavender已接近最终版，不再开坑其他功能...
         </releaseNotes>
     </update>
