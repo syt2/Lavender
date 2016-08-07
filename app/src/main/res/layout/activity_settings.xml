@@ -7,12 +7,16 @@
     <data>
 
         <variable
-            name="wifiOnly"
+            name="accelerate"
             type="boolean" />
 
         <variable
-            name="icon"
-            type="int" />
+            name="accelerateInLarge"
+            type="boolean" />
+
+        <variable
+            name="wifiOnly"
+            type="boolean" />
 
         <variable
             name="cacheSize"
@@ -68,8 +72,9 @@
             <include
                 layout="@layout/layout_settings"
                 app:wifiOnly="@{wifiOnly}"
-                app:icon="@{icon}"
                 app:clicks="@{clicks}"
+                app:accelerate="@{accelerate}"
+                app:accelerateInLarge="@{accelerateInLarge}"
                 app:cacheSize="@{cacheSize}"/>
 
         </android.support.v4.widget.NestedScrollView>

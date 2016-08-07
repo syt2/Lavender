@@ -3,6 +3,7 @@ package party.danyang.nationalgeographic.utils;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
+import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import party.danyang.nationalgeographic.widget.RadioImageView;
 import party.danyang.nationalgeographic.widget.TouchImageView;
 
@@ -21,8 +23,8 @@ import party.danyang.nationalgeographic.widget.TouchImageView;
 public class BindingAdapters {
 
     public static final String TAG_HOME_ACTIVITY = "17";
-    public static final String TAG_DETAIL_ACTIVITY = "177";
-    public static final String TAG_ALBUM_ACTIVITY = "1777";
+    public static final String TAG_DETAIL_ACTIVITY = "1717";
+    public static final String TAG_ALBUM_ACTIVITY = "171717";
 
     //给HomeActivity的adapter用
     @BindingAdapter({"bind:image"})
@@ -39,6 +41,11 @@ public class BindingAdapters {
     //给DetailActivity的adapter用
     @BindingAdapter({"bind:image"})
     public static void imageLoader(final RadioImageView imageView, String url) {
+        if (SettingsModel.getAccelerate(imageView.getContext())) {
+            //http://pic01.bdatu.com/Upload/picimg/1464838788.jpg
+            //http://ob7lf3frj.bkt.clouddn.com/1464838788.jpg?imageMogr2/thumbnail/600x600
+            url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
+        }
         PicassoHelper.getInstance(imageView.getContext()).load(url)
                 .error(R.mipmap.ic_loading)
                 .noFade()
@@ -63,11 +70,17 @@ public class BindingAdapters {
     //给AlbumFragment的adapter用
     @BindingAdapter({"bind:image"})
     public static void imageLoader(TouchImageView imageView, String url) {
-        //TouchImageView需要高质量的图源
+        //TouchImageView需要高质量的图源，但如果用户设置缩略图则用缩略图尺寸
+        if (SettingsModel.getAccelerate(imageView.getContext()) && SettingsModel.getAccelerateInLarge(imageView.getContext())) {
+            //http://pic01.bdatu.com/Upload/picimg/1464838788.jpg
+            //http://ob7lf3frj.bkt.clouddn.com/1464838788.jpg?imageMogr2/thumbnail/600x600
+            url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
+        }
         PicassoHelper.getInstance(imageView.getContext()).load(url)
                 .config(Bitmap.Config.ARGB_8888)
+                .noFade()
                 .priority(Picasso.Priority.HIGH)
-                .tag(TAG_DETAIL_ACTIVITY)
+                .tag(TAG_ALBUM_ACTIVITY)
                 .into(imageView);
     }
 

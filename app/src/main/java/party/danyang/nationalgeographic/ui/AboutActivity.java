@@ -80,9 +80,6 @@ public class AboutActivity extends SwipeBackActivity {
             }
         });
         builder.show();
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.setData(Uri.parse(getString(R.string.about_github_address)));
-//        startActivity(intent);
     }
 
     @Override

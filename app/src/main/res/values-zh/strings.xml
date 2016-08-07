@@ -3,7 +3,7 @@
     <string name="report_email_title">Lavender 建议及反馈</string>
     <string name="no_more">没有更多了</string>
     <string name="error">貌似出现了点问题</string>
-    <string name="not_legal_yourshotlink">该图片没有有效的your shot链接</string>
+    <string name="not_legal_yourshotlink">该图片没有有效的your shot链接~\(≧▽≦)/~</string>
     <string name="save_in_file">图片已保存至 %s 文件夹</string>
     <string name="save_img_with_resolution">保存图片 [%1$d * %2$d]</string>
     <string name="save_img">保存图片</string>
@@ -13,7 +13,7 @@
     <string name="ok">确认</string>
     <string name="permission_denied">权限被拒绝</string>
     <string name="cannot_download_pic">下载图片出错</string>
-    <string name="attention">本应用为流量杀手，建议在wifi下加载图片！！！壕略过</string>
+    <string name="attention">本应用为流量杀手，建议在wifi下加载图片~\(≧▽≦)/~壕略过</string>
 
 
     <string name="settings_title_conventional">常规</string>
@@ -28,7 +28,20 @@
     <string name="settings_check_update">检查更新</string>
     <string name="settings_report">与我联系</string>
     <string name="settings_about">关于</string>
+    <string name="setting_test">测试（不稳定）</string>
+    <string name="setting_accelerate">缩略图</string>
+    <string name="setting_accelerate_in_large_img">大图也使用缩略图</string>
     <string name="settings">设置</string>
+
+    <string name="attention_accelerate">
+        注意辣~\(≧▽≦)/~：
+        \n对于常打开大图的亲们，不勾选下面一项的话只会更加耗费流量哦
+        \n由于七牛云的限制，我只能提供测试域名来加载缩略图。测试域名有很多的限制，
+        \n 单IP每秒限制请求次数10次，大于10次禁止5秒(加载一张图为1次，可以自己算算)。
+        \n 单url限速8Mbps，下载到10MB之后，限速1Mbps等。
+        \n万恶的限制啊啊啊！
+        \n\n请亲们确认已经阅读以上事项，再考虑是否开启该选项。
+        \n如果遇到图片加载不出来，请先尝试关闭该项哦亲。</string>
 
     <string name="about_attention_content">Lavender系第三方国家地理每日精选应用，如Lavender有侵犯国家地理权益，本人将第一时间撤回及停止更新。
         \n\n感谢酷友@柠冰羽痕Ice @WangMT 对Lavender的大力支持

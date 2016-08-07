@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.databinding.tool.util.L;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -30,13 +31,14 @@ import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivitySettingsBinding;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
+import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 public class SettingsActivity extends SwipeBackActivity {
 
-    private static final int SEND_EMAIL_TO_ME_REQUEST_CODE = 17;
+    private static final String PREF_FIRST_CHANGE_ACCELERATE = "pref_first_change_accelerate";
 
     private ActivitySettingsBinding binding;
 
@@ -53,6 +55,8 @@ public class SettingsActivity extends SwipeBackActivity {
     private void initViews() {
         binding.setWifiOnly(SettingsModel.getWifiOnly(this));
         binding.setCacheSize(SettingsModel.getCacheSize(this));
+        binding.setAccelerate(SettingsModel.getAccelerate(this));
+        binding.setAccelerateInLarge(SettingsModel.getAccelerateInLarge(this));
         binding.setClicks(this);
         setSupportActionBar(binding.toolbar);
     }
@@ -64,6 +68,41 @@ public class SettingsActivity extends SwipeBackActivity {
 
     public void onCheckChangedWifiOnly(CompoundButton v, boolean checked) {
         SettingsModel.setWifiOnly(v.getContext(), checked);
+    }
+
+    //七牛云加速
+    public void onClickAccelerate(View view) {
+        binding.setAccelerate(!binding.getAccelerate());
+    }
+
+    private void showAccelerateAttention() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.attention_accelerate);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+        PreferencesHelper.getInstance(this).edit().putBoolean(PREF_FIRST_CHANGE_ACCELERATE, false).apply();
+    }
+
+    public void onCheckChangedAccelerate(CompoundButton v, boolean checked) {
+        if (checked && PreferencesHelper.getInstance(this).getBoolean(PREF_FIRST_CHANGE_ACCELERATE, true)) {
+            showAccelerateAttention();
+        }
+        binding.setAccelerate(checked);
+        SettingsModel.setAccelerate(v.getContext(), checked);
+    }
+
+    public void onClickAccelerateInLarge(View view) {
+        binding.setAccelerateInLarge(!binding.getAccelerateInLarge());
+    }
+
+    public void onCheckChangedAccelerateInLarge(CompoundButton v, boolean checked) {
+        binding.setAccelerateInLarge(checked);
+        SettingsModel.setAccelerateInLarge(v.getContext(), checked);
     }
 
     //clear cache

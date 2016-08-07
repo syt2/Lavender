@@ -4,9 +4,9 @@
 
 Download
 --------
-V 1.1.9.1  
+V 1.2.0  
 [![Lavender]](app/Lavender.apk)  
-[Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_icon.png "Lavender"
+[Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
 
 
 ##ScreenShot
@@ -22,12 +22,16 @@ http://ng.bdatu.com/
 
 Change log
 ----------
-v1.1.9.1
+v1.2.0  
+* 添加缩略图选项
+* Lavender已接近最终版，不再开坑其他功能...
+
+v1.1.9.1  
 * 删除切换图标的功能
 * 修复AppUpdater未stop的bug
 * 单图保存时增加图片分辨率信息
 
-v1.1.9
+v1.1.9  
 * 采用databinding方式重构项目
 * 添加设置及关于界面
 * 新增省流模式、检查更新模式
@@ -38,9 +42,6 @@ v1.1.9
 TODO
 ----
 * 转屏失效（未找到bug所在）
-* ~~自定义主题颜色（先做这个:weary:）~~不做了，尝试了下白色背景还是太丑
-* ~~选择图标后launcher刷新几秒才能加载新的，尝试做成立即刷新（貌似Textra做到了可是并没大神公开出来）~~删除此功能，不足又有bug，还是删了好
-* ~~白色背景（手机上状态栏暗色背景设置无效）~~
 
 
 Thanks
@@ -60,6 +61,7 @@ About
 * 使用[RxBinding](https://github.com/JakeWharton/RxBinding)优化代码
 * DetailActivity到AlbumActivity间的动画切换
 * umeng SDK
+* 七牛云图片压缩
 * ......
 
 Problems

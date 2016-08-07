@@ -1,11 +1,10 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.1.9.1</latestVersion>
+        <latestVersion>1.2.0</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            - 删除选择图标的功能
-            - bug修复
-            - 单图保存时添加分辨率选项
+            - 添加缩略图选项
+            - Lavender已接近最终版，不再开坑其他功能...
         </releaseNotes>
     </update>
 </AppUpdater>

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import party.danyang.nationalgeographic .BR;
+import party.danyang.nationalgeographic.BR;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.model.albumlist.Album;
 
