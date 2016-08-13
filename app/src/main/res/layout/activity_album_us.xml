@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.AlbumUSActivity">
+
+    <data>
+
+        <variable
+            name="picture"
+            type="party.danyang.nationalgeographic.model.Picture_US" />
+
+        <variable
+            name="showErrorView"
+            type="boolean" />
+
+        <variable
+            name="fullScreen"
+            type="boolean" />
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="64dp">
+
+            <tr.xip.errorview.ErrorView
+                android:id="@+id/error_View"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="64dp"
+                android:visibility="@{showErrorView?View.VISIBLE:View.GONE}"
+                app:ev_retryButtonText="@string/error_view_retry"
+                app:ev_retryButtonTextColor="@color/md_pink_A200"
+                app:ev_subtitleColor="@color/md_grey_400"
+                app:ev_titleColor="@color/md_grey_200"
+                tools:visibility="gone" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <party.danyang.nationalgeographic.widget.TouchImageView
+            android:id="@+id/img_touch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:image="@{picture.src}" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="32dp"
+            android:visibility="@{fullScreen?View.GONE:View.VISIBLE}" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_gravity="bottom|end"
+            android:background="@color/color_big_pic_bg"
+            android:fitsSystemWindows="true"
+            android:visibility="@{fullScreen?View.GONE:View.VISIBLE}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="@{picture.alt}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/md_grey_300"
+                    android:textIsSelectable="true"
+                    android:visibility="@{TextUtils.isEmpty(picture.alt)?View.GONE:View.VISIBLE}"
+                    tools:text="dreamcontinue" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|right"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@{picture.credit}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/md_grey_400"
+                    android:textIsSelectable="true"
+                    android:visibility="@{TextUtils.isEmpty(picture.credit)?View.GONE:View.VISIBLE}"
+                    tools:text="dreamcontinue" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+    </FrameLayout>
+
+</layout>

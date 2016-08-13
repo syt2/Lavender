@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/nav_top_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_group_pic"
+            android:icon="@drawable/ic_photo_library_grey_300_24dp"
+            android:title="@string/group_pic" />
+        <item
+            android:id="@+id/nav_single_pic_us"
+            android:checkable="false"
+            android:icon="@drawable/ic_photo_grey_300_24dp"
+            android:title="@string/single_pic_us" />
+        <item
+            android:id="@+id/nav_single_pic"
+            android:icon="@drawable/ic_photo_grey_300_24dp"
+            android:title="@string/single_pic"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_article"
+            android:icon="@drawable/ic_label_grey_300_24dp"
+            android:title="@string/article"
+            android:visible="false" />
+        <!--android:visible="false"-->
+    </group>
+    <group android:id="@+id/nav_bottom_group">
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/settings" />
+        <!--android:icon="@drawable/ic_settings_grey_300_24dp"-->
+        <item
+            android:id="@+id/nav_about"
+            android:title="@string/settings_about" />
+        <!--android:icon="@drawable/ic_info_outline_grey_300_24dp"-->
+    </group>
+
+</menu>

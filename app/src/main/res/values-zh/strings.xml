@@ -1,19 +1,20 @@
 <resources>
     <string name="action_share">分享</string>
     <string name="report_email_title">Lavender 建议及反馈</string>
-    <string name="no_more">没有更多了</string>
-    <string name="error">貌似出现了点问题</string>
-    <string name="not_legal_yourshotlink">该图片没有有效的your shot链接~\(≧▽≦)/~</string>
-    <string name="save_in_file">图片已保存至 %s 文件夹</string>
+    <string name="exception_content_null">获取的数据是空的唉</string>
+    <string name="maybe_no_more">可能是没有更多了哦</string>
+    <string name="error">出现了一个连我都布吉岛的错误呢</string>
+    <string name="not_legal_yourshotlink">没有有效的your shot链接，跳转不过去55555~</string>
+    <string name="save_in_file">图片已保存至 %s 文件夹~</string>
     <string name="save_img_with_resolution">保存图片 [%1$d * %2$d]</string>
     <string name="save_img">保存图片</string>
     <string name="save">保存</string>
     <string name="cancel">取消</string>
     <string name="author">摄影（%s）</string>
     <string name="ok">确认</string>
-    <string name="permission_denied">权限被拒绝</string>
+    <string name="permission_denied">权限都不给奴家，怎么让奴家保存啊~\(≧▽≦)/~</string>
     <string name="cannot_download_pic">下载图片出错</string>
-    <string name="attention">本应用为流量杀手，建议在wifi下加载图片~\(≧▽≦)/~壕略过</string>
+    <string name="attention">Lavender是流量杀手哦，最喜欢吃你流量了~\(≧▽≦)/~</string>
 
 
     <string name="settings_title_conventional">常规</string>
@@ -28,10 +29,15 @@
     <string name="settings_check_update">检查更新</string>
     <string name="settings_report">与我联系</string>
     <string name="settings_about">关于</string>
-    <string name="setting_test">测试（不稳定）</string>
+    <string name="setting_test">测试功能（不稳定）</string>
     <string name="setting_accelerate">缩略图</string>
     <string name="setting_accelerate_in_large_img">大图也使用缩略图</string>
     <string name="settings">设置</string>
+
+    <string name="single_pic">每日一图</string>
+    <string name="single_pic_us">每日一图（美利坚）</string>
+    <string name="group_pic">每日精选</string>
+    <string name="article">文章集锦</string>
 
     <string name="attention_accelerate">
         注意辣~\(≧▽≦)/~：
@@ -43,15 +49,16 @@
         \n\n请亲们确认已经阅读以上事项，再考虑是否开启该选项。
         \n如果遇到图片加载不出来，请先尝试关闭该项哦亲。</string>
 
-    <string name="about_attention_content">Lavender系第三方国家地理每日精选应用，如Lavender有侵犯国家地理权益，本人将第一时间撤回及停止更新。
-        \n\n感谢酷友@柠冰羽痕Ice @WangMT 对Lavender的大力支持
-        \n\nLavender为流量杀手，建议在wifi下加载图片。
+    <string name="about_attention_content">Lavender系第三方国家地理每日精选应用，如Lavender有侵犯国家地理官方权益，本人将第一时间撤回及停止更新。
+        \n\n感谢酷友@柠冰羽痕Ice @WangMT 对Lavender的贡献
         \n\n如果对Lavender有什么建议及意见的话，欢迎联系我并提出。</string>
-    <string name="about_use_attention">注意事项</string>
+    <string name="about_use_attention">Lavender 自述</string>
     <string name="about_image_from">图片来自</string>
     <string name="about_go_to_github">访问 Lavender 在 GitHub 上的源码</string>
     <string name="about_used_libs">Lavender 用到了以下开源库</string>
-    <string name="load_not_in_wifi_while_in_wifi_only">您处于非WIFI环境，可以前往设置关闭省流量模式以在非WIFI环境下加载数据</string>
+    <string name="load_not_in_wifi_while_in_wifi_only">哎呀，现在没有wifi诶，等下再加载吧~\(≧▽≦)/~</string>
+    <string name="offline">没有数据怎么加载吖亲~</string>
+
     <string name="appupdater_btn_disable">忽略该版本</string>
     <string name="appupdater_btn_dismiss">以后再说</string>
     <string name="appupdater_btn_update">现在更新</string>
@@ -59,4 +66,6 @@
     <string name="appupdater_update_available_description_dialog_before_release_notes">Lavender v%1$s 可供下载。\n\nchange log:\n%2$s</string>
     <string name="appupdater_update_not_available">无可用更新</string>
     <string name="appupdater_update_not_available_description">已是最新版</string>
+
+    <string name="error_view_retry">重试</string>
 </resources>

@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
-import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import party.danyang.nationalgeographic.widget.RadioImageView;
 import party.danyang.nationalgeographic.widget.TouchImageView;
 
@@ -27,7 +26,7 @@ public class BindingAdapters {
     public static final String TAG_ALBUM_ACTIVITY = "171717";
 
     //给HomeActivity的adapter用
-    @BindingAdapter({"bind:image"})
+    @BindingAdapter({"image"})
     public static void imageLoader(ImageView imageView, String url) {
         PicassoHelper.getInstance(imageView.getContext()).load(url)
                 .error(R.mipmap.ic_loading)
@@ -39,13 +38,34 @@ public class BindingAdapters {
     }
 
     //给DetailActivity的adapter用
-    @BindingAdapter({"bind:image"})
+    @BindingAdapter({"image"})
     public static void imageLoader(final RadioImageView imageView, String url) {
         if (SettingsModel.getAccelerate(imageView.getContext())) {
             //http://pic01.bdatu.com/Upload/picimg/1464838788.jpg
             //http://ob7lf3frj.bkt.clouddn.com/1464838788.jpg?imageMogr2/thumbnail/600x600
             url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
         }
+
+//        Glide.with(imageView.getContext())
+//                .load(url)
+//                .asBitmap()
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .dontTransform()
+//                .thumbnail(0.1f)
+//                .listener(new RequestListener<String, Bitmap>() {
+//                    @Override
+//                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                        Log.e("resource size", resource.getWidth() + " " + resource.getHeight());
+//                        imageView.setOriginalSize(resource.getWidth(), resource.getHeight());
+//                        return false;
+//                    }
+//                })
+//                .into(imageView);
         PicassoHelper.getInstance(imageView.getContext()).load(url)
                 .error(R.mipmap.ic_loading)
                 .noFade()
@@ -68,12 +88,12 @@ public class BindingAdapters {
     }
 
     //给AlbumFragment的adapter用
-    @BindingAdapter({"bind:image"})
-    public static void imageLoader(TouchImageView imageView, String url) {
+    @BindingAdapter({"image"})
+    public static void imageLoader(final TouchImageView imageView, String url) {
         //TouchImageView需要高质量的图源，但如果用户设置缩略图则用缩略图尺寸
-        if (SettingsModel.getAccelerate(imageView.getContext()) && SettingsModel.getAccelerateInLarge(imageView.getContext())) {
-            //http://pic01.bdatu.com/Upload/picimg/1464838788.jpg
-            //http://ob7lf3frj.bkt.clouddn.com/1464838788.jpg?imageMogr2/thumbnail/600x600
+        if (SettingsModel.getAccelerate(imageView.getContext())
+                && SettingsModel.getAccelerateInLarge(imageView.getContext())
+                && !url.startsWith("http://images.nationalgeographic.com/")) {
             url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
         }
         PicassoHelper.getInstance(imageView.getContext()).load(url)
@@ -81,7 +101,17 @@ public class BindingAdapters {
                 .noFade()
                 .priority(Picasso.Priority.HIGH)
                 .tag(TAG_ALBUM_ACTIVITY)
-                .into(imageView);
+                .into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        imageView.setZoom(1);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
     }
 
 }

@@ -32,36 +32,8 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:elevation="0dp">
-
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:collapsedTitleTextAppearance="@style/CollapsingToolbarText"
-                app:expandedTitleTextAppearance="@style/CollapsingToolbarText"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleMarginStart="16dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:titleTextColor="@color/md_grey_700"
-                    tools:targetApi="N"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+        <include layout="@layout/layout_toolbar"
+            android:id="@+id/toolbar_content"/>
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"

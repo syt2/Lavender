@@ -33,6 +33,8 @@
         android:orientation="vertical"
         android:padding="@dimen/default_margin">
 
+
+        <!--常规-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -187,6 +189,7 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+        <!--其他-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -228,18 +231,6 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/md_grey_700"
                     app:onClickListener="@{clicks::onClickReport}" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|start"
-                    android:clickable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="@dimen/default_margin"
-                    android:text="@string/settings_about"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/md_grey_700"
-                    app:onClickListener="@{clicks::onClickAbout}" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 

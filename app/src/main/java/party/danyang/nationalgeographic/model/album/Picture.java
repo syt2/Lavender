@@ -12,16 +12,12 @@ public class Picture implements Parcelable {
     private String title;
     private String content;
     private String url;
-    private String size;
-    private String addtime;
     private String author;
     private String thumb;
     private String weburl;
     private String type;
     private String yourshotlink;
     private String copyright;
-    private String pmd5;
-    private String sort;
 
     public Picture(Parcel in) {
         readFromParcel(in);
@@ -36,16 +32,12 @@ public class Picture implements Parcelable {
         title = pictureRealm.getTitle();
         content = pictureRealm.getContent();
         url = pictureRealm.getUrl();
-        size = pictureRealm.getSize();
-        addtime = pictureRealm.getAddtime();
         author = pictureRealm.getAuthor();
         thumb = pictureRealm.getThumb();
         weburl = pictureRealm.getWeburl();
         type = pictureRealm.getType();
         yourshotlink = pictureRealm.getYourshotlink();
         copyright = pictureRealm.getCopyright();
-        pmd5 = pictureRealm.getPmd5();
-        sort = pictureRealm.getSort();
     }
 
     public void setId(String id) {
@@ -86,22 +78,6 @@ public class Picture implements Parcelable {
 
     public String getUrl() {
         return this.url;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getSize() {
-        return this.size;
-    }
-
-    public void setAddtime(String addtime) {
-        this.addtime = addtime;
-    }
-
-    public String getAddtime() {
-        return this.addtime;
     }
 
     public void setAuthor(String author) {
@@ -152,22 +128,6 @@ public class Picture implements Parcelable {
         return this.copyright;
     }
 
-    public void setPmd5(String pmd5) {
-        this.pmd5 = pmd5;
-    }
-
-    public String getPmd5() {
-        return this.pmd5;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
-    }
-
-    public String getSort() {
-        return this.sort;
-    }
-
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
@@ -175,16 +135,12 @@ public class Picture implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(content);
         parcel.writeString(url);
-        parcel.writeString(size);
-        parcel.writeString(addtime);
         parcel.writeString(author);
         parcel.writeString(thumb);
         parcel.writeString(weburl);
         parcel.writeString(type);
         parcel.writeString(yourshotlink);
         parcel.writeString(copyright);
-        parcel.writeString(pmd5);
-        parcel.writeString(sort);
     }
 
     private void readFromParcel(Parcel in) {
@@ -193,16 +149,12 @@ public class Picture implements Parcelable {
         title = in.readString();
         content = in.readString();
         url = in.readString();
-        size = in.readString();
-        addtime = in.readString();
         author = in.readString();
         thumb = in.readString();
         weburl = in.readString();
         type = in.readString();
         yourshotlink = in.readString();
         copyright = in.readString();
-        pmd5 = in.readString();
-        sort = in.readString();
     }
 
     @Override

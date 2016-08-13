@@ -17,16 +17,12 @@ public class PictureRealm extends RealmObject  {
     private String title;
     private String content;
     private String url;
-    private String size;
-    private String addtime;
     private String author;
     private String thumb;
     private String weburl;
     private String type;
     private String yourshotlink;
     private String copyright;
-    private String pmd5;
-    private String sort;
 
     public static List<PictureRealm> all(Realm realm, String albumId) {
         return realm.where(PictureRealm.class)
@@ -40,16 +36,12 @@ public class PictureRealm extends RealmObject  {
         title = pictureRealm.getTitle();
         content = pictureRealm.getContent();
         url = pictureRealm.getUrl();
-        size = pictureRealm.getSize();
-        addtime = pictureRealm.getAddtime();
         author = pictureRealm.getAuthor();
         thumb = pictureRealm.getThumb();
         weburl = pictureRealm.getWeburl();
         type = pictureRealm.getType();
         yourshotlink = pictureRealm.getYourshotlink();
         copyright = pictureRealm.getCopyright();
-        pmd5 = pictureRealm.getPmd5();
-        sort = pictureRealm.getSort();
     }
 
     public PictureRealm() {
@@ -93,22 +85,6 @@ public class PictureRealm extends RealmObject  {
 
     public String getUrl() {
         return this.url;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getSize() {
-        return this.size;
-    }
-
-    public void setAddtime(String addtime) {
-        this.addtime = addtime;
-    }
-
-    public String getAddtime() {
-        return this.addtime;
     }
 
     public void setAuthor(String author) {
@@ -157,21 +133,5 @@ public class PictureRealm extends RealmObject  {
 
     public String getCopyright() {
         return this.copyright;
-    }
-
-    public void setPmd5(String pmd5) {
-        this.pmd5 = pmd5;
-    }
-
-    public String getPmd5() {
-        return this.pmd5;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
-    }
-
-    public String getSort() {
-        return this.sort;
     }
 }

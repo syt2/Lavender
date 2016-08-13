@@ -9,47 +9,13 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:elevation="0dp">
+        <include
+            android:id="@+id/toolbar_content"
+            layout="@layout/layout_toolbar" />
 
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:collapsedTitleTextAppearance="@style/CollapsingToolbarText"
-                app:expandedTitleTextAppearance="@style/CollapsingToolbarText"
-                app:expandedTitleMarginStart="16dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    tools:targetApi="N"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:titleTextColor="@color/md_grey_700"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <include
+            android:id="@+id/recycler_content"
+            layout="@layout/layout_recycler" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -57,9 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_file_download_grey_300_24dp"
-            app:layout_anchor="@id/recycler"
-            app:layout_anchorGravity="bottom|right|end"
+            android:src="@drawable/ic_save_grey_300_24dp"
+            app:layout_anchor="@+id/recycler"
+            app:layout_anchorGravity="bottom|end"
             app:layout_behavior="party.danyang.nationalgeographic.widget.ScrollAwareFABBehavior" />
 
     </android.support.design.widget.CoordinatorLayout>

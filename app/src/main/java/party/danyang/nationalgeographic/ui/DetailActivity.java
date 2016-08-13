@@ -29,7 +29,6 @@ import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import me.yokeyword.swipebackfragment.SwipeBackActivity;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.adapter.AlbumDetailAdapter;
@@ -40,20 +39,22 @@ import party.danyang.nationalgeographic.model.album.Picture;
 import party.danyang.nationalgeographic.model.album.PictureRealm;
 import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.net.NGApi;
+import party.danyang.nationalgeographic.ui.base.ToolbarActivity;
 import party.danyang.nationalgeographic.utils.BindingAdapters;
 import party.danyang.nationalgeographic.utils.NetUtils;
-import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
-import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
+import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
+import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+import tr.xip.errorview.ErrorView;
 
-public class DetailActivity extends SwipeBackActivity {
+public class DetailActivity extends ToolbarActivity {
     public static final String TAG = DetailActivity.class.getSimpleName();
     public static final String INTENT_ALBUM = "party.danyang.ng.album";
 
@@ -72,7 +73,6 @@ public class DetailActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
-//        setContentView(R.layout.activity_detail);
         Intent intent = getIntent();
         if (intent != null) {
             album = intent.getParcelableExtra(INTENT_ALBUM);
@@ -86,6 +86,30 @@ public class DetailActivity extends SwipeBackActivity {
         initViews();
 
         setExitAnimator();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        PicassoHelper.getInstance(this).resumeTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        PicassoHelper.getInstance(this).pauseTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PicassoHelper.getInstance(this).cancelTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+        if (mSubscription != null) {
+            mSubscription.unsubscribe();
+        }
+        realm.close();
     }
 
     private void setExitAnimator() {
@@ -104,43 +128,18 @@ public class DetailActivity extends SwipeBackActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        PicassoHelper.getInstance(this).cancelTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
-        if (mSubscription != null) {
-            mSubscription.unsubscribe();
-        }
-        realm.close();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        PicassoHelper.getInstance(this).pauseTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        PicassoHelper.getInstance(this).resumeTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
-    }
-
     private void initViews() {
-        setSupportActionBar(binding.toolbar);
-        binding.toolbarLayout.setTitle(album.getTitle());
+        setupToolbar(binding.toolbarContent);
+        binding.toolbarContent.toolbarLayout.setTitle(album.getTitle());
+
+        binding.recyclerContent.setShowErrorView(false);
+        binding.recyclerContent.errorView.setOnRetryListener(new ErrorView.RetryListener() {
+            @Override
+            public void onRetry() {
+                getAlbum();
+                binding.recyclerContent.setShowErrorView(false);
+            }
+        });
 
         adapter = new AlbumDetailAdapter(new ArrayList<Picture>());
         adapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
@@ -150,9 +149,9 @@ public class DetailActivity extends SwipeBackActivity {
             }
         });
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        binding.recycler.setAdapter(adapter);
-        binding.recycler.setLayoutManager(layoutManager);
-        RxRecyclerView.scrollStateChanges(binding.recycler).subscribe(new Action1<Integer>() {
+        binding.recyclerContent.recycler.setAdapter(adapter);
+        binding.recyclerContent.recycler.setLayoutManager(layoutManager);
+        RxRecyclerView.scrollStateChanges(binding.recyclerContent.recycler).subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer integer) {
                 if (integer == RecyclerView.SCROLL_STATE_IDLE) {
@@ -175,6 +174,8 @@ public class DetailActivity extends SwipeBackActivity {
                         }
                     }
                 });
+
+        binding.recyclerContent.refresher.setEnabled(false);
     }
 
     private void saveAllImg() {
@@ -242,12 +243,17 @@ public class DetailActivity extends SwipeBackActivity {
     }
 
     private void getAlbum() {
+        if (!NetUtils.isConnected(this)) {
+            makeSnackBar(R.string.offline, true);
+            return;
+        }
         //if wifionly and not in wifi
         if (PreferencesHelper.getInstance(this).getBoolean(SettingsModel.PREF_WIFI_ONLY, false) && !NetUtils.isWiFi(this)) {
             makeSnackBar(R.string.load_not_in_wifi_while_in_wifi_only, true);
             return;
         }
 
+        setRefresher(true);
         mSubscription.add(NGApi.loadAlbum(album.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -255,21 +261,29 @@ public class DetailActivity extends SwipeBackActivity {
                 .subscribe(new Subscriber<AlbumItem>() {
                     @Override
                     public void onCompleted() {
+                        setRefresher(false);
+                        binding.recyclerContent.setShowErrorView(false);
+                        unsubscribe();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        if (BuildConfig.LOG_DEBUG)
-                            Log.e(TAG, e.toString());
-                        makeSnackBar(R.string.error, true);
+                        setRefresher(false);
+                        binding.recyclerContent.setShowErrorView(true);
+                        if (e == null) {
+                            binding.recyclerContent.errorView.setTitle(R.string.lalala);
+                            binding.recyclerContent.errorView.setSubtitle(R.string.error);
+                        } else {
+                            binding.recyclerContent.errorView.setTitle(R.string.lalala);
+                            binding.recyclerContent.errorView.setSubtitle(e.getMessage());
+                        }
+                        unsubscribe();
                     }
 
                     @Override
                     public void onNext(AlbumItem albumItem) {
                         if (albumItem == null || albumItem.getPicture() == null || albumItem.getPicture().size() == 0) {
-                            if (BuildConfig.LOG_DEBUG)
-                                Log.e(TAG, "get albumItem data == null and id = " + album.getId());
-                            return;
+                            onError(new Exception(getString(R.string.exception_content_null)));
                         }
                         adapter.setNewData(albumItem.getPicture());
                         realm.beginTransaction();
@@ -297,12 +311,12 @@ public class DetailActivity extends SwipeBackActivity {
         super.onActivityReenter(resultCode, data);
         supportPostponeEnterTransition();
         reenterState = new Bundle(data.getExtras());
-        binding.recycler.scrollToPosition(reenterState.getInt(AlbumActivity.INTENT_INDEX, 0));
-        binding.recycler.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        binding.recyclerContent.recycler.scrollToPosition(reenterState.getInt(AlbumActivity.INTENT_INDEX, 0));
+        binding.recyclerContent.recycler.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
-                binding.recycler.getViewTreeObserver().removeOnPreDrawListener(this);
-                binding.recycler.requestLayout();
+                binding.recyclerContent.recycler.getViewTreeObserver().removeOnPreDrawListener(this);
+                binding.recyclerContent.recycler.requestLayout();
                 supportStartPostponedEnterTransition();
                 return true;
             }
@@ -324,5 +338,16 @@ public class DetailActivity extends SwipeBackActivity {
         if (binding != null && binding.getRoot() != null) {
             Snackbar.make(binding.getRoot(), resId, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    private void setRefresher(final boolean isRefresh) {
+        binding.recyclerContent.refresher.post(new Runnable() {
+            @Override
+            public void run() {
+                if (binding.recyclerContent.refresher != null) {
+                    binding.recyclerContent.refresher.setRefreshing(isRefresh);
+                }
+            }
+        });
     }
 }

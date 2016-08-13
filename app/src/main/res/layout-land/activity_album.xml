@@ -11,7 +11,7 @@
             type="party.danyang.nationalgeographic.model.album.Picture" />
 
         <variable
-            name="full_screen"
+            name="fullScreen"
             type="boolean" />
 
         <import type="android.view.View" />
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginTop="24dp"
-            android:visibility="@{full_screen?View.GONE:View.VISIBLE}" />
+            android:visibility="@{fullScreen?View.GONE:View.VISIBLE}" />
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:layout_gravity="bottom|end"
             android:background="@color/color_big_pic_bg"
             android:fitsSystemWindows="true"
-            android:visibility="@{full_screen?View.GONE:View.VISIBLE}">
+            android:visibility="@{fullScreen?View.GONE:View.VISIBLE}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,6 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{picture.title}"
+                    android:visibility="@{TextUtils.isEmpty(picture.title)?View.GONE:View.VISIBLE}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/md_grey_300"
                     android:textIsSelectable="true"
@@ -67,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="8dp"
                     android:text="@{picture.content}"
+                    android:visibility="@{TextUtils.isEmpty(picture.content)?View.GONE:View.VISIBLE}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/md_grey_300"
                     android:textIsSelectable="true"

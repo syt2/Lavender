@@ -219,6 +219,15 @@
                     android:text="@string/about_libs_appupdater"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
+                <party.danyang.nationalgeographic.widget.LinkTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/default_margin"
+                    android:text="@string/about_libs_error_view"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
             </LinearLayout>
         </android.support.v7.widget.CardView>
 

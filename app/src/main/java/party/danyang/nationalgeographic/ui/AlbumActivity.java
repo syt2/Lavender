@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
@@ -30,6 +28,8 @@ import me.yokeyword.swipebackfragment.SwipeBackActivity;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivityAlbumBinding;
 import party.danyang.nationalgeographic.model.album.Picture;
+import party.danyang.nationalgeographic.utils.BindingAdapters;
+import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import rx.functions.Action1;
 
 public class AlbumActivity extends SwipeBackActivity {
@@ -59,6 +59,20 @@ public class AlbumActivity extends SwipeBackActivity {
         initViews();
 
         setEnterAnimator();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        PicassoHelper.getInstance(this).resumeTag(BindingAdapters.TAG_ALBUM_ACTIVITY);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        PicassoHelper.getInstance(this).pauseTag(BindingAdapters.TAG_ALBUM_ACTIVITY);
     }
 
     private void setEnterAnimator() {
@@ -113,18 +127,6 @@ public class AlbumActivity extends SwipeBackActivity {
                 binding.setPicture(pictures.get(position));
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
     }
 
     private void onToolbarMenuItemClicked(MenuItem menuItem) {

@@ -4,61 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.HomeActivity">
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:elevation="0dp">
-
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:collapsedTitleTextAppearance="@style/CollapsingToolbarText"
-                app:expandedTitleTextAppearance="@style/CollapsingToolbarText"
-                app:expandedTitleMarginStart="16dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    tools:targetApi="N"
-                    android:titleTextColor="@color/md_grey_700"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/refresher"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:fitsSystemWindows="true">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            <include
+                android:id="@+id/toolbar_content"
+                layout="@layout/layout_toolbar" />
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+            <include
+                android:id="@+id/recycler_content"
+                layout="@layout/layout_recycler" />
 
-    </android.support.design.widget.CoordinatorLayout>
+        </android.support.design.widget.CoordinatorLayout>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:itemIconTint="@color/md_grey_100"
+            app:itemTextColor="@color/md_grey_300"
+            app:headerLayout="@layout/nav_header_home"
+            app:menu="@menu/activity_home_drawer" />
+    </android.support.v4.widget.DrawerLayout>
 </layout>

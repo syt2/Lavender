@@ -1,11 +1,12 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.0</latestVersion>
+        <latestVersion>1.2.1</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            - 添加缩略图选项
+            - 布局整改
+            - 添加美国nat-geo每日一图（真的是只能看这一天的一张图）
             - 从1.1.9以下（不包含1.1.9）升级上来的用户请在安装完成后清除下数据再打开
-            - Lavender已接近最终版，不再开坑其他功能...
+            - 缓更中...
         </releaseNotes>
     </update>
 </AppUpdater>

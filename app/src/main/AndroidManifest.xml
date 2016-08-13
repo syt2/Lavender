@@ -24,10 +24,6 @@
             android:name="UMENG_CHANNEL"
             android:value="coolapk" />
 
-        <meta-data
-            android:name="BUG_HD_SDK_GENERAL_KEY"
-            android:value="87b930d4f293d9dc69ea74ddc468de7c" />
-
         <activity
             android:name=".ui.HomeActivity"
             android:label="@string/app_name"
@@ -45,6 +41,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.AlbumActivity"
+            android:theme="@style/AppTheme.NoActionBar.ALBUM" />
+        <activity
+            android:name=".ui.AlbumUSActivity"
             android:theme="@style/AppTheme.NoActionBar.ALBUM" />
         <activity
             android:name=".ui.SettingsActivity"

@@ -28,8 +28,8 @@ import java.util.List;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.FragmentBigPicBinding;
 import party.danyang.nationalgeographic.model.album.Picture;
-import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import party.danyang.nationalgeographic.utils.Utils;
+import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -49,20 +49,10 @@ public class AlbumFragment extends Fragment {
     private int index;
     protected CompositeSubscription mSubscriptions = new CompositeSubscription();
 
-    public static AlbumFragment newInstance(ArrayList<Picture> pictures, int position) {
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(PICTURES, pictures);
-        args.putInt(INDEX, position);
-        AlbumFragment fragment = new AlbumFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.activity = (AlbumActivity) context;
-
     }
 
     @Override
@@ -82,10 +72,12 @@ public class AlbumFragment extends Fragment {
             @Override
             public boolean onPreDraw() {
                 binding.imgTouch.getViewTreeObserver().removeOnPreDrawListener(this);
+                binding.imgTouch.requestFocus();
                 getActivity().supportStartPostponedEnterTransition();
                 return true;
             }
         });
+
         RxView.clicks(binding.imgTouch).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
@@ -108,6 +100,35 @@ public class AlbumFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.setUrl(pictures.get(index).getUrl());
+    }
+
+    @Override
+    public void onDestroyView() {
+        PicassoHelper.getInstance(getContext()).cancelRequest(binding.imgTouch);
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mSubscriptions != null) {
+            mSubscriptions.unsubscribe();
+        }
+    }
+
+    public static AlbumFragment newInstance(ArrayList<Picture> pictures, int position) {
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(PICTURES, pictures);
+        args.putInt(INDEX, position);
+        AlbumFragment fragment = new AlbumFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     private void toggle() {
         if (activity.mVisible) {
@@ -119,7 +140,8 @@ public class AlbumFragment extends Fragment {
 
     private void showSaveImgDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        if (binding.imgTouch != null && binding.imgTouch.getDrawable() != null && ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap() != null) {
+        if (binding.imgTouch != null && binding.imgTouch.getDrawable() != null &&
+                ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap() != null) {
             builder.setMessage(String.format(getString(R.string.save_img_with_resolution)
                     , ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap().getWidth()
                     , ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap().getHeight()));
@@ -168,28 +190,8 @@ public class AlbumFragment extends Fragment {
                 }));
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        binding.setUrl(pictures.get(index).getUrl());
-    }
-
     public View getSharedElement() {
         return binding.imgTouch;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mSubscriptions != null) {
-            mSubscriptions.unsubscribe();
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        PicassoHelper.getInstance(getContext()).cancelRequest(binding.imgTouch);
-        super.onDestroyView();
     }
 
     private void makeSnackBar(String msg, boolean lengthShort) {

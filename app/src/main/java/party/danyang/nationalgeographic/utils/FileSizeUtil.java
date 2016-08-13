@@ -63,16 +63,16 @@ public class FileSizeUtil {
     /**
      * 获取指定文件大小
      *
-     * @param f
+     * @param
      * @return
      * @throws Exception
      */
     private static long getFileSize(File file) throws Exception {
         long size = 0;
         if (file.exists()) {
-            FileInputStream fis = null;
-            fis = new FileInputStream(file);
+            FileInputStream fis = new FileInputStream(file);
             size = fis.available();
+            fis.close();
         } else {
             Log.e("获取文件大小", "文件不存在!");
         }
