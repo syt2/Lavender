@@ -196,13 +196,13 @@ public class AlbumFragment extends Fragment {
 
     private void makeSnackBar(String msg, boolean lengthShort) {
         if (binding != null && binding.getRoot() != null) {
-            Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG);
+            snackbar.getView().setBackgroundResource(R.color.colorPrimary);
+            snackbar.show();
         }
     }
 
     private void makeSnackBar(int resId, boolean lengthShort) {
-        if (binding != null && binding.getRoot() != null) {
-            Snackbar.make(binding.getRoot(), resId, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
-        }
+        makeSnackBar(getString(resId), lengthShort);
     }
 }

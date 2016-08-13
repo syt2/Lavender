@@ -1,15 +1,10 @@
 package party.danyang.nationalgeographic.ui;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -20,26 +15,20 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
-import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.umeng.analytics.MobclickAgent;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.adapter.AlbumListAdapter;
 import party.danyang.nationalgeographic.adapter.BaseAdapter;
@@ -51,7 +40,6 @@ import party.danyang.nationalgeographic.net.NGApi;
 import party.danyang.nationalgeographic.utils.BindingAdapters;
 import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SettingsModel;
-import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import rx.Observable;
@@ -96,7 +84,6 @@ public class HomeActivity extends AppCompatActivity {
 
         mSubscription = new CompositeSubscription();
 
-        Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this).build());
         realm = Realm.getDefaultInstance();
 
         initViews();
@@ -450,14 +437,14 @@ public class HomeActivity extends AppCompatActivity {
 
     private void makeSnackBar(String msg, boolean lengthShort) {
         if (binding != null && binding.getRoot() != null) {
-            Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG);
+            snackbar.getView().setBackgroundResource(R.color.colorPrimary);
+            snackbar.show();
         }
     }
 
     private void makeSnackBar(int resId, boolean lengthShort) {
-        if (binding != null && binding.getRoot() != null) {
-            Snackbar.make(binding.getRoot(), resId, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
-        }
+        makeSnackBar(getString(resId), lengthShort);
     }
 
     private void setRefresher(final boolean isRefresh) {

@@ -4,7 +4,9 @@ import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
@@ -93,6 +95,43 @@ public class AboutActivity extends ToolbarActivity {
             }
         });
         builder.show();
+    }
+
+    private long lastClickTime;
+    private int clickTime;
+
+    private void makeSnackBar(String s) {
+        if (binding != null && binding.getRoot() != null) {
+            Snackbar snackbar = Snackbar.make(binding.getRoot(), s, Snackbar.LENGTH_LONG);
+            snackbar.getView().setBackgroundResource(R.color.colorPrimary);
+            snackbar.show();
+        }
+    }
+
+    public void onClickIcon(View view) {
+        Log.e("click", clickTime + "  ");
+        if (System.currentTimeMillis() - lastClickTime < 800) {
+            if (System.currentTimeMillis() - lastClickTime < 400) {
+                return;
+            }
+            Log.e("click", clickTime + "  ");
+            clickTime++;
+            lastClickTime = System.currentTimeMillis();
+            if (clickTime == 5) {
+                makeSnackBar("妳说最爱薰衣草");
+            } else if (clickTime == 17) {
+                makeSnackBar("薰衣草永远等待着所爱之人，等待着爱情");
+            } else if (clickTime == 34) {
+                makeSnackBar("和妳一起的时光如此美妙而短暂");
+            } else if (clickTime == 71) {
+                makeSnackBar("我愿倾一生守护这段回忆");
+            } else if (clickTime == 100) {
+                makeSnackBar("愿做一株为妳开放的薰衣草");
+            }
+        } else {
+            clickTime = 0;
+            lastClickTime = System.currentTimeMillis();
+        }
     }
 
 }

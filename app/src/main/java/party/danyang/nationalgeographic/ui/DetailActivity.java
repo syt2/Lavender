@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.adapter.AlbumDetailAdapter;
@@ -80,7 +79,6 @@ public class DetailActivity extends ToolbarActivity {
 
         mSubscription = new CompositeSubscription();
 
-        Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this).build());
         realm = Realm.getDefaultInstance();
 
         initViews();
@@ -330,14 +328,14 @@ public class DetailActivity extends ToolbarActivity {
 
     private void makeSnackBar(String msg, boolean lengthShort) {
         if (binding != null && binding.getRoot() != null) {
-            Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG);
+            snackbar.getView().setBackgroundResource(R.color.colorPrimary);
+            snackbar.show();
         }
     }
 
     private void makeSnackBar(int resId, boolean lengthShort) {
-        if (binding != null && binding.getRoot() != null) {
-            Snackbar.make(binding.getRoot(), resId, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG).show();
-        }
+        makeSnackBar(getString(resId), lengthShort);
     }
 
     private void setRefresher(final boolean isRefresh) {
