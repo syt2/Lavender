@@ -10,7 +10,8 @@ V 1.2.1
 
 
 ##ScreenShot
-![](screenshot/v_1.2.1__1.jpg)  ![](screenshot/v_1.2.1__2.jpg)  ![](screenshot/v_1.2.1__3.jpg)  ![](screenshot/v_1.2.1__4.jpg)  ![](screenshot/v_1.2.1__5.jpg)
+![](screenshot/v_1.2.1__.jpg)
+
 
 
 Discription:
@@ -105,7 +106,7 @@ About Me
 ~~About Lavender~~
 -----------------
 ~~Lavender是薰衣草的意思。为什么会起这个名呢，因为薰衣草是妳最喜欢的花了，而薰衣草有个花语，“等待无望的爱”，描述我也最合适不过了。~~  
-~~![](screenshot/Lavender.png)~~  
+~~![](screenshot/Lavender.jpg)~~  
 ~~谨以此名，献给终将与我分离的妳。即便如此，我永远等妳~~  
   
   
