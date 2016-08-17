@@ -87,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
 
         initViews();
-        //第一次使打开则提醒用户Lavender为流量杀手
+        //第一次打开则提醒用户Lavender为流量杀手
         if (PreferencesHelper.getInstance(this).getBoolean(SP_FIRST_USE, true)) {
             showAttention();
         }

@@ -52,8 +52,6 @@ v1.1.9
 TODO
 ----
 * 疑难bug修复
-* cng api接口获取
-* cng 每日一图&文章
 * drawer的用户自定义
 
 
@@ -66,25 +64,12 @@ Lavender借鉴了[70kg/Meizi](https://github.com/70kg/Meizi) [oxoooo/earth](http
 感谢酷友 [@柠冰羽痕Ice](http://www.coolapk.com/u/482620) [@WangMT](http://www.coolapk.com/u/413199)所设计的两个图标
 
 
-About
------
-* 一个新手练习的小项目
-* 采用databinding重构项目
-* 尽可能做到MD
-* 使用[RxJava](https://github.com/ReactiveX/RxJava)，[RxAndroid](https://github.com/ReactiveX/RxAndroid)，[Retrofit](https://github.com/square/retrofit)，[Gson](https://github.com/google/gson)，[Realm](https://github.com/realm/realm-java)处理网络及本地数据 
-* 使用[RxBinding](https://github.com/JakeWharton/RxBinding)优化代码
-* DetailActivity到AlbumActivity间的动画切换
-* umeng SDK
-* 七牛云图片压缩
-* ......
-
 Problems
 --------
-* [PhotoView](https://github.com/chrisbanes/PhotoView) 在动画切换时存在[bug](https://github.com/chrisbanes/PhotoView/issues/243)，未解。故暂时使用[TouchImageView](https://github.com/MikeOrtiz/TouchImageView)
-* windowIsTranslucent设置为true后Activity间切换动画无效
-* 转屏失效（未找到bug所在），从其他应用切换到Lavender就可以正常转屏
-* realm数据不能implements Parcelable...目前解决办法是造一个realm bean一个Parcelable bean,用的时候互相转换...效率超低23333。别问我为什么一定要用Parcelable，喜欢，就是任性:laughing:
-* Glide获取加载的图片原始大小，现在用picasso在cancel上有点问题。glide Issues里的某个解决办法在当前版本的Glide上又无效
+* ~~[PhotoView](https://github.com/chrisbanes/PhotoView) 在动画切换时存在[bug](https://github.com/chrisbanes/PhotoView/issues/243)，未解。故暂时使用[TouchImageView](https://github.com/MikeOrtiz/TouchImageView)~~最新版已修复，但是我这边使用时依旧存在问题，不知是什么原因
+* ~~windowIsTranslucent设置为true后Activity间切换动画无效~~ [解决方案参考](http://blog.csdn.net/fancylovejava/article/details/39643449)，但是我并没有采用，因为会覆盖ActivityOptionCompat内的动画
+* 转屏失效（未找到bug所在），从其他应用切换到Lavender就可以正常转屏,从第一版开始就有这个问题了，到现在都没找到是哪里引起的。哭哭哭哭哭
+* ~~因Glide的某些特性，Lavender次尝试转Glide失败，以后有时间继续尝试Picasso转Glide~~
 * 数不清的问题留待解决:sob:
 
 
@@ -108,7 +93,7 @@ About Me
 ~~Lavender是薰衣草的意思。  
 为什么会起这个名呢，  
 因为薰衣草是妳最喜欢的花了。  
-薰衣草有个花语  
+薰衣草呢，有个花语  
 “等待无望的爱"  
 描述我也最合适不过了。  
 ![](screenshot/Lavender.jpg)  

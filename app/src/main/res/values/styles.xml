@@ -14,6 +14,12 @@
         <item name="android:actionMenuTextColor">@color/md_grey_700</item>
         <item name="actionMenuTextColor">@color/md_grey_700</item>
         <item name="android:itemBackground">@color/md_grey_600</item>
+        <!--<item name="android:windowAnimationStyle">@style/Animation.Activity.Translucent..Enter.Style</item>-->
+    </style>
+
+    <style name="Animation.Activity.Translucent..EnterAndExit.Style" parent="@android:style/Animation.Translucent">
+        <item name="android:windowEnterAnimation">@anim/slide_right_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_right_out</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
