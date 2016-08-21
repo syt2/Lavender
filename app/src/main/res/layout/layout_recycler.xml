@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.HomeActivity">
+    tools:context=".ui.home.HomeActivity"
+    tools:showIn="@layout/activity_detail">
 
     <data>
 
@@ -13,45 +14,45 @@
         <import type="android.view.View" />
     </data>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/refresher"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
-            <FrameLayout
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:visibility="@{showErrorView?View.VISIBLE:View.GONE}"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:visibility="gone">
 
-                <android.support.v4.widget.NestedScrollView
+                <tr.xip.errorview.ErrorView
+                    android:id="@+id/error_View"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    tools:visibility="gone"
-                    android:visibility="@{showErrorView?View.VISIBLE:View.GONE}"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                    <tr.xip.errorview.ErrorView
-                        android:id="@+id/error_View"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_margin="64dp"
-                        app:ev_retryButtonText="@string/error_view_retry"
-                        app:ev_retryButtonTextColor="@color/md_pink_A200"
-                        app:ev_subtitleColor="@color/md_grey_400"
-                        app:ev_titleColor="@color/md_grey_200" />
-                </android.support.v4.widget.NestedScrollView>
+                    android:layout_gravity="center"
+                    android:layout_margin="64dp"
+                    app:ev_retryButtonText="@string/error_view_retry"
+                    app:ev_retryButtonTextColor="@color/md_pink_A200"
+                    app:ev_subtitleColor="@color/md_grey_400"
+                    app:ev_titleColor="@color/md_grey_200" />
+            </android.support.v4.widget.NestedScrollView>
 
             <android.support.v7.widget.RecyclerView
-                android:visibility="@{showErrorView?View.GONE:View.VISIBLE}"
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            </FrameLayout>
+                android:layout_height="match_parent"
+                android:visibility="@{showErrorView?View.GONE:View.VISIBLE}" />
+        </FrameLayout>
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

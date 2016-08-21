@@ -23,7 +23,7 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             app:elevation="0dp">
 
-            <android.support.design.widget.CollapsingToolbarLayout
+            <party.danyang.nationalgeographic.widget.StateCollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -77,7 +77,7 @@
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     tools:targetApi="N" />
 
-            </android.support.design.widget.CollapsingToolbarLayout>
+            </party.danyang.nationalgeographic.widget.StateCollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView

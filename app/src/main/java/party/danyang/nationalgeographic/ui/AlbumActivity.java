@@ -29,21 +29,29 @@ import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivityAlbumBinding;
 import party.danyang.nationalgeographic.model.album.Picture;
 import party.danyang.nationalgeographic.utils.BindingAdapters;
+import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import rx.functions.Action1;
 
 public class AlbumActivity extends SwipeBackActivity {
     private static final String TAG = AlbumActivity.class.getSimpleName();
-    public static final String INTENT_PICTURES = "party.danyang.ng.pictures";
     public static final String INTENT_INDEX = "party.danyang.ng.index";
+    public static final String INTENT_TITLES = "party.danyang.ng.titles";
+    public static final String INTENT_CONTENTS = "party.danyang.ng.contents";
+    public static final String INTENT_AUTHORS = "party.danyang.ng.authors";
+    public static final String INTENT_URLS = "party.danyang.ng.urls";
+    public static final String INTENT_PAGE_URLS = "party.danyang.ng.page_urls";
 
     private ActivityAlbumBinding binding;
 
     private PagerAdapter adapter;
     public boolean mVisible = true;
 
-    private ArrayList<Picture> pictures;
-
+    private ArrayList<String> titles;
+    private ArrayList<String> contents;
+    private ArrayList<String> authors;
+    private ArrayList<String> urls;
+    private ArrayList<String> pageUrls;
     private int index = 0;
 
     @Override
@@ -53,7 +61,11 @@ public class AlbumActivity extends SwipeBackActivity {
         supportPostponeEnterTransition();
         Intent intent = getIntent();
         if (intent != null) {
-            pictures = intent.getParcelableArrayListExtra(INTENT_PICTURES);
+            titles = intent.getStringArrayListExtra(INTENT_TITLES);
+            contents = intent.getStringArrayListExtra(INTENT_CONTENTS);
+            authors = intent.getStringArrayListExtra(INTENT_AUTHORS);
+            urls = intent.getStringArrayListExtra(INTENT_URLS);
+            pageUrls = intent.getStringArrayListExtra(INTENT_PAGE_URLS);
             index = intent.getIntExtra(INTENT_INDEX, 0);
         }
         initViews();
@@ -65,14 +77,14 @@ public class AlbumActivity extends SwipeBackActivity {
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        PicassoHelper.getInstance(this).resumeTag(BindingAdapters.TAG_ALBUM_ACTIVITY);
+        PicassoHelper.getInstance(this).resumeTag(AlbumFragment.TAG_ALBUN_FRAGMENT);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        PicassoHelper.getInstance(this).pauseTag(BindingAdapters.TAG_ALBUM_ACTIVITY);
+        PicassoHelper.getInstance(this).pauseTag(AlbumFragment.TAG_ALBUN_FRAGMENT);
     }
 
     private void setEnterAnimator() {
@@ -80,7 +92,7 @@ public class AlbumActivity extends SwipeBackActivity {
             setEnterSharedElementCallback(new SharedElementCallback() {
                 @Override
                 public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                    String url = pictures.get(binding.viewPager.getCurrentItem()).getUrl();
+                    String url = urls.get(binding.viewPager.getCurrentItem());
                     AlbumFragment fragment = (AlbumFragment) adapter.instantiateItem(binding.viewPager, binding.viewPager.getCurrentItem());
                     sharedElements.clear();
                     sharedElements.put(url, fragment.getSharedElement());
@@ -117,14 +129,18 @@ public class AlbumActivity extends SwipeBackActivity {
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setCurrentItem(index);
         //初始化title content author
-        binding.setPicture(pictures.get(index));
+        binding.setTitle(titles.get(index));
+        binding.setContent(contents.get(index));
+        binding.setAuthor(authors.get(index));
         //初始化为可见
         binding.setFullScreen(false);
         //viewPage 滑动时改变title content author
         RxViewPager.pageSelections(binding.viewPager).subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer position) {
-                binding.setPicture(pictures.get(position));
+                binding.setTitle(titles.get(position));
+                binding.setContent(contents.get(position));
+                binding.setAuthor(authors.get(position));
             }
         });
     }
@@ -133,25 +149,13 @@ public class AlbumActivity extends SwipeBackActivity {
         int id = menuItem.getItemId();
         if (id == R.id.action_yourshotlink) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(pictures.get(index).getYourshotlink()));
+            intent.setData(Uri.parse(pageUrls.get(index)));
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             } else {
-                makeSnackBar(R.string.not_legal_yourshotlink, true);
+                Utils.makeSnackBar(binding.getRoot(),R.string.not_legal_yourshotlink, true);
             }
         }
-    }
-
-    private void makeSnackBar(String msg, boolean lengthShort) {
-        if (binding != null && binding.getRoot() != null) {
-            Snackbar snackbar = Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG);
-            snackbar.getView().setBackgroundResource(R.color.colorPrimary);
-            snackbar.show();
-        }
-    }
-
-    private void makeSnackBar(int resId, boolean lengthShort) {
-        makeSnackBar(getString(resId), lengthShort);
     }
 
     private class PagerAdapter extends FragmentStatePagerAdapter {
@@ -161,12 +165,12 @@ public class AlbumActivity extends SwipeBackActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return AlbumFragment.newInstance(pictures, position);
+            return AlbumFragment.newInstance(urls, position);
         }
 
         @Override
         public int getCount() {
-            return pictures.size();
+            return urls.size();
         }
     }
 

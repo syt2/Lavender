@@ -8,7 +8,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -19,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 
 import io.realm.RealmObject;
 import party.danyang.nationalgeographic.BuildConfig;
@@ -157,6 +161,39 @@ public class Utils {
         Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
         context.sendBroadcast(scannerIntent);
         return uri;
+    }
+
+    public static void makeSnackBar(View v, String msg, boolean lengthShort) {
+        Snackbar snackbar = Snackbar.make(v, msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundResource(R.color.colorPrimary);
+        snackbar.show();
+    }
+
+    public static void makeSnackBar(View v, int resId, boolean lengthShort) {
+        makeSnackBar(v, v.getContext().getString(resId), lengthShort);
+    }
+
+    public static void setRefresher(final SwipeRefreshLayout refresher, final boolean isRefresh) {
+        refresher.post(new Runnable() {
+            @Override
+            public void run() {
+                if (refresher != null) {
+                    refresher.setRefreshing(isRefresh);
+                }
+            }
+        });
+    }
+
+    public static int getYearOfNow() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        return year;
+    }
+
+    public static int getMonthOfNow() {
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+        return month + 1;
     }
 
 }

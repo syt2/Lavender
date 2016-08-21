@@ -90,20 +90,20 @@ public class DetailActivity extends ToolbarActivity {
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        PicassoHelper.getInstance(this).resumeTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+        PicassoHelper.getInstance(this).resumeTag(AlbumDetailAdapter.TAG_DETAIL);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        PicassoHelper.getInstance(this).pauseTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+        PicassoHelper.getInstance(this).pauseTag(AlbumDetailAdapter.TAG_DETAIL);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        PicassoHelper.getInstance(this).cancelTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+        PicassoHelper.getInstance(this).cancelTag(AlbumDetailAdapter.TAG_DETAIL);
         if (mSubscription != null) {
             mSubscription.unsubscribe();
         }
@@ -153,9 +153,9 @@ public class DetailActivity extends ToolbarActivity {
             @Override
             public void call(Integer integer) {
                 if (integer == RecyclerView.SCROLL_STATE_IDLE) {
-                    PicassoHelper.getInstance(DetailActivity.this).resumeTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+                    PicassoHelper.getInstance(DetailActivity.this).resumeTag(AlbumDetailAdapter.TAG_DETAIL);
                 } else {
-                    PicassoHelper.getInstance(DetailActivity.this).pauseTag(BindingAdapters.TAG_DETAIL_ACTIVITY);
+                    PicassoHelper.getInstance(DetailActivity.this).pauseTag(AlbumDetailAdapter.TAG_DETAIL);
                 }
             }
         });
@@ -168,7 +168,7 @@ public class DetailActivity extends ToolbarActivity {
                         if (aBoolean) {//拥有该权限
                             saveAllImg();
                         } else {//拒绝该权限
-                            makeSnackBar(R.string.permission_denied, true);
+                            Utils.makeSnackBar(binding.getRoot(), R.string.permission_denied, true);
                         }
                     }
                 });
@@ -191,14 +191,14 @@ public class DetailActivity extends ToolbarActivity {
                         public void onCompleted() {
                             File appDir = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name));
                             String msg = String.format(getString(R.string.save_in_file), appDir.getAbsolutePath());
-                            makeSnackBar(msg, true);
+                            Utils.makeSnackBar(binding.getRoot(), msg, true);
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             if (BuildConfig.LOG_DEBUG)
                                 Log.e("saveAllImg", e.toString());
-                            makeSnackBar(e.toString(), true);
+                            Utils.makeSnackBar(binding.getRoot(), e.toString(), true);
                         }
 
                         @Override
@@ -242,16 +242,16 @@ public class DetailActivity extends ToolbarActivity {
 
     private void getAlbum() {
         if (!NetUtils.isConnected(this)) {
-            makeSnackBar(R.string.offline, true);
+            Utils.makeSnackBar(binding.getRoot(), R.string.offline, true);
             return;
         }
         //if wifionly and not in wifi
         if (PreferencesHelper.getInstance(this).getBoolean(SettingsModel.PREF_WIFI_ONLY, false) && !NetUtils.isWiFi(this)) {
-            makeSnackBar(R.string.load_not_in_wifi_while_in_wifi_only, true);
+            Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
             return;
         }
 
-        setRefresher(true);
+        Utils.setRefresher(binding.recyclerContent.refresher, true);
         mSubscription.add(NGApi.loadAlbum(album.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -259,14 +259,14 @@ public class DetailActivity extends ToolbarActivity {
                 .subscribe(new Subscriber<AlbumItem>() {
                     @Override
                     public void onCompleted() {
-                        setRefresher(false);
+                        Utils.setRefresher(binding.recyclerContent.refresher, false);
                         binding.recyclerContent.setShowErrorView(false);
                         unsubscribe();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        setRefresher(false);
+                        Utils.setRefresher(binding.recyclerContent.refresher, false);
                         binding.recyclerContent.setShowErrorView(true);
                         if (e == null) {
                             binding.recyclerContent.errorView.setTitle(R.string.lalala);
@@ -295,7 +295,25 @@ public class DetailActivity extends ToolbarActivity {
 
     private void startAlbumActivity(View v, int i) {
         Intent intent = new Intent(DetailActivity.this, AlbumActivity.class);
-        intent.putParcelableArrayListExtra(AlbumActivity.INTENT_PICTURES, new ArrayList<Picture>(adapter.getList()));
+        List<Picture> pictures = adapter.getList();
+        ArrayList<String> titles = new ArrayList<>();
+        ArrayList<String> contents = new ArrayList<>();
+        ArrayList<String> authors = new ArrayList<>();
+        ArrayList<String> urls = new ArrayList<>();
+        ArrayList<String> pageUrls = new ArrayList<>();
+
+        for (Picture p : pictures) {
+            titles.add(p.getTitle());
+            contents.add(p.getContent());
+            authors.add(p.getAuthor());
+            urls.add(p.getUrl());
+            pageUrls.add(p.getYourshotlink());
+        }
+        intent.putStringArrayListExtra(AlbumActivity.INTENT_TITLES, titles);
+        intent.putStringArrayListExtra(AlbumActivity.INTENT_CONTENTS, contents);
+        intent.putStringArrayListExtra(AlbumActivity.INTENT_AUTHORS, authors);
+        intent.putStringArrayListExtra(AlbumActivity.INTENT_URLS, urls);
+        intent.putStringArrayListExtra(AlbumActivity.INTENT_PAGE_URLS, pageUrls);
         intent.putExtra(AlbumActivity.INTENT_INDEX, i);
 
         ActivityOptionsCompat options = ActivityOptionsCompat
@@ -324,28 +342,5 @@ public class DetailActivity extends ToolbarActivity {
     @Override
     public void onBackPressed() {
         supportFinishAfterTransition();
-    }
-
-    private void makeSnackBar(String msg, boolean lengthShort) {
-        if (binding != null && binding.getRoot() != null) {
-            Snackbar snackbar = Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG);
-            snackbar.getView().setBackgroundResource(R.color.colorPrimary);
-            snackbar.show();
-        }
-    }
-
-    private void makeSnackBar(int resId, boolean lengthShort) {
-        makeSnackBar(getString(resId), lengthShort);
-    }
-
-    private void setRefresher(final boolean isRefresh) {
-        binding.recyclerContent.refresher.post(new Runnable() {
-            @Override
-            public void run() {
-                if (binding.recyclerContent.refresher != null) {
-                    binding.recyclerContent.refresher.setRefreshing(isRefresh);
-                }
-            }
-        });
     }
 }

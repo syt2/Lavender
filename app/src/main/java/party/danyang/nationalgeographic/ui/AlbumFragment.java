@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,12 +14,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.jakewharton.rxbinding.view.RxView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.File;
@@ -28,6 +32,7 @@ import java.util.List;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.FragmentBigPicBinding;
 import party.danyang.nationalgeographic.model.album.Picture;
+import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import rx.Subscriber;
@@ -39,13 +44,15 @@ import rx.subscriptions.CompositeSubscription;
 public class AlbumFragment extends Fragment {
     private static final String TAG = AlbumFragment.class.getSimpleName();
 
-    private static final String PICTURES = "party.danyang.ng.af.pictures";
+    public static final String TAG_ALBUN_FRAGMENT = "tag.albunfragment";
+
+    private static final String URLS = "party.danyang.ng.af.urls";
     private static final String INDEX = "party.danyang.ng.af.index";
 
     private AlbumActivity activity;
     private FragmentBigPicBinding binding;
 
-    private List<Picture> pictures;
+    private List<String> urls;
     private int index;
     protected CompositeSubscription mSubscriptions = new CompositeSubscription();
 
@@ -59,7 +66,7 @@ public class AlbumFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            pictures = getArguments().getParcelableArrayList(PICTURES);
+            urls = getArguments().getStringArrayList(URLS);
             index = getArguments().getInt(INDEX);
         }
     }
@@ -93,7 +100,7 @@ public class AlbumFragment extends Fragment {
                         if (aBoolean) {//有权限
                             showSaveImgDialog();
                         } else {//无权限
-                            makeSnackBar(R.string.permission_denied, true);
+                            Utils.makeSnackBar(binding.getRoot(), R.string.permission_denied, true);
                         }
                     }
                 });
@@ -103,7 +110,28 @@ public class AlbumFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        binding.setUrl(pictures.get(index).getUrl());
+        String url = urls.get(index);
+        if (SettingsModel.getAccelerate(binding.imgTouch.getContext())
+                && SettingsModel.getAccelerateInLarge(binding.imgTouch.getContext())
+                && !url.startsWith("http://images.nationalgeographic.com/")) {
+            url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
+        }
+        PicassoHelper.getInstance(binding.imgTouch.getContext()).load(url)
+                .config(Bitmap.Config.ARGB_8888)
+                .noFade()
+                .priority(Picasso.Priority.HIGH)
+                .tag(TAG_ALBUN_FRAGMENT)
+                .into(binding.imgTouch, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        binding.imgTouch.setZoom(1);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
     }
 
     @Override
@@ -120,9 +148,9 @@ public class AlbumFragment extends Fragment {
         }
     }
 
-    public static AlbumFragment newInstance(ArrayList<Picture> pictures, int position) {
+    public static AlbumFragment newInstance(ArrayList<String> urls, int position) {
         Bundle args = new Bundle();
-        args.putParcelableArrayList(PICTURES, pictures);
+        args.putStringArrayList(URLS, urls);
         args.putInt(INDEX, position);
         AlbumFragment fragment = new AlbumFragment();
         fragment.setArguments(args);
@@ -165,8 +193,8 @@ public class AlbumFragment extends Fragment {
     }
 
     private void saveImg() {
-        mSubscriptions.add(Utils.saveImageAndGetPathObservable(activity, pictures.get(index).getUrl(),
-                pictures.get(index).getAlbumid() + "_" + index)
+        mSubscriptions.add(Utils.saveImageAndGetPathObservable(activity, urls.get(index),
+                String.valueOf(urls.get(index).hashCode()))
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -175,12 +203,12 @@ public class AlbumFragment extends Fragment {
                     public void onCompleted() {
                         File appDir = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name));
                         String msg = String.format(getString(R.string.save_in_file), appDir.getAbsolutePath());
-                        makeSnackBar(msg, true);
+                        Utils.makeSnackBar(binding.getRoot(), msg, false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        makeSnackBar(e.toString(), true);
+                        Utils.makeSnackBar(binding.getRoot(), e.toString(), true);
                     }
 
                     @Override
@@ -192,17 +220,5 @@ public class AlbumFragment extends Fragment {
 
     public View getSharedElement() {
         return binding.imgTouch;
-    }
-
-    private void makeSnackBar(String msg, boolean lengthShort) {
-        if (binding != null && binding.getRoot() != null) {
-            Snackbar snackbar = Snackbar.make(binding.getRoot(), msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG);
-            snackbar.getView().setBackgroundResource(R.color.colorPrimary);
-            snackbar.show();
-        }
-    }
-
-    private void makeSnackBar(int resId, boolean lengthShort) {
-        makeSnackBar(getString(resId), lengthShort);
     }
 }

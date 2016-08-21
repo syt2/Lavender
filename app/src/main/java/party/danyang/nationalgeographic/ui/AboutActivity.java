@@ -15,6 +15,8 @@ import com.umeng.analytics.MobclickAgent;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivityAboutBinding;
 import party.danyang.nationalgeographic.ui.base.ToolbarActivity;
+import party.danyang.nationalgeographic.utils.Utils;
+import party.danyang.nationalgeographic.widget.OnStateChangedListener;
 import rx.functions.Action1;
 
 public class AboutActivity extends ToolbarActivity {
@@ -51,36 +53,35 @@ public class AboutActivity extends ToolbarActivity {
                 supportFinishAfterTransition();
             }
         });
-        binding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        binding.toolbarLayout.setOnStateChangedListener(new OnStateChangedListener() {
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            public void onExpanded() {
+                setTitle(null);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                binding.toolbarLayout.setTitle(null);
+            }
 
-                if (verticalOffset == 0) {
-                    if (state != CollapsingToolbarLayoutState.EXPANDED) {
-                        state = CollapsingToolbarLayoutState.EXPANDED;//修改状态标记为展开
-                        setTitle(null);
-                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                        binding.toolbarLayout.setTitle(null);
-                    }
-                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
-                    if (state != CollapsingToolbarLayoutState.COLLAPSED) {
-                        //折叠
-                        setTitle(getString(R.string.settings_about));
-                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                        state = CollapsingToolbarLayoutState.COLLAPSED;//修改状态标记为折叠
-                    }
-                } else {
-                    if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
-                        if (state == CollapsingToolbarLayoutState.COLLAPSED) {
-                            //由折叠变为中间状态时
-                            setTitle(null);
-                            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                        }
-                        binding.toolbarLayout.setTitle(null);
-                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                        state = CollapsingToolbarLayoutState.INTERNEDIATE;//修改状态标记为中间
-                    }
-                }
+            @Override
+            public void onCollapsed() {
+                setTitle(getString(R.string.settings_about));
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+
+            @Override
+            public void onInternediateFromExpand() {
+
+            }
+
+            @Override
+            public void onInternediateFromCollapsed() {
+
+            }
+
+            @Override
+            public void onInternediate() {
+                setTitle(null);
+                binding.toolbarLayout.setTitle(null);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
         });
     }
@@ -100,14 +101,6 @@ public class AboutActivity extends ToolbarActivity {
     private long lastClickTime;
     private int clickTime;
 
-    private void makeSnackBar(String s) {
-        if (binding != null && binding.getRoot() != null) {
-            Snackbar snackbar = Snackbar.make(binding.getRoot(), s, Snackbar.LENGTH_LONG);
-            snackbar.getView().setBackgroundResource(R.color.colorPrimary);
-            snackbar.show();
-        }
-    }
-
     public void onClickIcon(View view) {
         Log.e("click", clickTime + "  ");
         if (System.currentTimeMillis() - lastClickTime < 800) {
@@ -118,15 +111,15 @@ public class AboutActivity extends ToolbarActivity {
             clickTime++;
             lastClickTime = System.currentTimeMillis();
             if (clickTime == 5) {
-                makeSnackBar("妳说最爱薰衣草");
+                Utils.makeSnackBar(binding.getRoot(),"妳说最爱薰衣草",false);
             } else if (clickTime == 17) {
-                makeSnackBar("薰衣草永远等待着所爱之人，等待着爱情");
+                Utils.makeSnackBar(binding.getRoot(),"薰衣草永远等待着所爱之人，等待着爱情",false);
             } else if (clickTime == 34) {
-                makeSnackBar("和妳一起的时光如此美妙而短暂");
+                Utils.makeSnackBar(binding.getRoot(),"和妳一起的时光如此美妙而短暂",false);
             } else if (clickTime == 71) {
-                makeSnackBar("我愿倾一生守护这段回忆");
+                Utils.makeSnackBar(binding.getRoot(),"我愿倾一生守护这段回忆",false);
             } else if (clickTime == 100) {
-                makeSnackBar("愿做一株为妳开放的薰衣草");
+                Utils.makeSnackBar(binding.getRoot(),"愿做一株为妳开放的薰衣草",false);
             }
         } else {
             clickTime = 0;

@@ -41,31 +41,8 @@ public class BindingAdapters {
     @BindingAdapter({"image"})
     public static void imageLoader(final RadioImageView imageView, String url) {
         if (SettingsModel.getAccelerate(imageView.getContext())) {
-            //http://pic01.bdatu.com/Upload/picimg/1464838788.jpg
-            //http://ob7lf3frj.bkt.clouddn.com/1464838788.jpg?imageMogr2/thumbnail/600x600
             url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
         }
-
-//        Glide.with(imageView.getContext())
-//                .load(url)
-//                .asBitmap()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .dontTransform()
-//                .thumbnail(0.1f)
-//                .listener(new RequestListener<String, Bitmap>() {
-//                    @Override
-//                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-//                        return false;
-//                    }
-//
-//                    @Override
-//                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                        Log.e("resource size", resource.getWidth() + " " + resource.getHeight());
-//                        imageView.setOriginalSize(resource.getWidth(), resource.getHeight());
-//                        return false;
-//                    }
-//                })
-//                .into(imageView);
         PicassoHelper.getInstance(imageView.getContext()).load(url)
                 .error(R.mipmap.ic_loading)
                 .noFade()

@@ -2,9 +2,10 @@
     <string name="action_share">分享</string>
     <string name="report_email_title">Lavender 建议及反馈</string>
     <string name="exception_content_null">获取的数据是空的唉</string>
+    <string name="action_yourshotlink">外部链接</string>
     <string name="maybe_no_more">可能是没有更多了哦</string>
     <string name="error">出现了一个连我都布吉岛的错误呢</string>
-    <string name="not_legal_yourshotlink">没有有效的your shot链接，跳转不过去55555~</string>
+    <string name="not_legal_yourshotlink">没有有效的外部链接，跳转不过去55555~</string>
     <string name="save_in_file">图片已保存至 %s 文件夹~</string>
     <string name="save_img_with_resolution">保存图片 [%1$d * %2$d]</string>
     <string name="save_img">保存图片</string>
@@ -41,6 +42,7 @@
 
     <string name="attention_accelerate">
         注意辣~\(≧▽≦)/~：
+        \n 美帝的每日一图没有缩略图````
         \n对于常打开大图的亲们，不勾选下面一项的话只会更加耗费流量哦
         \n由于七牛云的限制，我只能提供测试域名来加载缩略图。测试域名有很多的限制，
         \n 单IP每秒限制请求次数10次，大于10次禁止5秒(加载一张图为1次，可以自己算算)。
@@ -50,7 +52,7 @@
         \n如果遇到图片加载不出来，请先尝试关闭该项哦亲。</string>
 
     <string name="about_attention_content">Lavender系第三方国家地理每日精选应用，如Lavender有侵犯国家地理官方权益，本人将第一时间撤回及停止更新。
-        \n\n感谢酷友@柠冰羽痕Ice @WangMT 对Lavender的贡献
+        \n\n感谢酷友@柠冰羽痕Ice(前任图标) @WangMT(现在的图标) 对Lavender的帮助
         \n\n如果对Lavender有什么建议及意见的话，欢迎联系我并提出。</string>
     <string name="about_use_attention">Lavender 自述</string>
     <string name="about_image_from">图片来自</string>

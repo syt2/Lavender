@@ -7,20 +7,13 @@ import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 
 import me.yokeyword.swipebackfragment.SwipeBackActivity;
 import party.danyang.nationalgeographic.databinding.LayoutToolbarBinding;
+import party.danyang.nationalgeographic.widget.OnStateChangedListener;
 import rx.functions.Action1;
 
 /**
  * Created by dream on 16-8-12.
  */
 public class ToolbarActivity extends SwipeBackActivity {
-
-    public CollapsingToolbarLayoutState state;
-
-    public enum CollapsingToolbarLayoutState {
-        EXPANDED,
-        COLLAPSED,
-        INTERNEDIATE
-    }
 
     public void setupToolbar(LayoutToolbarBinding toolbarBinding) {
         setSupportActionBar(toolbarBinding.toolbar);
@@ -30,31 +23,30 @@ public class ToolbarActivity extends SwipeBackActivity {
                 supportFinishAfterTransition();
             }
         });
-        toolbarBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        toolbarBinding.toolbarLayout.setOnStateChangedListener(new OnStateChangedListener() {
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            public void onExpanded() {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
 
-                if (verticalOffset == 0) {
-                    if (state != CollapsingToolbarLayoutState.EXPANDED) {
-                        state = CollapsingToolbarLayoutState.EXPANDED;//修改状态标记为展开
-                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                    }
-                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
-                    if (state != CollapsingToolbarLayoutState.COLLAPSED) {
-                        //折叠
-                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                        state = CollapsingToolbarLayoutState.COLLAPSED;//修改状态标记为折叠
-                    }
-                } else {
-                    if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
-                        if (state == CollapsingToolbarLayoutState.COLLAPSED) {
-                            //由折叠变为中间状态时
-                            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                        }
-                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                        state = CollapsingToolbarLayoutState.INTERNEDIATE;//修改状态标记为中间
-                    }
-                }
+            @Override
+            public void onCollapsed() {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+
+            @Override
+            public void onInternediateFromExpand() {
+
+            }
+
+            @Override
+            public void onInternediateFromCollapsed() {
+
+            }
+
+            @Override
+            public void onInternediate() {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
         });
     }

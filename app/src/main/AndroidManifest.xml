@@ -18,14 +18,17 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5799db4c67e58e698400024b" />
+            android:value="test" />
+        <!--<meta-data-->
+            <!--android:name="UMENG_APPKEY"-->
+            <!--android:value="5799db4c67e58e698400024b" />-->
 
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="coolapk" />
 
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:label="@string/app_name"
             android:icon="@mipmap/ic_launcher"
             android:theme="@style/AppTheme.NoActionBar" >

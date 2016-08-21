@@ -3,16 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.AlbumActivity">
 
-    <data>
-
-        <variable
-            name="url"
-            type="String" />
-    </data>
-
     <party.danyang.nationalgeographic.widget.TouchImageView
         android:id="@+id/img_touch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:image="@{url}" />
+        android:layout_height="match_parent" />
 </layout>

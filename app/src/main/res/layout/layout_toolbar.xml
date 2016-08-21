@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.HomeActivity">
+    tools:context=".ui.home.HomeActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="0dp">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <party.danyang.nationalgeographic.widget.StateCollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -31,6 +31,6 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 tools:targetApi="N" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </party.danyang.nationalgeographic.widget.StateCollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 </layout>

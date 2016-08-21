@@ -2,13 +2,13 @@
     <string name="app_name">Lavender</string>
     <string name="lalala">~\(≧▽≦)/~</string>
     <string name="action_share">Share</string>
-    <string name="action_yourshotlink">Your shot</string>
+    <string name="action_yourshotlink">page url</string>
     <string name="report_email_title">Lavender suggests and reports</string>
     <string name="notfound404">HTTP 404 Not Found</string>
     <string name="exception_content_null">Content null</string>
     <string name="maybe_no_more">Maybe no more lists</string>
     <string name="error">Error without reason</string>
-    <string name="not_legal_yourshotlink">This image has no your shot</string>
+    <string name="not_legal_yourshotlink">This image has no valid url</string>
     <string name="dir_picasso_cache">/data/data/party.danyang.nationalgeographic/cache/picasso-cache</string>
     <string name="save_in_file">image saved in %s </string>
     <string name="save_img_with_resolution">save image [%1$d * %2$d]</string>
@@ -47,6 +47,7 @@
 
     <string name="attention_accelerate">
         Attention：
+        \nphoto of the day(us) not include````
         \nDue to the limitation of qiniu, I can only offer the test domain to load thumbnails. Test domain has a lot of restrictions,
         \nSingle IP limit the number of requests 10 times per second, above 10 you will have five seconds prohibited (1 Load a graph, you can do the math).
         \nSingle url speed 8Mbps, downloaded more than 10MB, speed down to 1Mbps.
@@ -59,7 +60,8 @@
         \n\nIf you have any suggestions and comments to Lavender, welcome to contact me.</string>
     <string name="about_use_attention">Use attention</string>
     <string name="about_image_from">Images from</string>
-    <string name="about_from_ng"><a href="http://ng.bdatu.com/">http://ng.bdatu.com/</a></string>
+    <string name="about_from_ng"><a href="http://ng.bdatu.com/">ng.bdatu.com/</a></string>
+    <string name="about_from_ng_us"><a href="http://www.nationalgeographic.com/photography/photo-of-the-day/">www.nationalgeographic.com/</a></string>
     <string name="about_go_to_github">Visit Lavender on github</string>
     <string name="about_github_address"><a href="https://github.com/dreamcontinue/Lavender">dreamcontinue/Lavender</a></string>
     <string name="about_used_libs">Libs</string>
@@ -77,6 +79,7 @@
     <string name="about_libs_touch_image_view"><a href="https://github.com/MikeOrtiz/TouchImageView">MikeOrtiz/TouchImageView</a></string>
     <string name="about_libs_appupdater"><a href="https://github.com/javiersantos/AppUpdater">javiersantos/AppUpdater</a></string>
     <string name="about_libs_error_view"><a href="https://github.com/xiprox/ErrorView">xiprox/ErrorView</a></string>
+    <string name="about_libs_jsoup"><a href="https://jsoup.org/">jsoup</a></string>
     <string name="about_me">\@developer 梦的延续</string>
 
     <string name="load_not_in_wifi_while_in_wifi_only">Not in wifi! if you want load, please turn off wifiOnly</string>

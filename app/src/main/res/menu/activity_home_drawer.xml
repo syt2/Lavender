@@ -10,19 +10,18 @@
             android:title="@string/group_pic" />
         <item
             android:id="@+id/nav_single_pic_us"
-            android:checkable="false"
             android:icon="@drawable/ic_photo_grey_300_24dp"
             android:title="@string/single_pic_us" />
-        <item
-            android:id="@+id/nav_single_pic"
-            android:icon="@drawable/ic_photo_grey_300_24dp"
-            android:title="@string/single_pic"
-            android:visible="false" />
-        <item
-            android:id="@+id/nav_article"
-            android:icon="@drawable/ic_label_grey_300_24dp"
-            android:title="@string/article"
-            android:visible="false" />
+        <!--<item-->
+        <!--android:id="@+id/nav_single_pic"-->
+        <!--android:icon="@drawable/ic_photo_grey_300_24dp"-->
+        <!--android:title="@string/single_pic"-->
+        <!--android:visible="false" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_article"-->
+        <!--android:icon="@drawable/ic_label_grey_300_24dp"-->
+        <!--android:title="@string/article"-->
+        <!--android:visible="false" />-->
         <!--android:visible="false"-->
     </group>
     <group android:id="@+id/nav_bottom_group">

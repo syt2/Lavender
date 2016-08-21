@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.HomeActivity">
+    tools:context=".ui.home.HomeActivity">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -20,9 +20,15 @@
                 android:id="@+id/toolbar_content"
                 layout="@layout/layout_toolbar" />
 
-            <include
-                android:id="@+id/recycler_content"
-                layout="@layout/layout_recycler" />
+            <FrameLayout
+                android:id="@+id/recycler_content_fragment"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            <!--<include-->
+            <!--android:id="@+id/recycler_content"-->
+            <!--layout="@layout/layout_recycler" />-->
 
         </android.support.design.widget.CoordinatorLayout>
 
@@ -32,9 +38,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header_home"
             app:itemIconTint="@color/md_grey_100"
             app:itemTextColor="@color/md_grey_300"
-            app:headerLayout="@layout/nav_header_home"
             app:menu="@menu/activity_home_drawer" />
     </android.support.v4.widget.DrawerLayout>
 </layout>

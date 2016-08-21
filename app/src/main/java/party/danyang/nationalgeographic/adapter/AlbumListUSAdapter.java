@@ -13,20 +13,20 @@ import java.util.List;
 import party.danyang.nationalgeographic.BR;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
-import party.danyang.nationalgeographic.databinding.ItemDetailBinding;
+import party.danyang.nationalgeographic.databinding.ItemMonthListUsBinding;
 import party.danyang.nationalgeographic.model.album.Picture;
-import party.danyang.nationalgeographic.utils.SettingsModel;
+import party.danyang.nationalgeographic.model.album_us.Items;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 
 /**
  * Created by yaki on 16-7-7.
  */
-public class AlbumDetailAdapter extends BaseAdapter<Picture> {
+public class AlbumListUSAdapter extends BaseAdapter<Items> {
 
-    public static final String TAG_DETAIL="tag.detail";
+    public static final String TAG_LIST_US="tag.listUS";
 
-    public AlbumDetailAdapter(List<Picture> data) {
-        super(R.layout.item_detail, data);
+    public AlbumListUSAdapter(List<Items> data) {
+        super(R.layout.item_month_list_us, data);
         setHasStableIds(true);
     }
 
@@ -41,16 +41,13 @@ public class AlbumDetailAdapter extends BaseAdapter<Picture> {
 
     @Override
     public void setBingVariables(ViewDataBinding binding, int position) {
-        final ItemDetailBinding bd=(ItemDetailBinding)binding;
+        final ItemMonthListUsBinding bd=(ItemMonthListUsBinding)binding;
         String url=get(position).getUrl();
-        if (SettingsModel.getAccelerate(bd.iv.getContext())) {
-            url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
-        }
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
                 .error(R.mipmap.ic_loading)
                 .noFade()
                 .placeholder(R.mipmap.ic_loading)
-                .tag(TAG_DETAIL)
+                .tag(TAG_LIST_US)
                 .config(Bitmap.Config.RGB_565)
                 .into(bd.iv, new Callback() {
                     @Override

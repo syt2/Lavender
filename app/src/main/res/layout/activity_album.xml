@@ -7,8 +7,16 @@
     <data>
 
         <variable
-            name="picture"
-            type="party.danyang.nationalgeographic.model.album.Picture" />
+            name="title"
+            type="String" />
+
+        <variable
+            name="content"
+            type="String" />
+
+        <variable
+            name="author"
+            type="String" />
 
         <variable
             name="fullScreen"
@@ -56,22 +64,22 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{picture.title}"
-                    android:visibility="@{TextUtils.isEmpty(picture.title)?View.GONE:View.VISIBLE}"
+                    android:text="@{title}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/md_grey_300"
                     android:textIsSelectable="true"
+                    android:visibility="@{TextUtils.isEmpty(title)?View.GONE:View.VISIBLE}"
                     tools:text="dreamcontinue" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="8dp"
-                    android:text="@{picture.content}"
-                    android:visibility="@{TextUtils.isEmpty(picture.content)?View.GONE:View.VISIBLE}"
+                    android:text="@{content}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/md_grey_300"
                     android:textIsSelectable="true"
+                    android:visibility="@{TextUtils.isEmpty(content)?View.GONE:View.VISIBLE}"
                     tools:text="dreamcontinue" />
 
                 <TextView
@@ -80,11 +88,11 @@
                     android:gravity="end|right"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
-                    android:text="@{String.format(@string/author, picture.author)}"
+                    android:text="@{author}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/md_grey_400"
                     android:textIsSelectable="true"
-                    android:visibility="@{TextUtils.isEmpty(picture.author)?View.GONE:View.VISIBLE}"
+                    android:visibility="@{TextUtils.isEmpty(author)?View.GONE:View.VISIBLE}"
                     tools:text="dreamcontinue" />
 
             </LinearLayout>
