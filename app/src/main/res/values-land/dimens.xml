@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="bottom_content_height">120dp</dimen>
+    <dimen name="app_bar_height">120dp</dimen>
+</resources>

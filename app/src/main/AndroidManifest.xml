@@ -16,12 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="test" />
         <!--<meta-data-->
             <!--android:name="UMENG_APPKEY"-->
-            <!--android:value="5799db4c67e58e698400024b" />-->
+            <!--android:value="test" />-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5799db4c67e58e698400024b" />
 
         <meta-data
             android:name="UMENG_CHANNEL"

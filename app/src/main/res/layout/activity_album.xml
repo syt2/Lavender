@@ -45,7 +45,7 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="@dimen/bottom_content_height"
             android:layout_gravity="bottom|end"
             android:background="@color/color_big_pic_bg"
             android:fitsSystemWindows="true"

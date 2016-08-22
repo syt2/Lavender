@@ -149,7 +149,7 @@ public class AlbumActivity extends SwipeBackActivity {
         int id = menuItem.getItemId();
         if (id == R.id.action_yourshotlink) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(pageUrls.get(index)));
+            intent.setData(Uri.parse(pageUrls.get(binding.viewPager.getCurrentItem())));
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             } else {

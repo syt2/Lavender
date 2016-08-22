@@ -291,8 +291,12 @@ public class HomeActivity extends AppCompatActivity {
             setExitSharedElementCallback(new SharedElementCallback() {
                 @Override
                 public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                    if (type == Type.US && reenterState != null && getUSFragment() != null) {
+                    if (type == Type.US && reenterState != null) {
                         int position = reenterState.getInt(AlbumActivity.INTENT_INDEX, 0);
+                        //判空
+                        if (getUSFragment() == null || getUSFragment().adapter == null
+                                || getUSFragment().adapter.getList() == null || getUSFragment().adapter.getList().size() == 0)
+                            return;
                         sharedElements.clear();
                         sharedElements.put(getUSFragment().adapter.get(position).getUrl(), getUSFragment().layoutManager.findViewByPosition(position));
                         reenterState = null;
@@ -306,6 +310,9 @@ public class HomeActivity extends AppCompatActivity {
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
         if (type == Type.US && getUSFragment() != null) {
+            //判空
+            if (getUSFragment().binding == null)
+                return;
             supportPostponeEnterTransition();
             reenterState = new Bundle(data.getExtras());
             getUSFragment().binding.recycler.scrollToPosition(reenterState.getInt(AlbumActivity.INTENT_INDEX, 0));

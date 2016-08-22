@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -180,7 +181,7 @@ public class RecyclerViewTWFragment extends Fragment {
                         hasLoad = false;
                         Utils.setRefresher(binding.refresher, false);
                         binding.setShowErrorView(true);
-                        if (e == null) {
+                        if (e == null || TextUtils.isEmpty(e.getMessage())) {
                             binding.errorView.setTitle(R.string.lalala);
                             binding.errorView.setSubtitle(R.string.error);
                         } else if (e.getMessage().trim().equals(getString(R.string.notfound404))) {

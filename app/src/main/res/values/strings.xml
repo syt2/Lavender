@@ -40,14 +40,13 @@
     <string name="setting_accelerate_in_large_img">Thumbnails also in large image</string>
     <string name="settings">Settings</string>
 
-    <string name="single_pic">One everyday</string>
-    <string name="single_pic_us">One everyday(US)</string>
-    <string name="group_pic">Group everyday</string>
+    <string name="single_pic_us">one photo of the day</string>
+    <string name="group_pic">Daily photos</string>
     <string name="article">Articles</string>
 
     <string name="attention_accelerate">
         Attention：
-        \nphoto of the day(us) not include````
+        \nDaily photo(US) not include````
         \nDue to the limitation of qiniu, I can only offer the test domain to load thumbnails. Test domain has a lot of restrictions,
         \nSingle IP limit the number of requests 10 times per second, above 10 you will have five seconds prohibited (1 Load a graph, you can do the math).
         \nSingle url speed 8Mbps, downloaded more than 10MB, speed down to 1Mbps.
@@ -60,8 +59,8 @@
         \n\nIf you have any suggestions and comments to Lavender, welcome to contact me.</string>
     <string name="about_use_attention">Use attention</string>
     <string name="about_image_from">Images from</string>
-    <string name="about_from_ng"><a href="http://ng.bdatu.com/">ng.bdatu.com/</a></string>
-    <string name="about_from_ng_us"><a href="http://www.nationalgeographic.com/photography/photo-of-the-day/">www.nationalgeographic.com/</a></string>
+    <string name="about_from_ng"><a href="http://ng.bdatu.com/">ng.bdatu.com</a></string>
+    <string name="about_from_ng_us"><a href="http://www.nationalgeographic.com/photography/photo-of-the-day/">www.nationalgeographic.com</a></string>
     <string name="about_go_to_github">Visit Lavender on github</string>
     <string name="about_github_address"><a href="https://github.com/dreamcontinue/Lavender">dreamcontinue/Lavender</a></string>
     <string name="about_used_libs">Libs</string>

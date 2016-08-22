@@ -35,9 +35,9 @@
     <string name="setting_accelerate_in_large_img">大图也使用缩略图</string>
     <string name="settings">设置</string>
 
-    <string name="single_pic">每日一图</string>
-    <string name="single_pic_us">每日一图（美利坚）</string>
+    <string name="single_pic_us">每日一图</string>
     <string name="group_pic">每日精选</string>
+    <string name="random_pic">随机一图</string>
     <string name="article">文章集锦</string>
 
     <string name="attention_accelerate">

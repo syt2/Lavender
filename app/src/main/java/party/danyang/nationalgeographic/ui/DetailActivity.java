@@ -8,11 +8,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -39,7 +39,6 @@ import party.danyang.nationalgeographic.model.album.PictureRealm;
 import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.net.NGApi;
 import party.danyang.nationalgeographic.ui.base.ToolbarActivity;
-import party.danyang.nationalgeographic.utils.BindingAdapters;
 import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
@@ -108,22 +107,6 @@ public class DetailActivity extends ToolbarActivity {
             mSubscription.unsubscribe();
         }
         realm.close();
-    }
-
-    private void setExitAnimator() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setExitSharedElementCallback(new SharedElementCallback() {
-                @Override
-                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                    if (reenterState != null) {
-                        int position = reenterState.getInt(AlbumActivity.INTENT_INDEX, 0);
-                        sharedElements.clear();
-                        sharedElements.put(adapter.get(position).getUrl(), layoutManager.findViewByPosition(position));
-                        reenterState = null;
-                    }
-                }
-            });
-        }
     }
 
     private void initViews() {
@@ -268,7 +251,7 @@ public class DetailActivity extends ToolbarActivity {
                     public void onError(Throwable e) {
                         Utils.setRefresher(binding.recyclerContent.refresher, false);
                         binding.recyclerContent.setShowErrorView(true);
-                        if (e == null) {
+                        if (e == null || TextUtils.isEmpty(e.getMessage())) {
                             binding.recyclerContent.errorView.setTitle(R.string.lalala);
                             binding.recyclerContent.errorView.setSubtitle(R.string.error);
                         } else {
@@ -322,9 +305,28 @@ public class DetailActivity extends ToolbarActivity {
 
     }
 
+    private void setExitAnimator() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setExitSharedElementCallback(new SharedElementCallback() {
+                @Override
+                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                    if (reenterState != null) {
+                        if (adapter == null || adapter.getList() == null || adapter.getList().size() == 0)
+                            return;
+                        int position = reenterState.getInt(AlbumActivity.INTENT_INDEX, 0);
+                        sharedElements.clear();
+                        sharedElements.put(adapter.get(position).getUrl(), layoutManager.findViewByPosition(position));
+                        reenterState = null;
+                    }
+                }
+            });
+        }
+    }
+
     @Override
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
+        if (binding == null) return;
         supportPostponeEnterTransition();
         reenterState = new Bundle(data.getExtras());
         binding.recyclerContent.recycler.scrollToPosition(reenterState.getInt(AlbumActivity.INTENT_INDEX, 0));
