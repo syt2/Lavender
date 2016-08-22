@@ -25,7 +25,7 @@ public class NGApi {
         Observable<AlbumItem> loadAlbumApi(@Path("id") String page);
     }
 
-    public static final Observable<AlbumList> loadAlbumList(int page){
+    public static final Observable<AlbumList> loadAlbumList(int page) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

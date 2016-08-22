@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
@@ -67,11 +65,6 @@ public class RecyclerViewUSFragment extends Fragment {
 
     private static RecyclerViewUSFragment singleton;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mSubscription = new CompositeSubscription();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -80,16 +73,26 @@ public class RecyclerViewUSFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSubscription = new CompositeSubscription();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.layout_recycler, container, false);
         setupRecyclerContent();
-        if (NetUtils.isWiFi(activity)) {
-            sendToLoad(Utils.getYearOfNow(), Utils.getMonthOfNow());
-        } else {
-            getAlbumFromRealm();
-        }
+        initLoad();
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mSubscription != null) {
+            mSubscription.unsubscribe();
+        }
     }
 
     public static RecyclerViewUSFragment getInstance() {
@@ -97,6 +100,14 @@ public class RecyclerViewUSFragment extends Fragment {
             singleton = new RecyclerViewUSFragment();
         }
         return singleton;
+    }
+
+    private void initLoad() {
+        if (NetUtils.isWiFi(activity)) {
+            sendToLoad(Utils.getYearOfNow(), Utils.getMonthOfNow());
+        } else {
+            getAlbumFromRealm();
+        }
     }
 
     private void sendToLoad(int year, int month) {
@@ -279,21 +290,19 @@ public class RecyclerViewUSFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mSubscription != null) {
-            mSubscription.unsubscribe();
-        }
-    }
-
-    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-//        Log.e("onHiddenChanged", "hidden=" + hidden + " mSubscription==null?" + (mSubscription == null) + " hasSubscriptions" + mSubscription.hasSubscriptions());
+        Log.e("onHiddenChanged", "hidden=" + hidden);
+        Log.e("onHiddenChanged", "mSubscription==null?" + (mSubscription == null));
+        Log.e("onHiddenChanged", "hasSubscriptions" + mSubscription.hasSubscriptions());
+        Log.e("onHiddenChanged", "adapter==null?" + (adapter == null));
+        Log.e("onHiddenChanged", "adapter size=" + adapter.size());
         if (hidden && mSubscription != null) {
             mSubscription.clear();
             hasLoad = false;
             Utils.setRefresher(binding.refresher, false);
+        } else if (!hidden && adapter.size() == 0) {
+            initLoad();
         }
     }
 

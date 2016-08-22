@@ -13,7 +13,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -28,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
-import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.adapter.AlbumDetailAdapter;
 import party.danyang.nationalgeographic.adapter.BaseAdapter;
@@ -164,8 +162,8 @@ public class DetailActivity extends ToolbarActivity {
             return;
         }
         for (int i = 0; i < adapter.getList().size(); i++) {
-            mSubscription.add(Utils.saveImageAndGetPathObservable(DetailActivity.this, adapter.getList().get(i).getUrl(),
-                    adapter.getList().get(i).getAlbumid() + "_" + i)
+            mSubscription.add(Utils.saveImgFromUrl(this,adapter.get(i).getUrl(),
+                    adapter.get(i).getAlbumid()+"_"+i)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -179,16 +177,14 @@ public class DetailActivity extends ToolbarActivity {
 
                         @Override
                         public void onError(Throwable e) {
-                            if (BuildConfig.LOG_DEBUG)
-                                Log.e("saveAllImg", e.toString());
                             Utils.makeSnackBar(binding.getRoot(), e.toString(), true);
                         }
 
                         @Override
                         public void onNext(Uri uri) {
-
                         }
-                    }));
+                    })
+            );
         }
     }
 

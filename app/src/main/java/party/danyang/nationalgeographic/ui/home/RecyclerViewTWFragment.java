@@ -10,12 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +34,6 @@ import party.danyang.nationalgeographic.model.albumlist.AlbumList;
 import party.danyang.nationalgeographic.model.albumlist.AlbumRealm;
 import party.danyang.nationalgeographic.net.NGApi;
 import party.danyang.nationalgeographic.ui.DetailActivity;
-import party.danyang.nationalgeographic.utils.BindingAdapters;
 import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
@@ -66,15 +62,15 @@ public class RecyclerViewTWFragment extends Fragment {
     private static RecyclerViewTWFragment singleton;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mSubscription = new CompositeSubscription();
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.activity = (HomeActivity) context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSubscription = new CompositeSubscription();
     }
 
     @Override
@@ -82,12 +78,16 @@ public class RecyclerViewTWFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.layout_recycler, container, false);
         setupRecyclerContent();
-        if (NetUtils.isWiFi(activity)) {
-            sendToLoad(1);
-        } else {
-            getAlbumFromRealm();
-        }
+        initLoad();
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mSubscription != null) {
+            mSubscription.unsubscribe();
+        }
     }
 
     public static RecyclerViewTWFragment getInstance() {
@@ -95,6 +95,14 @@ public class RecyclerViewTWFragment extends Fragment {
             singleton = new RecyclerViewTWFragment();
         }
         return singleton;
+    }
+
+    private void initLoad() {
+        if (NetUtils.isWiFi(activity)) {
+            sendToLoad(1);
+        } else {
+            getAlbumFromRealm();
+        }
     }
 
     private void sendToLoad(int page) {
@@ -267,14 +275,8 @@ public class RecyclerViewTWFragment extends Fragment {
             mSubscription.clear();
             hasLoad = false;
             Utils.setRefresher(binding.refresher, false);
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mSubscription!=null){
-            mSubscription.unsubscribe();
+        } else if (!hidden && adapter.size() == 0) {
+            initLoad();
         }
     }
 

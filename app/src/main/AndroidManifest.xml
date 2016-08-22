@@ -46,7 +46,7 @@
             android:name=".ui.AlbumActivity"
             android:theme="@style/AppTheme.NoActionBar.ALBUM" />
         <activity
-            android:name=".ui.AlbumUSActivity"
+            android:name=".ui.RandomAlbumActivity"
             android:theme="@style/AppTheme.NoActionBar.ALBUM" />
         <activity
             android:name=".ui.SettingsActivity"

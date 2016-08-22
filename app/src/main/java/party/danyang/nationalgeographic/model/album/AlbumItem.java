@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by yaki on 16-7-7.
  */
-public class AlbumItem{
+public class AlbumItem {
     private String counttotal;
     private List<Picture> picture;
 

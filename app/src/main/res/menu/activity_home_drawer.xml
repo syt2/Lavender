@@ -14,8 +14,8 @@
             android:title="@string/single_pic_us" />
         <item
             android:id="@+id/nav_random_pic"
-            android:visible="false"
-            android:icon="@drawable/ic_photo_grey_300_24dp"
+            android:checkable="false"
+            android:icon="@drawable/ic_picture_in_picture_grey_300_24dp"
             android:title="@string/random_pic" />
     </group>
     <group android:id="@+id/nav_bottom_group">

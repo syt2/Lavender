@@ -1,8 +1,5 @@
 package party.danyang.nationalgeographic.ui.base;
 
-import android.support.design.widget.AppBarLayout;
-import android.view.View;
-
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 
 import me.yokeyword.swipebackfragment.SwipeBackActivity;

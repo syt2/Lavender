@@ -10,11 +10,9 @@ import com.squareup.picasso.Callback;
 
 import java.util.List;
 
-import party.danyang.nationalgeographic.BR;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ItemMonthListUsBinding;
-import party.danyang.nationalgeographic.model.album.Picture;
 import party.danyang.nationalgeographic.model.album_us.Items;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 
@@ -23,7 +21,7 @@ import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
  */
 public class AlbumListUSAdapter extends BaseAdapter<Items> {
 
-    public static final String TAG_LIST_US="tag.listUS";
+    public static final String TAG_LIST_US = "tag.listUS";
 
     public AlbumListUSAdapter(List<Items> data) {
         super(R.layout.item_month_list_us, data);
@@ -41,8 +39,8 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
 
     @Override
     public void setBingVariables(ViewDataBinding binding, int position) {
-        final ItemMonthListUsBinding bd=(ItemMonthListUsBinding)binding;
-        String url=get(position).getUrl();
+        final ItemMonthListUsBinding bd = (ItemMonthListUsBinding) binding;
+        String url = get(position).getUrl();
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
                 .error(R.mipmap.ic_loading)
                 .noFade()

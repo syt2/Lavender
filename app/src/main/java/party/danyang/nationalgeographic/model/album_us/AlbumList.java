@@ -8,10 +8,12 @@ import java.util.List;
 public class AlbumList {
 
     private List<Items> items;
-    public void setItems(List<Items> items){
+
+    public void setItems(List<Items> items) {
         this.items = items;
     }
-    public List<Items> getItems(){
+
+    public List<Items> getItems() {
         return this.items;
     }
 }

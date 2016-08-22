@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -31,7 +30,6 @@ import java.util.List;
 
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.FragmentBigPicBinding;
-import party.danyang.nationalgeographic.model.album.Picture;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
@@ -193,8 +191,8 @@ public class AlbumFragment extends Fragment {
     }
 
     private void saveImg() {
-        mSubscriptions.add(Utils.saveImageAndGetPathObservable(activity, urls.get(index),
-                String.valueOf(urls.get(index).hashCode()))
+        mSubscriptions.add(Utils.saveImgFromUrl(
+                activity, urls.get(index), String.valueOf(urls.get(index).hashCode()))
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -213,7 +211,6 @@ public class AlbumFragment extends Fragment {
 
                     @Override
                     public void onNext(Uri uri) {
-
                     }
                 }));
     }

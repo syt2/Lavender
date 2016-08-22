@@ -5,17 +5,14 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -33,14 +30,11 @@ import party.danyang.nationalgeographic.adapter.AlbumListUSAdapter;
 import party.danyang.nationalgeographic.databinding.ActivityHomeBinding;
 import party.danyang.nationalgeographic.ui.AboutActivity;
 import party.danyang.nationalgeographic.ui.AlbumActivity;
+import party.danyang.nationalgeographic.ui.RandomAlbumActivity;
 import party.danyang.nationalgeographic.ui.SettingsActivity;
-import party.danyang.nationalgeographic.utils.BindingAdapters;
-import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
-import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import party.danyang.nationalgeographic.widget.OnStateChangedListener;
 import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
@@ -192,6 +186,12 @@ public class HomeActivity extends AppCompatActivity {
                 type = Type.US;
                 changeFragmentToType(type);
                 break;
+            case R.id.nav_random_pic:
+                Intent intent1 = new Intent(this, RandomAlbumActivity.class);
+                ActivityOptionsCompat options1 = ActivityOptionsCompat
+                        .makeCustomAnimation(this, R.anim.slide_right_in, R.anim.slide_right_out);
+                ActivityCompat.startActivity(this, intent1, options1.toBundle());
+                break;
             case R.id.nav_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 ActivityOptionsCompat options = ActivityOptionsCompat
@@ -290,7 +290,7 @@ public class HomeActivity extends AppCompatActivity {
                         int position = reenterState.getInt(AlbumActivity.INTENT_INDEX, 0);
                         //判空
                         if (getUSFragment() == null || getUSFragment().adapter == null
-                                || getUSFragment().adapter.getList() == null || getUSFragment().adapter.getList().size() == 0)
+                                || getUSFragment().adapter.size() == 0)
                             return;
                         sharedElements.clear();
                         sharedElements.put(getUSFragment().adapter.get(position).getUrl(), getUSFragment().layoutManager.findViewByPosition(position));

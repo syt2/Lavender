@@ -9,14 +9,16 @@ public class Items {
     private String publishDate;
     private String pageUrl;
     private String caption;
-    public Items(){}
 
-    public Items(ItemsRealm items){
-        this.title=items.getTitle();
-        this.url=items.getUrl();
-        this.publishDate=items.getPublishDate();
-        this.pageUrl=items.getPageUrl();
-        this.caption=items.getCaption();
+    public Items() {
+    }
+
+    public Items(ItemsRealm items) {
+        this.title = items.getTitle();
+        this.url = items.getUrl();
+        this.publishDate = items.getPublishDate();
+        this.pageUrl = items.getPageUrl();
+        this.caption = items.getCaption();
     }
 
     public String getCaption() {

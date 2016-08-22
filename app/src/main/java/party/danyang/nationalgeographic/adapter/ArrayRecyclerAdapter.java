@@ -1,15 +1,9 @@
 package party.danyang.nationalgeographic.adapter;
 
 import android.annotation.TargetApi;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,8 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
-
-import party.danyang.nationalgeographic.R;
 
 /**
  * Created by Mr_Wrong on 15/10/10.

@@ -1,22 +1,13 @@
 package party.danyang.nationalgeographic.utils;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
-
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,12 +15,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-import io.realm.RealmObject;
-import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -37,28 +28,28 @@ import rx.schedulers.Schedulers;
  */
 public class Utils {
 
-    public static String getRealFilePath(final Context context, final Uri uri) {
-        if (null == uri) return null;
-        final String scheme = uri.getScheme();
-        String data = null;
-        if (scheme == null)
-            data = uri.getPath();
-        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
-            data = uri.getPath();
-        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
-            if (null != cursor) {
-                if (cursor.moveToFirst()) {
-                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                    if (index > -1) {
-                        data = cursor.getString(index);
-                    }
-                }
-                cursor.close();
-            }
-        }
-        return data;
-    }
+//    public static String getRealFilePath(final Context context, final Uri uri) {
+//        if (null == uri) return null;
+//        final String scheme = uri.getScheme();
+//        String data = null;
+//        if (scheme == null)
+//            data = uri.getPath();
+//        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
+//            data = uri.getPath();
+//        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+//            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+//            if (null != cursor) {
+//                if (cursor.moveToFirst()) {
+//                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+//                    if (index > -1) {
+//                        data = cursor.getString(index);
+//                    }
+//                }
+//                cursor.close();
+//            }
+//        }
+//        return data;
+//    }
 
     public static boolean deleteFile(String filename) {
         return new File(filename).delete();
@@ -98,72 +89,101 @@ public class Utils {
         }).subscribeOn(Schedulers.io());
     }
 
-    public static Gson gsonBuilder() {
-        GsonBuilder gsonBuilder = new GsonBuilder()
-                .setExclusionStrategies(new ExclusionStrategy() {
-                    @Override
-                    public boolean shouldSkipField(FieldAttributes f) {
-                        return f.getDeclaredClass().equals(RealmObject.class);
-                    }
+//    public static Gson gsonBuilder() {
+//        GsonBuilder gsonBuilder = new GsonBuilder()
+//                .setExclusionStrategies(new ExclusionStrategy() {
+//                    @Override
+//                    public boolean shouldSkipField(FieldAttributes f) {
+//                        return f.getDeclaredClass().equals(RealmObject.class);
+//                    }
+//
+//                    @Override
+//                    public boolean shouldSkipClass(Class<?> clazz) {
+//                        return false;
+//                    }
+//                }).serializeNulls().excludeFieldsWithoutExposeAnnotation();
+//        return gsonBuilder.create();
+//    }
 
+    public static Observable<Uri> saveImgFromUrl(final Context context, final String url, final String name) {
+        return Observable.just(url)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<String, Observable<Bitmap>>() {
                     @Override
-                    public boolean shouldSkipClass(Class<?> clazz) {
-                        return false;
+                    public Observable<Bitmap> call(String s) {
+                        return getBitmap(context, s);
                     }
-                }).serializeNulls().excludeFieldsWithoutExposeAnnotation();
-        return gsonBuilder.create();
+                })
+                .flatMap(new Func1<Bitmap, Observable<Uri>>() {
+                    @Override
+                    public Observable<Uri> call(Bitmap bitmap) {
+                        return saveImg(context, name, bitmap);
+                    }
+                });
     }
 
-    public static Observable<Uri> saveImageAndGetPathObservable(final Context context, final String url, final String name) {
-
-
-        return Observable.create(new Observable.OnSubscribe<Uri>() {
-            @Override
-            public void call(Subscriber<? super Uri> subscriber) {
-                Bitmap bitmap = null;
-                try {
-                    bitmap = PicassoHelper.getInstance(context).load(url).get();
-                } catch (IOException e) {
-                    subscriber.onError(e);
-                }
-                if (bitmap == null) {
-                    subscriber.onError(new Exception(context.getString(R.string.cannot_download_pic)));
-                } else {
-                    subscriber.onNext(saveimage(context, bitmap, name));
-                }
-                subscriber.onCompleted();
-            }
-        });
+    private static Observable<Uri> saveImg(final Context context, final String name, final Bitmap bitmap) {
+        return Observable
+                .create(new Observable.OnSubscribe<Uri>() {
+                    @Override
+                    public void call(Subscriber<? super Uri> subscriber) {
+                        File dir = new File(Environment.getExternalStorageDirectory(), "Lavender");
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File file = new File(dir, name + ".jpg");
+                        try {
+                            FileOutputStream out = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                            out.flush();
+                            out.close();
+                        } catch (FileNotFoundException e) {
+                            subscriber.onError(e);
+                        } catch (IOException e) {
+                            subscriber.onError(e);
+                        }
+                        Uri uri = Uri.fromFile(file);
+                        subscriber.onNext(uri);
+                        Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
+                        context.sendBroadcast(scannerIntent);
+                        subscriber.onCompleted();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private static Uri saveimage(Context context, Bitmap bm, String name) {
-        File appDir = new File(Environment.getExternalStorageDirectory(), context.getString(R.string.app_name));
-        if (!appDir.exists()) {
-            appDir.mkdir();
-        }
-        File file = new File(appDir, name + ".jpg");
-        if (BuildConfig.LOG_DEBUG)
-            Log.d("saveimage", file.getName());
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            if (BuildConfig.LOG_DEBUG)
-                Log.d("saveimage", "save success");
-            out.flush();
-            out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Uri uri = Uri.fromFile(file);
-        // 通知图库更新
-        Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-        context.sendBroadcast(scannerIntent);
-        return uri;
+    private static Observable<Bitmap> getBitmap(final Context context, final String url) {
+        return Observable
+                .create(new Observable.OnSubscribe<Bitmap>() {
+                    @Override
+                    public void call(Subscriber<? super Bitmap> subscriber) {
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = PicassoHelper.getInstance(context)
+                                    .load(url)
+                                    .get();
+                        } catch (IOException e) {
+                            subscriber.onError(e);
+                        }
+                        if (bitmap == null) {
+                            subscriber.onError(new Exception(context.getString(R.string.cannot_download_pic)));
+                        } else {
+                            subscriber.onNext(bitmap);
+                        }
+                        subscriber.onCompleted();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static void makeSnackBar(View v, String msg, boolean lengthShort) {
+        if (v == null) return;
         Snackbar snackbar = Snackbar.make(v, msg, lengthShort ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG);
         snackbar.getView().setBackgroundResource(R.color.colorPrimary);
         snackbar.show();
@@ -174,14 +194,16 @@ public class Utils {
     }
 
     public static void setRefresher(final SwipeRefreshLayout refresher, final boolean isRefresh) {
-        refresher.post(new Runnable() {
-            @Override
-            public void run() {
-                if (refresher != null) {
-                    refresher.setRefreshing(isRefresh);
+        if (refresher != null) {
+            refresher.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (refresher != null) {
+                        refresher.setRefreshing(isRefresh);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public static int getYearOfNow() {

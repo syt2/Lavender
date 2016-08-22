@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by yaki on 16-7-7.
  */
-public class PictureRealm extends RealmObject  {
+public class PictureRealm extends RealmObject {
     @PrimaryKey
     private String id;
     private String albumid;

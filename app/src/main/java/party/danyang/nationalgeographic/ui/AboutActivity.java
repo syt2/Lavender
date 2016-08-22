@@ -3,8 +3,6 @@ package party.danyang.nationalgeographic.ui;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -111,15 +109,15 @@ public class AboutActivity extends ToolbarActivity {
             clickTime++;
             lastClickTime = System.currentTimeMillis();
             if (clickTime == 5) {
-                Utils.makeSnackBar(binding.getRoot(),"妳说最爱薰衣草",false);
+                Utils.makeSnackBar(binding.getRoot(), "妳说最爱薰衣草", false);
             } else if (clickTime == 17) {
-                Utils.makeSnackBar(binding.getRoot(),"薰衣草永远等待着所爱之人，等待着爱情",false);
+                Utils.makeSnackBar(binding.getRoot(), "薰衣草永远等待着所爱之人，等待着爱情", false);
             } else if (clickTime == 34) {
-                Utils.makeSnackBar(binding.getRoot(),"和妳一起的时光如此美妙而短暂",false);
+                Utils.makeSnackBar(binding.getRoot(), "和妳一起的时光如此美妙而短暂", false);
             } else if (clickTime == 71) {
-                Utils.makeSnackBar(binding.getRoot(),"我愿倾一生守护这段回忆",false);
+                Utils.makeSnackBar(binding.getRoot(), "我愿倾一生守护这段回忆", false);
             } else if (clickTime == 100) {
-                Utils.makeSnackBar(binding.getRoot(),"愿做一株为妳开放的薰衣草",false);
+                Utils.makeSnackBar(binding.getRoot(), "愿做一株为妳开放的薰衣草", false);
             }
         } else {
             clickTime = 0;

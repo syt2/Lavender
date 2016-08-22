@@ -3,6 +3,8 @@
     <string name="lalala">~\(≧▽≦)/~</string>
     <string name="action_share">Share</string>
     <string name="action_yourshotlink">page url</string>
+    <string name="action_refresh">Random one</string>
+    <string name="action_search">Random custom</string>
     <string name="report_email_title">Lavender suggests and reports</string>
     <string name="notfound404">HTTP 404 Not Found</string>
     <string name="exception_content_null">Content null</string>

@@ -10,7 +10,6 @@ import com.squareup.picasso.Callback;
 
 import java.util.List;
 
-import party.danyang.nationalgeographic.BR;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ItemDetailBinding;
@@ -23,7 +22,7 @@ import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
  */
 public class AlbumDetailAdapter extends BaseAdapter<Picture> {
 
-    public static final String TAG_DETAIL="tag.detail";
+    public static final String TAG_DETAIL = "tag.detail";
 
     public AlbumDetailAdapter(List<Picture> data) {
         super(R.layout.item_detail, data);
@@ -41,8 +40,8 @@ public class AlbumDetailAdapter extends BaseAdapter<Picture> {
 
     @Override
     public void setBingVariables(ViewDataBinding binding, int position) {
-        final ItemDetailBinding bd=(ItemDetailBinding)binding;
-        String url=get(position).getUrl();
+        final ItemDetailBinding bd = (ItemDetailBinding) binding;
+        String url = get(position).getUrl();
         if (SettingsModel.getAccelerate(bd.iv.getContext())) {
             url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
         }

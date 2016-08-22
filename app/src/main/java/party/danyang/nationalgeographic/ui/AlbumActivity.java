@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
@@ -27,8 +26,6 @@ import java.util.Map;
 import me.yokeyword.swipebackfragment.SwipeBackActivity;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivityAlbumBinding;
-import party.danyang.nationalgeographic.model.album.Picture;
-import party.danyang.nationalgeographic.utils.BindingAdapters;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import rx.functions.Action1;
@@ -78,6 +75,12 @@ public class AlbumActivity extends SwipeBackActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         PicassoHelper.getInstance(this).resumeTag(AlbumFragment.TAG_ALBUN_FRAGMENT);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PicassoHelper.getInstance(this).cancelTag(AlbumFragment.TAG_ALBUN_FRAGMENT);
     }
 
     @Override
@@ -153,7 +156,7 @@ public class AlbumActivity extends SwipeBackActivity {
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             } else {
-                Utils.makeSnackBar(binding.getRoot(),R.string.not_legal_yourshotlink, true);
+                Utils.makeSnackBar(binding.getRoot(), R.string.not_legal_yourshotlink, true);
             }
         }
     }
