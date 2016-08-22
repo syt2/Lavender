@@ -4,13 +4,14 @@
 
 Download
 --------
-V 1.2.1  
+V 1.2.2  
 [![Lavender]](app/Lavender.apk)  
 [Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
 
 
-##ScreenShot
-![](screenshot/v_1.2.1__.jpg)
+ScreenShot
+----------
+![](screenshot/v1.2.2.jpg)
 
 
 
@@ -18,11 +19,17 @@ Discription:
 -----------------
 **图片来源**  
 http://ng.bdatu.com/  
-里面的图片拍摄的都还可以，每天推送十张左右，但是大部分图都有水印，没办法，接口里的图片就那样:broken_heart:。流量党慎用，图片没缩略图，平均分辨率在1000×650左右。
+http://www.nationalgeographic.com/  
+国家地理拍摄质量自是不必多说，只是分辨率普遍较低，平均都在1k以下，这个没办法，官网的图也是这个分辨率。
 
 
 Change log
 ----------
+v1.2.2  
+* 美国nat-geo的每日一图现在支持查看历史图片啦
+* 添加随机一张的功能(数据来自nat-geo your link)
+* 开学后会很少更新了，谢谢大家对Lavender的滋磁...
+
 v1.2.1  
 * 布局整改
 * 添加美国nat-geo每日一图（真的是只能看这一天的一张图）
@@ -47,12 +54,6 @@ v1.1.9
 * 添加umeng
 * 优化加载逻辑
 * 从1.1.9以下（不包含1.1.9）升级上来的用户请在安装完成后清除下数据再打开（realm的配置问题）
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-
-TODO
-----
-* 疑难bug修复
-* drawer的用户自定义
 
 
 
@@ -90,17 +91,18 @@ About Me
 
 ~~About Lavender~~
 -----------------
-~~Lavender是薰衣草的意思。  
-为什么会起这个名呢，  
-因为薰衣草是妳最喜欢的花了。  
+~~Lavender是薰衣草的意思  
+为什么会起这个名呢  
+因为薰衣草是妳最喜欢的花  
 薰衣草呢，有个花语  
 “等待无望的爱"  
-描述我也最合适不过了。  
+描述我是多么的合适啊。  
 ![](screenshot/Lavender.jpg)  
 谨以此名，献给终将与我分离的妳。  
 即便如此，我永远,永远  
 等妳~~  
-  
+
+
   
 :blue_heart::purple_heart::heart:  
 :yellow_heart::cloud::heartpulse:  

@@ -45,12 +45,12 @@
    -keep public class * extends android.support.v4.app.Fragment
    -keepattributes InnerClasses
 
-   -keep class io.realm.annotations.RealmModule
-   -keep @io.realm.annotations.RealmModule class *
-   -keep class io.realm.internal.Keep
-   -keep @io.realm.internal.Keep class * { *; }
+#   -keep class io.realm.annotations.RealmModule
+#   -keep @io.realm.annotations.RealmModule class *
+#   -keep class io.realm.internal.Keep
+#   -keep @io.realm.internal.Keep class * { *; }
    -dontwarn javax.**
-   -dontwarn io.realm.**
+#   -dontwarn io.realm.**
    #butterknife
    -keep class butterknife.** { *; }
    -dontwarn butterknife.internal.**
@@ -218,9 +218,9 @@
    @com.squareup.otto.Subscribe public *;
    @com.squareup.otto.Produce public *;
    }
-   -dontwarn com.github.**
-   -keep class com.github.** { *; }
-   -dontwarn com.jakewharton.**
-   -keep class com.jakewharton.** { *; }
-   -dontwarn io.realm.**
-   -keep class io.realm.** { *; }
+#   -dontwarn com.github.**
+#   -keep class com.github.** { *; }
+#   -dontwarn com.jakewharton.**
+#   -keep class com.jakewharton.** { *; }
+#   -dontwarn io.realm.**
+#   -keep class io.realm.** { *; }

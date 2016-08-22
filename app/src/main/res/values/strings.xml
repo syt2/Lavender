@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">Lavender</string>
     <string name="lalala">~\(≧▽≦)/~</string>
-    <string name="action_share">Share</string>
     <string name="action_yourshotlink">page url</string>
     <string name="action_refresh">Random one</string>
-    <string name="action_search">Random custom</string>
     <string name="report_email_title">Lavender suggests and reports</string>
     <string name="notfound404">HTTP 404 Not Found</string>
     <string name="exception_content_null">Content null</string>
@@ -55,7 +53,7 @@
         \nSingle url speed 8Mbps, downloaded more than 10MB, speed down to 1Mbps.
         \n\nMake sure you read the above matters, and then consider whether to turn on this option. If can\'t load images, first try to turn off this option.</string>
 
-    <string name="version">v 1.2.1</string>
+    <string name="version">v 1.2.2</string>
     <string name="about_attention_content">Lavender-based National Geographic daily selection of third-party applications， such as National Geographic Lavender has violated rights,
         it will be the first time to withdraw and stop updating.
         \n\nThanks @柠冰羽痕Ice @WangMT in coolapk

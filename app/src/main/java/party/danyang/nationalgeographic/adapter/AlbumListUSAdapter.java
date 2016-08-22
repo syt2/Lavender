@@ -42,9 +42,9 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
         final ItemMonthListUsBinding bd = (ItemMonthListUsBinding) binding;
         String url = get(position).getUrl();
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
-                .error(R.mipmap.ic_loading)
+                .error(R.mipmap.nat_geo)
                 .noFade()
-                .placeholder(R.mipmap.ic_loading)
+                .placeholder(R.mipmap.nat_geo)
                 .tag(TAG_LIST_US)
                 .config(Bitmap.Config.RGB_565)
                 .into(bd.iv, new Callback() {

@@ -1,11 +1,12 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.1</latestVersion>
+        <latestVersion>1.2.2</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            - 布局整改
-            - 添加nat-geo(US)每日一图（真的是只能看这一天的一张图）
-            - 缓更中...
+            - 美国nat-geo的每日一图现在支持查看历史图片啦
+            - 添加随机一张的功能(数据来自nat-geo your link)
+            - 本版本对代码改动大，可能有点机型会存在bug，
+            - 开学后会很少更新了，谢谢大家对Lavender的滋磁...
         </releaseNotes>
     </update>
 </AppUpdater>

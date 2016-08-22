@@ -174,7 +174,6 @@ public class RandomAlbumActivity extends SwipeBackActivity {
     }
 
     private void getPic(final int randomId) {
-        Utils.makeSnackBar(binding.getRoot(), randomId + "", true);
         if (!NetUtils.isConnected(this)) {
             Utils.makeSnackBar(binding.getRoot(), R.string.offline, true);
             return;
