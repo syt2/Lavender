@@ -64,14 +64,12 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
 
     public Realm realm;
-    public CompositeSubscription mSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
-        mSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
         initViews();
 
@@ -100,9 +98,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onDestroy();
         PicassoHelper.getInstance(this).cancelTag(AlbumListAdapter.TAG_HOME);
         PicassoHelper.getInstance(this).cancelTag(AlbumListUSAdapter.TAG_LIST_US);
-        if (mSubscription != null) {
-            mSubscription.unsubscribe();
-        }
         realm.close();
     }
 

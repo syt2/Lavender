@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 import tr.xip.errorview.ErrorView;
 
 public class RecyclerViewUSFragment extends Fragment {
@@ -56,11 +59,19 @@ public class RecyclerViewUSFragment extends Fragment {
     public LayoutRecyclerBinding binding;
     public StaggeredGridLayoutManager layoutManager;
 
+    private CompositeSubscription mSubscription;
+
     private int year;
     private int month;
     private boolean hasLoad = false;
 
     private static RecyclerViewUSFragment singleton;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSubscription = new CompositeSubscription();
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -165,7 +176,7 @@ public class RecyclerViewUSFragment extends Fragment {
     private void getAlbumUSList() {
         hasLoad = true;
         Utils.setRefresher(binding.refresher, true);
-        activity.mSubscription.add(NGApi_US.loadPictures(year, month)
+        mSubscription.add(NGApi_US.loadPictures(year, month)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -229,7 +240,7 @@ public class RecyclerViewUSFragment extends Fragment {
     }
 
     private void getAlbumFromRealm() {
-        activity.mSubscription.add(Observable.create(new Observable.OnSubscribe<List<Items>>() {
+        mSubscription.add(Observable.create(new Observable.OnSubscribe<List<Items>>() {
             @Override
             public void call(Subscriber<? super List<Items>> subscriber) {
                 List<ItemsRealm> albums = ItemsRealm.all(activity.realm);
@@ -265,6 +276,25 @@ public class RecyclerViewUSFragment extends Fragment {
             month = 12;
         }
         sendToLoad(year, month);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mSubscription != null) {
+            mSubscription.unsubscribe();
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+//        Log.e("onHiddenChanged", "hidden=" + hidden + " mSubscription==null?" + (mSubscription == null) + " hasSubscriptions" + mSubscription.hasSubscriptions());
+        if (hidden && mSubscription != null) {
+            mSubscription.clear();
+            hasLoad = false;
+            Utils.setRefresher(binding.refresher, false);
+        }
     }
 
     private void startAlbumActivity(View v, int i) {
