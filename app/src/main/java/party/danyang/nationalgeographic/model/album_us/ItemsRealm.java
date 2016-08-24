@@ -11,9 +11,9 @@ import io.realm.annotations.PrimaryKey;
  */
 public class ItemsRealm extends RealmObject {
     private String title;
-    @PrimaryKey
     private String url;
     private String publishDate;
+    @PrimaryKey
     private String pageUrl;
     private String caption;
 

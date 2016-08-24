@@ -1,5 +1,7 @@
 package party.danyang.nationalgeographic.model.album_us;
 
+import android.text.TextUtils;
+
 /**
  * Created by dream on 16-8-20.
  */
@@ -8,6 +10,7 @@ public class Items {
     private String url;
     private String publishDate;
     private String pageUrl;
+    private String originalUrl;
     private String caption;
 
     public Items() {
@@ -19,6 +22,14 @@ public class Items {
         this.publishDate = items.getPublishDate();
         this.pageUrl = items.getPageUrl();
         this.caption = items.getCaption();
+    }
+
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
     }
 
     public String getCaption() {
@@ -54,6 +65,8 @@ public class Items {
     }
 
     public String getUrl() {
+        if (!TextUtils.isEmpty(originalUrl) && originalUrl.startsWith("/"))
+            return url + originalUrl;
         return url;
     }
 

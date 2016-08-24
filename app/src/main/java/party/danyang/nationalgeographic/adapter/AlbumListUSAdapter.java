@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.squareup.picasso.Callback;
 
@@ -58,6 +59,7 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
                     public void onError() {
                         if (BuildConfig.LOG_DEBUG)
                             Log.e("Picasso load image", "why...");
+                        bd.iv.setVisibility(View.GONE);
                     }
                 });
     }
