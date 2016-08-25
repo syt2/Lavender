@@ -92,6 +92,7 @@ public class SettingsActivity extends ToolbarActivity {
         if (!checked) {
             //恢复默认值
             SettingsModel.setAccelerateImageSize(this, 1000);
+            binding.setCustomImageSize(1000);
         }
         SettingsModel.setAccelerate(this, checked);
     }
