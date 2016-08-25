@@ -79,7 +79,7 @@ public class SettingsActivity extends ToolbarActivity {
     }
 
     public void onCheckChangedWifiOnly(CompoundButton v, boolean checked) {
-        SettingsModel.setWifiOnly(v.getContext(), checked);
+        SettingsModel.setWifiOnly(this, checked);
     }
 
     //七牛云加速
@@ -89,7 +89,11 @@ public class SettingsActivity extends ToolbarActivity {
 
     public void onCheckChangedAccelerate(CompoundButton v, boolean checked) {
         binding.setAccelerate(checked);
-        SettingsModel.setAccelerate(v.getContext(), checked);
+        if (!checked) {
+            //恢复默认值
+            SettingsModel.setAccelerateImageSize(this, 1000);
+        }
+        SettingsModel.setAccelerate(this, checked);
     }
 
     public void onClickAccelerateCustomImageSize(View view) {

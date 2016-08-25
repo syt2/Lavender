@@ -107,12 +107,14 @@ public class AlbumFragment extends Fragment {
     public void onResume() {
         super.onResume();
         String url = urls.get(index);
+        //如果是us的大图，直接缩小
+        int length = SettingsModel.getAccelerateImageSize(activity);
+        if (url.startsWith("http://yourshot.nationalgeographic.com/")) {
+            url = url.replace("http://yourshot.nationalgeographic.com/", "http://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
+        }
         if (SettingsModel.getAccelerate(activity)) {
-            int length = SettingsModel.getAccelerateImageSize(activity);
             if (url.startsWith("http://pic01.bdatu.com/Upload/picimg/")) {
                 url = url.replace("http://pic01.bdatu.com/Upload/picimg/", "http://ocgasl9gh.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
-            } else if (url.startsWith("http://yourshot.nationalgeographic.com/")) {
-                url = url.replace("http://yourshot.nationalgeographic.com/", "http://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
             }
         }
         PicassoHelper.getInstance(binding.imgTouch.getContext()).load(url)
