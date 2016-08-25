@@ -28,29 +28,6 @@ import rx.schedulers.Schedulers;
  */
 public class Utils {
 
-//    public static String getRealFilePath(final Context context, final Uri uri) {
-//        if (null == uri) return null;
-//        final String scheme = uri.getScheme();
-//        String data = null;
-//        if (scheme == null)
-//            data = uri.getPath();
-//        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
-//            data = uri.getPath();
-//        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-//            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
-//            if (null != cursor) {
-//                if (cursor.moveToFirst()) {
-//                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-//                    if (index > -1) {
-//                        data = cursor.getString(index);
-//                    }
-//                }
-//                cursor.close();
-//            }
-//        }
-//        return data;
-//    }
-
     public static boolean deleteFile(String filename) {
         return new File(filename).delete();
     }
@@ -88,22 +65,6 @@ public class Utils {
             }
         }).subscribeOn(Schedulers.io());
     }
-
-//    public static Gson gsonBuilder() {
-//        GsonBuilder gsonBuilder = new GsonBuilder()
-//                .setExclusionStrategies(new ExclusionStrategy() {
-//                    @Override
-//                    public boolean shouldSkipField(FieldAttributes f) {
-//                        return f.getDeclaredClass().equals(RealmObject.class);
-//                    }
-//
-//                    @Override
-//                    public boolean shouldSkipClass(Class<?> clazz) {
-//                        return false;
-//                    }
-//                }).serializeNulls().excludeFieldsWithoutExposeAnnotation();
-//        return gsonBuilder.create();
-//    }
 
     public static Observable<Uri> saveImgFromUrl(final Context context, final String url, final String name) {
         return Observable.just(url)

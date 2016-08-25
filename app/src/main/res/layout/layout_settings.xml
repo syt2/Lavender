@@ -11,8 +11,8 @@
             type="boolean" />
 
         <variable
-            name="accelerateInLarge"
-            type="boolean" />
+            name="customImageSize"
+            type="int" />
 
         <variable
             name="wifiOnly"
@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
-            android:text="@string/setting_test"
+            android:text="@string/setting_image"
             android:textAppearance="@style/TextAppearance.AppCompat.Small.Title"
             android:textColor="?attr/colorAccent" />
 
@@ -168,23 +168,24 @@
                     android:clickable="@{accelerate?true:false}"
                     android:foreground="?selectableItemBackground"
                     android:padding="@dimen/default_margin"
-                    app:onClickListener="@{clicks::onClickAccelerateInLarge}">
+                    app:onClickListener="@{clicks::onClickAccelerateCustomImageSize}">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|start"
-                        android:text="@string/setting_accelerate_in_large_img"
+                        android:text="@string/setting_accelerate_custom_image_size"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/md_grey_700" />
 
-                    <Switch
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|end"
-                        android:checked="@{accelerateInLarge}"
-                        android:enabled="@{accelerate?true:false}"
-                        app:onCheckedChangeListener="@{clicks::onCheckChangedAccelerateInLarge}" />
+                        android:text="@{String.valueOf(customImageSize)}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small.Small"
+                        android:textColor="@color/md_grey_500"
+                        tools:text="1000" />
                 </FrameLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>

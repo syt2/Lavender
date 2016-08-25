@@ -96,6 +96,7 @@ public class AboutActivity extends ToolbarActivity {
         builder.show();
     }
 
+
     private long lastClickTime;
     private int clickTime;
 

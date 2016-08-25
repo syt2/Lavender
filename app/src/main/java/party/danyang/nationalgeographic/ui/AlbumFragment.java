@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,10 +107,13 @@ public class AlbumFragment extends Fragment {
     public void onResume() {
         super.onResume();
         String url = urls.get(index);
-        if (SettingsModel.getAccelerate(binding.imgTouch.getContext())
-                && SettingsModel.getAccelerateInLarge(binding.imgTouch.getContext())
-                && !url.startsWith("http://images.nationalgeographic.com/")) {
-            url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
+        if (SettingsModel.getAccelerate(activity)) {
+            int length = SettingsModel.getAccelerateImageSize(activity);
+            if (url.startsWith("http://pic01.bdatu.com/Upload/picimg/")) {
+                url = url.replace("http://pic01.bdatu.com/Upload/picimg/", "http://ocgasl9gh.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
+            } else if (url.startsWith("http://yourshot.nationalgeographic.com/")) {
+                url = url.replace("http://yourshot.nationalgeographic.com/", "http://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
+            }
         }
         PicassoHelper.getInstance(binding.imgTouch.getContext()).load(url)
                 .config(Bitmap.Config.ARGB_8888)
@@ -166,14 +167,7 @@ public class AlbumFragment extends Fragment {
 
     private void showSaveImgDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        if (binding.imgTouch != null && binding.imgTouch.getDrawable() != null &&
-                ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap() != null) {
-            builder.setMessage(String.format(getString(R.string.save_img_with_resolution)
-                    , ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap().getWidth()
-                    , ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap().getHeight()));
-        } else {
-            builder.setMessage(R.string.save_img);
-        }
+        builder.setMessage(R.string.save_img);
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

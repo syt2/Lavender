@@ -1,12 +1,11 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.2</latestVersion>
+        <latestVersion>1.2.3</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            - 美国nat-geo的每日一图现在支持查看历史图片啦
-            - 添加随机一张的功能(数据来自nat-geo your link)
-            - 本版本对代码改动大，可能有点机型会存在bug，
-            - 开学后会很少更新了，谢谢大家对Lavender的滋磁...
+            - 修复1.2.2中查看大图卡顿现象
+            - 图片镜像加速采用正式服务器
+            - 添加自定义镜像图片大小选项
         </releaseNotes>
     </update>
 </AppUpdater>

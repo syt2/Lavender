@@ -43,7 +43,10 @@ public class AlbumDetailAdapter extends BaseAdapter<Picture> {
         final ItemDetailBinding bd = (ItemDetailBinding) binding;
         String url = get(position).getUrl();
         if (SettingsModel.getAccelerate(bd.iv.getContext())) {
-            url = TextUtils.concat("http://ob7lf3frj.bkt.clouddn.com/", url.replace("http://pic01.bdatu.com/Upload/picimg/", ""), "?imageMogr2/thumbnail/600x600").toString();
+            if (url.startsWith("http://pic01.bdatu.com/Upload/picimg/")) {
+                int length = SettingsModel.getAccelerateImageSize(bd.iv.getContext());
+                url = url.replace("http://pic01.bdatu.com/Upload/picimg/", "http://ocgasl9gh.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
+            }
         }
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
                 .error(R.mipmap.ic_loading)

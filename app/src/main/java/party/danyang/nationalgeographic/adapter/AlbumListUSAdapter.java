@@ -15,6 +15,7 @@ import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ItemMonthListUsBinding;
 import party.danyang.nationalgeographic.model.album_us.Items;
+import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 
 /**
@@ -42,6 +43,13 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
     public void setBingVariables(ViewDataBinding binding, int position) {
         final ItemMonthListUsBinding bd = (ItemMonthListUsBinding) binding;
         String url = get(position).getUrl();
+//        if (SettingsModel.getAccelerate(bd.iv.getContext()))
+//        强制使用七牛云，因为改版后图片太大，原图在切换activity时卡顿明显
+        if (url.startsWith("http://yourshot.nationalgeographic.com/")) {
+            int length = SettingsModel.getAccelerateImageSize(bd.iv.getContext());
+            url = url.replace("http://yourshot.nationalgeographic.com/", "http://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
+        }
+        Log.e(TAG_LIST_US, url);
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
                 .error(R.mipmap.nat_geo)
                 .noFade()

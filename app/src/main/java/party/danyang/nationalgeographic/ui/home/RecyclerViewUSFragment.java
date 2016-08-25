@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -236,18 +235,6 @@ public class RecyclerViewUSFragment extends Fragment {
                         activity.realm.commitTransaction();
                     }
                 }));
-//        test test test test test test
-//        List<Items> list=new ArrayList<>();
-//        for (int i=0;i<60;i++){
-//            Items items=new Items();
-//            items.setUrl("http://firicon.fir.im/595fb557343c8a59c8b907b159ef527fc8b5063e?t=1471781416.982606");
-//            items.setTitle("Lavender");
-//            items.setCaption("Lavender");
-//            items.setPageUrl("http://firicon.fir.im/595fb557343c8a59c8b907b159ef527fc8b5063e?t=1471781416.982606");
-//            items.setPublishDate("00");
-//            list.add(items);
-//        }
-//        adapter.setNewData(list);
     }
 
     private void getAlbumFromRealm() {
@@ -292,11 +279,6 @@ public class RecyclerViewUSFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Log.e("onHiddenChanged", "hidden=" + hidden);
-        Log.e("onHiddenChanged", "mSubscription==null?" + (mSubscription == null));
-        Log.e("onHiddenChanged", "hasSubscriptions" + mSubscription.hasSubscriptions());
-        Log.e("onHiddenChanged", "adapter==null?" + (adapter == null));
-        Log.e("onHiddenChanged", "adapter size=" + adapter.size());
         if (hidden && mSubscription != null) {
             mSubscription.clear();
             hasLoad = false;

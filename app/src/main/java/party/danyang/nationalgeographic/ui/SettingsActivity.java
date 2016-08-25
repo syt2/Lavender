@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -19,10 +21,10 @@ import io.realm.RealmConfiguration;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivitySettingsBinding;
+import party.danyang.nationalgeographic.databinding.LayoutDialogInputBinding;
 import party.danyang.nationalgeographic.ui.base.ToolbarActivity;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
-import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -66,7 +68,7 @@ public class SettingsActivity extends ToolbarActivity {
         binding.setWifiOnly(SettingsModel.getWifiOnly(this));
         binding.setCacheSize(SettingsModel.getCacheSize(this));
         binding.setAccelerate(SettingsModel.getAccelerate(this));
-        binding.setAccelerateInLarge(SettingsModel.getAccelerateInLarge(this));
+        binding.setCustomImageSize(SettingsModel.getAccelerateImageSize(this));
         binding.setClicks(this);
         setupToolbar(binding.toolbarContent);
     }
@@ -85,34 +87,65 @@ public class SettingsActivity extends ToolbarActivity {
         binding.setAccelerate(!binding.getAccelerate());
     }
 
-    private void showAccelerateAttention() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.attention_accelerate);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.show();
-        PreferencesHelper.getInstance(this).edit().putBoolean(PREF_FIRST_CHANGE_ACCELERATE, false).apply();
-    }
-
     public void onCheckChangedAccelerate(CompoundButton v, boolean checked) {
-        if (checked && PreferencesHelper.getInstance(this).getBoolean(PREF_FIRST_CHANGE_ACCELERATE, true)) {
-            showAccelerateAttention();
-        }
         binding.setAccelerate(checked);
         SettingsModel.setAccelerate(v.getContext(), checked);
     }
 
-    public void onClickAccelerateInLarge(View view) {
-        binding.setAccelerateInLarge(!binding.getAccelerateInLarge());
-    }
+    public void onClickAccelerateCustomImageSize(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final LayoutDialogInputBinding inputBinding = DataBindingUtil
+                .inflate(getLayoutInflater(), R.layout.layout_dialog_input, null, false);
+        inputBinding.input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-    public void onCheckChangedAccelerateInLarge(CompoundButton v, boolean checked) {
-        binding.setAccelerateInLarge(checked);
-        SettingsModel.setAccelerateInLarge(v.getContext(), checked);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() <= 0) {
+                    inputBinding.inputLayout.setErrorEnabled(false);
+                    return;
+                }
+                int value = Integer.valueOf(charSequence.toString());
+                if (value > 2000) {
+                    if (value > 4000)
+                        inputBinding.inputLayout.setError("太大啦，系统已自动调回默认值1000啦");
+                    else
+                        inputBinding.inputLayout.setError("亲确定要设成" + charSequence + "嘛? 在查看某些大图的时候可能会有卡顿哦");
+                } else if (Integer.valueOf(charSequence.toString()) < 800) {
+                    if (value < 500)
+                        inputBinding.inputLayout.setError("太小啦，系统已自动调回默认值1000啦");
+                    else
+                        inputBinding.inputLayout.setError("亲确定要设成" + charSequence + "嘛? 在看图时会很模糊的哦");
+                } else {
+                    inputBinding.inputLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        builder.setView(inputBinding.getRoot());
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (inputBinding.input.getText().toString().length() <= 0) {
+                    return;
+                }
+                int value = Integer.valueOf(inputBinding.input.getText().toString());
+                if (value > 4000 || value < 500) {
+                    value = 1000;
+                }
+                SettingsModel.setAccelerateImageSize(SettingsActivity.this, value);
+                binding.setCustomImageSize(value);
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 
     //clear cache

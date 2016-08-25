@@ -162,8 +162,8 @@ public class DetailActivity extends ToolbarActivity {
             return;
         }
         for (int i = 0; i < adapter.getList().size(); i++) {
-            mSubscription.add(Utils.saveImgFromUrl(this,adapter.get(i).getUrl(),
-                    adapter.get(i).getAlbumid()+"_"+i)
+            mSubscription.add(Utils.saveImgFromUrl(this, adapter.get(i).getUrl(),
+                    adapter.get(i).getAlbumid() + "_" + i)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

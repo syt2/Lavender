@@ -4,7 +4,7 @@
 
 Download
 --------
-V 1.2.2  
+V 1.2.3  
 [![Lavender]](app/Lavender.apk)  
 [Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
 
@@ -25,6 +25,11 @@ http://www.nationalgeographic.com/
 
 Change log
 ----------
+v1.2.3  
+* 图片镜像加速
+* 修复查看大图时的切换卡顿
+* 开学后会很少更新了，谢谢大家对Lavender的滋磁...
+
 v1.2.2  
 * 美国nat-geo的每日一图现在支持查看历史图片啦
 * 添加随机一张的功能(数据来自nat-geo your link)

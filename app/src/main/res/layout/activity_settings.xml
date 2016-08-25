@@ -11,9 +11,8 @@
             type="boolean" />
 
         <variable
-            name="accelerateInLarge"
-            type="boolean" />
-
+            name="customImageSize"
+            type="int" />
         <variable
             name="wifiOnly"
             type="boolean" />
@@ -46,7 +45,7 @@
                 app:wifiOnly="@{wifiOnly}"
                 app:clicks="@{clicks}"
                 app:accelerate="@{accelerate}"
-                app:accelerateInLarge="@{accelerateInLarge}"
+                app:customImageSize="@{customImageSize}"
                 app:cacheSize="@{cacheSize}"/>
 
         </android.support.v4.widget.NestedScrollView>

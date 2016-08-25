@@ -11,7 +11,7 @@ import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 public class SettingsModel {
     public static final String PREF_WIFI_ONLY = "pref_wifi_only";
     public static final String PREF_USE_ACCELERATE = "pref_use_accelerate";
-    public static final String PREF_ACCELERATE_IN_LARGE = "pref_use_accelerate_in_large";
+    public static final String PREF_ACCELERATE_IMAGE_SIZE = "pref_image_size";
 
     public static String getCacheSize(Context context) {
         return FileSizeUtil.getAutoFileOrFilesSize(context.getString(R.string.dir_picasso_cache));
@@ -33,11 +33,11 @@ public class SettingsModel {
         return PreferencesHelper.getInstance(context).getBoolean(PREF_USE_ACCELERATE, false);
     }
 
-    public static void setAccelerateInLarge(Context context, boolean accelerate) {
-        PreferencesHelper.getInstance(context).edit().putBoolean(PREF_ACCELERATE_IN_LARGE, accelerate).commit();
+    public static void setAccelerateImageSize(Context context, int size) {
+        PreferencesHelper.getInstance(context).edit().putInt(PREF_ACCELERATE_IMAGE_SIZE, size).commit();
     }
 
-    public static boolean getAccelerateInLarge(Context context) {
-        return PreferencesHelper.getInstance(context).getBoolean(PREF_ACCELERATE_IN_LARGE, true);
+    public static int getAccelerateImageSize(Context context) {
+        return PreferencesHelper.getInstance(context).getInt(PREF_ACCELERATE_IMAGE_SIZE, 1000);
     }
 }

@@ -286,14 +286,7 @@ public class RandomAlbumActivity extends SwipeBackActivity {
 
     private void showSaveImgDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if (binding.imgTouch != null && binding.imgTouch.getDrawable() != null &&
-                ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap() != null) {
-            builder.setMessage(String.format(getString(R.string.save_img_with_resolution)
-                    , ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap().getWidth()
-                    , ((BitmapDrawable) binding.imgTouch.getDrawable()).getBitmap().getHeight()));
-        } else {
-            builder.setMessage(R.string.save_img);
-        }
+        builder.setMessage(R.string.save_img);
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
