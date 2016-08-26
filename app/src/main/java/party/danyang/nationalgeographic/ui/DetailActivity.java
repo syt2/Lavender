@@ -307,9 +307,9 @@ public class DetailActivity extends ToolbarActivity {
                 @Override
                 public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
                     if (reenterState != null) {
-                        if (adapter == null || adapter.getList() == null || adapter.getList().size() == 0)
-                            return;
                         int position = reenterState.getInt(AlbumActivity.INTENT_INDEX, 0);
+                        if (adapter == null || position >= adapter.size())
+                            return;
                         sharedElements.clear();
                         sharedElements.put(adapter.get(position).getUrl(), layoutManager.findViewByPosition(position));
                         reenterState = null;
@@ -322,10 +322,11 @@ public class DetailActivity extends ToolbarActivity {
     @Override
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
-        if (binding == null) return;
-        supportPostponeEnterTransition();
         reenterState = new Bundle(data.getExtras());
-        binding.recyclerContent.recycler.scrollToPosition(reenterState.getInt(AlbumActivity.INTENT_INDEX, 0));
+        int position = reenterState.getInt(AlbumActivity.INTENT_INDEX, 0);
+        if (binding == null || position >= adapter.size()) return;
+        supportPostponeEnterTransition();
+        binding.recyclerContent.recycler.scrollToPosition(position);
         binding.recyclerContent.recycler.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {

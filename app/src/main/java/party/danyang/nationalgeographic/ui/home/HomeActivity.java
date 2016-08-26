@@ -290,7 +290,7 @@ public class HomeActivity extends AppCompatActivity {
                         int position = reenterState.getInt(AlbumActivity.INTENT_INDEX, 0);
                         //判空
                         if (getUSFragment() == null || getUSFragment().adapter == null
-                                || getUSFragment().adapter.size() == 0)
+                                || position >= getUSFragment().adapter.size())
                             return;
                         sharedElements.clear();
                         sharedElements.put(getUSFragment().adapter.get(position).getUrl(), getUSFragment().layoutManager.findViewByPosition(position));
@@ -305,12 +305,12 @@ public class HomeActivity extends AppCompatActivity {
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
         if (type == Type.US && getUSFragment() != null) {
-            //判空
-            if (getUSFragment().binding == null)
+            reenterState = new Bundle(data.getExtras());
+            int position = reenterState.getInt(AlbumActivity.INTENT_INDEX, 0);
+            if (getUSFragment().binding == null || position >= getUSFragment().adapter.size())
                 return;
             supportPostponeEnterTransition();
-            reenterState = new Bundle(data.getExtras());
-            getUSFragment().binding.recycler.scrollToPosition(reenterState.getInt(AlbumActivity.INTENT_INDEX, 0));
+            getUSFragment().binding.recycler.scrollToPosition(position);
             getUSFragment().binding.recycler.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
