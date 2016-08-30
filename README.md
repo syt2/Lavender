@@ -4,7 +4,7 @@
 
 Download
 --------
-V 1.2.3  
+V 1.2.3.1  
 [![Lavender]](app/Lavender.apk)  
 [Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
 
@@ -25,6 +25,9 @@ http://www.nationalgeographic.com/
 
 Change log
 ----------
+v1.2.3.1  
+* bug修复...
+
 v1.2.3  
 * 图片镜像加速
 * 修复查看大图时的切换卡顿

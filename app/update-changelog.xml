@@ -1,11 +1,9 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.3</latestVersion>
+        <latestVersion>1.2.3.1</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            - 修复1.2.2中查看大图卡顿现象
-            - 图片镜像加速采用正式服务器
-            - 添加自定义镜像图片大小选项
+            - bug修复
         </releaseNotes>
     </update>
 </AppUpdater>

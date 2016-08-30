@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +12,6 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,7 +70,6 @@ public class RandomAlbumActivity extends SwipeBackActivity {
         randomId = savedInstanceState != null
                 ? savedInstanceState.getInt(SAVED_INSTANCE_STATE_RANDOM_ID, getRandomInt())
                 : getRandomInt();
-        Log.e("onCreate", "randomId=" + randomId);
         initViews();
     }
 
@@ -146,6 +143,7 @@ public class RandomAlbumActivity extends SwipeBackActivity {
                 getPic(getRandomInt());
             }
         });
+        binding.refresh.setProgressViewOffset(true, 100, 200);
         binding.refresh.setColorSchemeResources(R.color.md_grey_600, R.color.md_grey_800);
         RxSwipeRefreshLayout.refreshes(binding.refresh)
                 .subscribe(new Action1<Void>() {
@@ -164,13 +162,7 @@ public class RandomAlbumActivity extends SwipeBackActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.e("onSaveInstanceState", "randomId=" + randomId);
         outState.putInt(SAVED_INSTANCE_STATE_RANDOM_ID, randomId);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private void getPic(final int randomId) {
