@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
@@ -168,15 +169,14 @@ public class Utils {
     }
 
     public static int getYearOfNow() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        return year;
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-4"));
+        return calendar.get(Calendar.YEAR);
+
     }
 
     public static int getMonthOfNow() {
-        Calendar calendar = Calendar.getInstance();
-        int month = calendar.get(Calendar.MONTH);
-        return month + 1;
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-4"));
+        return calendar.get(Calendar.MONTH) + 1;
     }
 
 }

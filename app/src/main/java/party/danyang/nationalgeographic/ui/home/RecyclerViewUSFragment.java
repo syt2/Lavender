@@ -196,6 +196,18 @@ public class RecyclerViewUSFragment extends Fragment {
                         hasLoad = false;
                         Utils.setRefresher(binding.refresher, false);
                         binding.setShowErrorView(false);
+
+                        //处理数量为空或不足导致recyclerView无法scroll的loadmore问题
+                        int[] positions = new int[layoutManager.getSpanCount()];
+                        layoutManager.findLastCompletelyVisibleItemPositions(positions);
+                        int maxPosition = positions[0];
+                        for (int position : positions) {
+                            maxPosition = Math.max(position, maxPosition);
+                        }
+                        if (maxPosition == layoutManager.getItemCount() - 1 || maxPosition < 0) {
+                            loadMore();
+                        }
+
                         unsubscribe();
                     }
 
@@ -219,7 +231,7 @@ public class RecyclerViewUSFragment extends Fragment {
 
                     @Override
                     public void onNext(AlbumList albumList) {
-                        if (albumList == null || albumList.getItems() == null || albumList.getItems().size() == 0) {
+                        if (albumList == null) {
                             onError(new Exception(getString(R.string.exception_content_null)));
                         }
                         if (year == Utils.getYearOfNow() && month == Utils.getMonthOfNow()) {
