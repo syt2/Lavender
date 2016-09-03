@@ -45,9 +45,11 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
         String url = get(position).getUrl();
 //        if (SettingsModel.getAccelerate(bd.iv.getContext()))
 //        强制使用七牛云，因为改版后图片太大，原图在切换activity时卡顿明显
+        int length = SettingsModel.getAccelerateImageSize(bd.iv.getContext());
         if (url.startsWith("http://yourshot.nationalgeographic.com/")) {
-            int length = SettingsModel.getAccelerateImageSize(bd.iv.getContext());
-            url = url.replace("http://yourshot.nationalgeographic.com/", "http://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
+            url = url.replace("http://yourshot.nationalgeographic.com/", "https://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
+        }else if (url.startsWith("http://www.nationalgeographic.com/")){
+            url = url.replace("http://www.nationalgeographic.com/", "https://ocwluxhzm.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
         }
         Log.e(TAG_LIST_US, url);
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)

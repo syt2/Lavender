@@ -45,7 +45,7 @@ public class AlbumDetailAdapter extends BaseAdapter<Picture> {
         if (SettingsModel.getAccelerate(bd.iv.getContext())) {
             if (url.startsWith("http://pic01.bdatu.com/Upload/picimg/")) {
                 int length = SettingsModel.getAccelerateImageSize(bd.iv.getContext());
-                url = url.replace("http://pic01.bdatu.com/Upload/picimg/", "http://ocgasl9gh.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
+                url = url.replace("http://pic01.bdatu.com/Upload/picimg/", "https://ocgasl9gh.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
             }
         }
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
