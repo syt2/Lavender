@@ -49,9 +49,9 @@ public class AlbumDetailAdapter extends BaseAdapter<Picture> {
             }
         }
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
-                .error(R.mipmap.ic_loading)
+                .error(R.mipmap.nat_geo_480)
                 .noFade()
-                .placeholder(R.mipmap.ic_loading)
+                .placeholder(R.mipmap.nat_geo_480)
                 .tag(TAG_DETAIL)
                 .config(Bitmap.Config.RGB_565)
                 .into(bd.iv, new Callback() {

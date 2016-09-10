@@ -37,9 +37,9 @@ public class AlbumListAdapter extends BaseAdapter<Album> {
         bd.setAlbum(get(position));
         String url = get(position).getUrl();
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
-                .error(R.mipmap.ic_loading)
+                .error(R.mipmap.nat_geo_480)
                 .noFade()
-                .placeholder(R.mipmap.ic_loading)
+                .placeholder(R.mipmap.nat_geo_480)
                 .tag(TAG_HOME)
                 .config(Bitmap.Config.RGB_565)
                 .into(bd.iv);

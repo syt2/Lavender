@@ -48,14 +48,14 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
         int length = SettingsModel.getAccelerateImageSize(bd.iv.getContext());
         if (url.startsWith("http://yourshot.nationalgeographic.com/")) {
             url = url.replace("http://yourshot.nationalgeographic.com/", "https://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
-        }else if (url.startsWith("http://www.nationalgeographic.com/")){
+        } else if (url.startsWith("http://www.nationalgeographic.com/")) {
             url = url.replace("http://www.nationalgeographic.com/", "https://ocwluxhzm.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
         }
         Log.e(TAG_LIST_US, url);
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
-                .error(R.mipmap.nat_geo)
+                .error(R.mipmap.nat_geo_480)
                 .noFade()
-                .placeholder(R.mipmap.nat_geo)
+                .placeholder(R.mipmap.nat_geo_480)
                 .tag(TAG_LIST_US)
                 .config(Bitmap.Config.RGB_565)
                 .into(bd.iv, new Callback() {
