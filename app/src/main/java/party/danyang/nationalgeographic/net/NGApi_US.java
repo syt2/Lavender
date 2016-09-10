@@ -28,7 +28,7 @@ public class NGApi_US {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        String time = year + "-" + month;
+        String time = year + "-" + (month < 10 ? "0" + month : month);
         return retrofit.create(PictureApi.class).loadPictures(time);
     }
 }

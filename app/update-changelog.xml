@@ -1,10 +1,9 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.4</latestVersion>
+        <latestVersion>1.2.5</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            - bug修复
-            - 图片加载问题优化
+            - 优化图片加载体验
         </releaseNotes>
     </update>
 </AppUpdater>

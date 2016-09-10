@@ -15,7 +15,7 @@ public class App extends Application {
         MobclickAgent.setDebugMode(BuildConfig.DEBUG);
         RealmConfiguration config = new RealmConfiguration.Builder(this)
                 .name("LavenderWaitCy")
-                .schemaVersion(15)
+                .schemaVersion(16)
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);

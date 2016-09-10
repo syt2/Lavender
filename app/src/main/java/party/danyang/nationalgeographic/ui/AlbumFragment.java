@@ -127,12 +127,12 @@ public class AlbumFragment extends Fragment {
                 .into(binding.imgTouch, new Callback() {
                     @Override
                     public void onSuccess() {
+                        binding.progressBar.hide();
                         binding.imgTouch.setZoom(1);
                     }
 
                     @Override
                     public void onError() {
-
                     }
                 });
     }
