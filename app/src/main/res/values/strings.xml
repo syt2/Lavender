@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Lavender</string>
+    <string name="version">v 1.2.5</string>
     <string name="lalala">~\(≧▽≦)/~</string>
     <string name="action_yourshotlink">page url</string>
     <string name="action_refresh">Random one</string>
@@ -19,7 +20,6 @@
     <string name="ok">OK</string>
     <string name="permission_denied">permission denied</string>
     <string name="cannot_download_pic">cannot download pic</string>
-    <string name="attention">pay attention to your mobile traffic. I suggest use this app in wifi.</string>
     <string name="my_email">dreamcontinue.cd@gmail.com</string>
 
 
@@ -49,7 +49,6 @@
     <string name="random_pic">random your shot</string>
     <string name="article">Articles</string>
 
-    <string name="version">v 1.2.4</string>
     <string name="about_attention_content">Lavender-based National Geographic daily selection of third-party applications， such as National Geographic Lavender has violated rights,
         it will be the first time to withdraw and stop updating.
         \n\nThanks @柠冰羽痕Ice @WangMT in coolapk
@@ -83,6 +82,5 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
 
 </resources>
