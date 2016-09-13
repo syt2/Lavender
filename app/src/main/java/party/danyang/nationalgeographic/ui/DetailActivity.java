@@ -3,6 +3,7 @@ package party.danyang.nationalgeographic.ui;
 import android.Manifest;
 import android.app.SharedElementCallback;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
@@ -107,6 +108,15 @@ public class DetailActivity extends ToolbarActivity {
         realm.close();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        layoutManager = new StaggeredGridLayoutManager(
+                LayoutSpanCountUtils.getSpanCount(this, newConfig.orientation)
+                , StaggeredGridLayoutManager.VERTICAL);
+        binding.recyclerContent.recycler.setLayoutManager(layoutManager);
+        super.onConfigurationChanged(newConfig);
+    }
+
     private void initViews() {
         setupToolbar(binding.toolbarContent);
         binding.toolbarContent.toolbarLayout.setTitle(album.getTitle());
@@ -127,7 +137,9 @@ public class DetailActivity extends ToolbarActivity {
                 startAlbumActivity(view, position);
             }
         });
-        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(
+                LayoutSpanCountUtils.getSpanCount(this, getResources().getConfiguration().orientation)
+                , StaggeredGridLayoutManager.VERTICAL);
         binding.recyclerContent.recycler.setAdapter(adapter);
         binding.recyclerContent.recycler.setLayoutManager(layoutManager);
         RxRecyclerView.scrollStateChanges(binding.recyclerContent.recycler).subscribe(new Action1<Integer>() {

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Lavender</string>
-    <string name="version">v 1.2.5</string>
+    <string name="version">v 1.2.6</string>
     <string name="lalala">~\(≧▽≦)/~</string>
     <string name="action_yourshotlink">page url</string>
     <string name="action_refresh">Random one</string>
@@ -49,11 +49,11 @@
     <string name="random_pic">random your shot</string>
     <string name="article">Articles</string>
 
-    <string name="about_attention_content">Lavender-based National Geographic daily selection of third-party applications， such as National Geographic Lavender has violated rights,
+    <string name="about_attention_content">Lavender based National Geographic daily selection of third-party applications， such as National Geographic Lavender has violated rights,
         it will be the first time to withdraw and stop updating.
         \n\nThanks @柠冰羽痕Ice @WangMT in coolapk
         \n\nIf you have any suggestions and comments to Lavender, welcome to contact me.</string>
-    <string name="about_use_attention">Use attention</string>
+    <string name="about_use_attention">About Lavender</string>
     <string name="about_image_from">Images from</string>
     <string name="about_from_ng"><a href="http://ng.bdatu.com/">ng.bdatu.com</a></string>
     <string name="about_from_ng_us"><a href="http://www.nationalgeographic.com/photography/photo-of-the-day/">www.nationalgeographic.com</a></string>

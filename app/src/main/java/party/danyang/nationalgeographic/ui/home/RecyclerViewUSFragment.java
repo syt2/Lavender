@@ -2,6 +2,7 @@ package party.danyang.nationalgeographic.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,6 +35,7 @@ import party.danyang.nationalgeographic.model.album_us.Items;
 import party.danyang.nationalgeographic.model.album_us.ItemsRealm;
 import party.danyang.nationalgeographic.net.NGApi_US;
 import party.danyang.nationalgeographic.ui.AlbumActivity;
+import party.danyang.nationalgeographic.ui.LayoutSpanCountUtils;
 import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
@@ -63,7 +65,6 @@ public class RecyclerViewUSFragment extends Fragment {
     private boolean hasLoad = false;
 
     private static RecyclerViewUSFragment singleton;
-
 
     @Override
     public void onAttach(Context context) {
@@ -125,6 +126,15 @@ public class RecyclerViewUSFragment extends Fragment {
         getAlbumUSList();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        layoutManager = new StaggeredGridLayoutManager(
+                LayoutSpanCountUtils.getSpanCount(activity, newConfig.orientation)
+                , StaggeredGridLayoutManager.VERTICAL);
+        binding.recycler.setLayoutManager(layoutManager);
+        super.onConfigurationChanged(newConfig);
+    }
+
     private void setupRecyclerContent() {
         binding.setShowErrorView(false);
         binding.errorView.setOnRetryListener(new ErrorView.RetryListener() {
@@ -142,7 +152,9 @@ public class RecyclerViewUSFragment extends Fragment {
                 startAlbumActivity(view, position);
             }
         });
-        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(
+                LayoutSpanCountUtils.getSpanCount(activity, getResources().getConfiguration().orientation)
+                , StaggeredGridLayoutManager.VERTICAL);
         binding.recycler.setAdapter(adapter);
         binding.recycler.setLayoutManager(layoutManager);
         //滑动是暂停加载

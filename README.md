@@ -4,7 +4,7 @@
 
 Download
 --------
-V 1.2.5  
+V 1.2.6  
 [![Lavender]](app/Lavender.apk)  
 [Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
 
@@ -24,8 +24,9 @@ http://www.nationalgeographic.com/
 
 Change log
 ----------
-**v1.2.5**  
-* 优化图片加载体验  
+**v1.2.6**  
+* 修复自动转屏失效的问题
+* 图片列表适配平板设备
 
 [**older**](changeLog/README.md)
 
@@ -42,7 +43,6 @@ Problems
 --------
 * ~~[PhotoView](https://github.com/chrisbanes/PhotoView) 在动画切换时存在[bug](https://github.com/chrisbanes/PhotoView/issues/243)，未解。故暂时使用[TouchImageView](https://github.com/MikeOrtiz/TouchImageView)~~最新版已修复，但是我这边使用时依旧存在问题，不知是什么原因
 * ~~windowIsTranslucent设置为true后Activity间切换动画无效~~ [解决方案参考](http://blog.csdn.net/fancylovejava/article/details/39643449)，但是我并没有采用，因为会覆盖ActivityOptionCompat内的动画
-* 转屏失效（未找到bug所在），从其他应用切换到Lavender就可以正常转屏,从第一版开始就有这个问题了，到现在都没找到是哪里引起的。哭哭哭哭哭
 * ~~因Glide的某些特性，Lavender次尝试转Glide失败，以后有时间继续尝试Picasso转Glide~~
 * 数不清的问题留待解决:sob:
 

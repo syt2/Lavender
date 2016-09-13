@@ -47,7 +47,7 @@
     <string name="about_attention_content">Lavender系第三方国家地理每日精选应用，如Lavender有侵犯国家地理官方权益，本人将第一时间撤回及停止更新。
         \n\n感谢酷友@柠冰羽痕Ice(前任图标) @WangMT(现在的图标) 对Lavender的帮助
         \n\n如果对Lavender有什么建议及意见的话，欢迎联系我并提出。</string>
-    <string name="about_use_attention">Lavender 自述</string>
+    <string name="about_use_attention">关于Lavender</string>
     <string name="about_image_from">图片来自</string>
     <string name="about_go_to_github">访问 Lavender 在 GitHub 上的源码</string>
     <string name="about_used_libs">Lavender 用到了以下开源库</string>

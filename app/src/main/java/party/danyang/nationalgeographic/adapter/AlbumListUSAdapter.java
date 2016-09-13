@@ -51,7 +51,6 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
         } else if (url.startsWith("http://www.nationalgeographic.com/")) {
             url = url.replace("http://www.nationalgeographic.com/", "https://ocwluxhzm.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
         }
-        Log.e(TAG_LIST_US, url);
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
                 .error(R.mipmap.nat_geo_480)
                 .noFade()

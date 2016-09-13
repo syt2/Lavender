@@ -2,6 +2,7 @@ package party.danyang.nationalgeographic.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -34,6 +35,7 @@ import party.danyang.nationalgeographic.model.albumlist.AlbumList;
 import party.danyang.nationalgeographic.model.albumlist.AlbumRealm;
 import party.danyang.nationalgeographic.net.NGApi;
 import party.danyang.nationalgeographic.ui.DetailActivity;
+import party.danyang.nationalgeographic.ui.LayoutSpanCountUtils;
 import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
@@ -121,6 +123,15 @@ public class RecyclerViewTWFragment extends Fragment {
         getAlbumList();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        layoutManager = new StaggeredGridLayoutManager(
+                LayoutSpanCountUtils.getSpanCount(activity, newConfig.orientation)
+                , StaggeredGridLayoutManager.VERTICAL);
+        binding.recycler.setLayoutManager(layoutManager);
+        super.onConfigurationChanged(newConfig);
+    }
+
     private void setupRecyclerContent() {
         binding.setShowErrorView(false);
         binding.errorView.setOnRetryListener(new ErrorView.RetryListener() {
@@ -138,7 +149,9 @@ public class RecyclerViewTWFragment extends Fragment {
                 startDetailActivity(view, position);
             }
         });
-        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(
+                LayoutSpanCountUtils.getSpanCount(activity, getResources().getConfiguration().orientation)
+                , StaggeredGridLayoutManager.VERTICAL);
         binding.recycler.setAdapter(adapter);
         binding.recycler.setLayoutManager(layoutManager);
         //滑动是暂停加载
