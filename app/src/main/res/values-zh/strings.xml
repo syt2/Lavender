@@ -15,6 +15,7 @@
     <string name="ok">确认</string>
     <string name="permission_denied">权限都没有，到达不了sd卡，哼哼~\(≧▽≦)/~</string>
     <string name="cannot_download_pic">下载图片出错</string>
+    <string name="click_ono_more_to_exit">再按一次退出Lavender</string>
 
 
     <string name="settings_title_conventional">常规</string>

@@ -33,6 +33,7 @@ import party.danyang.nationalgeographic.ui.AlbumActivity;
 import party.danyang.nationalgeographic.ui.RandomAlbumActivity;
 import party.danyang.nationalgeographic.ui.SettingsActivity;
 import party.danyang.nationalgeographic.utils.SettingsModel;
+import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import party.danyang.nationalgeographic.widget.OnStateChangedListener;
 import rx.functions.Action1;
@@ -268,6 +269,7 @@ public class HomeActivity extends AppCompatActivity {
             if (System.currentTimeMillis() - lastClickBackTime < 300) {
                 supportFinishAfterTransition();
             } else {
+                Utils.makeSnackBar(binding.getRoot(), R.string.click_ono_more_to_exit, true);
                 lastClickBackTime = System.currentTimeMillis();
             }
         } else {
