@@ -44,7 +44,7 @@ Thanks
 -----------------
 感谢国家地理  
 感谢默默付出的开源者  
-感谢[70kg/Meizi](https://github.com/70kg/Meizi) [oxoooo/earth](https://github.com/oxoooo/earth)的开源，Lavender借鉴了部分代码，感谢  
+感谢[70kg/Meizi](https://github.com/70kg/Meizi) [oxoooo/earth](https://github.com/oxoooo/earth)的开源，Lavender借鉴了部分代码  
 感谢酷友 [@柠冰羽痕Ice](http://www.coolapk.com/u/482620)(前任图标) [@WangMT](http://www.coolapk.com/u/413199)(现在的图标) 的帮助
 
 
@@ -87,6 +87,6 @@ About Me
 
   
 :blue_heart::purple_heart::heart:  
-:yellow_heart::cloud::heartpulse:  
+:yellow_heart:[:cloud:]("云，如果妳能看到的话，我一直在等妳"):heartpulse:  
 :sparkling_heart::revolving_hearts::two_hearts:  
 :bomb::girl::poop:
