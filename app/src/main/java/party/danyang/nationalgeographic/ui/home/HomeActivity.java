@@ -32,6 +32,7 @@ import party.danyang.nationalgeographic.ui.AboutActivity;
 import party.danyang.nationalgeographic.ui.AlbumActivity;
 import party.danyang.nationalgeographic.ui.RandomAlbumActivity;
 import party.danyang.nationalgeographic.ui.SettingsActivity;
+import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import party.danyang.nationalgeographic.widget.OnStateChangedListener;
 import rx.functions.Action1;
@@ -258,26 +259,38 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    //double click back to exit
+    private long lastClickBackTime;
+
     @Override
     public void onBackPressed() {
-        supportFinishAfterTransition();
+        if (SettingsModel.getDoubleClickExit(this)) {
+            if (System.currentTimeMillis() - lastClickBackTime < 300) {
+                supportFinishAfterTransition();
+            } else {
+                lastClickBackTime = System.currentTimeMillis();
+            }
+        } else {
+            supportFinishAfterTransition();
+        }
     }
 
     //click toolbar then scroll to top
-    private long lastClickTime;
+    private long lastClickToolbarTime;
 
     private void onToolbarClicked() {
-        if (System.currentTimeMillis() - lastClickTime < 300) {
+        if (System.currentTimeMillis() - lastClickToolbarTime < 300) {
             if (type == Type.TW && getTWFragment() != null) {
                 getTWFragment().binding.recycler.smoothScrollToPosition(0);
             } else if (type == Type.US && getUSFragment() != null) {
                 getUSFragment().binding.recycler.smoothScrollToPosition(0);
             }
         } else {
-            lastClickTime = System.currentTimeMillis();
+            lastClickToolbarTime = System.currentTimeMillis();
         }
     }
 
+    //animation between activities
     //just used when type is US
     private Bundle reenterState;
 

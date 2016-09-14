@@ -40,7 +40,7 @@ import rx.subscriptions.CompositeSubscription;
 public class AlbumFragment extends Fragment {
     private static final String TAG = AlbumFragment.class.getSimpleName();
 
-    public static final String TAG_ALBUN_FRAGMENT = "tag.albunfragment";
+    public static final String TAG_ALBUM_FRAGMENT = "tag.albunfragment";
 
     private static final String URLS = "party.danyang.ng.af.urls";
     private static final String INDEX = "party.danyang.ng.af.index";
@@ -111,7 +111,7 @@ public class AlbumFragment extends Fragment {
         int length = SettingsModel.getAccelerateImageSize(activity);
         if (url.startsWith("http://yourshot.nationalgeographic.com/")) {
             url = url.replace("http://yourshot.nationalgeographic.com/", "https://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
-        }else if (url.startsWith("http://www.nationalgeographic.com/")){
+        } else if (url.startsWith("http://www.nationalgeographic.com/")) {
             url = url.replace("http://www.nationalgeographic.com/", "https://ocwluxhzm.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
         }
         if (SettingsModel.getAccelerate(activity)) {
@@ -123,7 +123,7 @@ public class AlbumFragment extends Fragment {
                 .config(Bitmap.Config.ARGB_8888)
                 .noFade()
                 .priority(Picasso.Priority.HIGH)
-                .tag(TAG_ALBUN_FRAGMENT)
+                .tag(TAG_ALBUM_FRAGMENT)
                 .into(binding.imgTouch, new Callback() {
                     @Override
                     public void onSuccess() {

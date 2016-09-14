@@ -13,26 +13,31 @@
     <string name="cancel">取消</string>
     <string name="author">摄影（%s）</string>
     <string name="ok">确认</string>
-    <string name="permission_denied">权限都不给奴家，怎么让奴家保存啊~\(≧▽≦)/~</string>
+    <string name="permission_denied">权限都没有，到达不了sd卡，哼哼~\(≧▽≦)/~</string>
     <string name="cannot_download_pic">下载图片出错</string>
 
 
     <string name="settings_title_conventional">常规</string>
 
-    <string name="settings_wifi_only">省流量模式</string>
+    <string name="settings_wifi_only">零流量模式</string>
     <string name="settings_wifi_only_summary">仅在WIFI下加载图片</string>
     <string name="settings_theme">主题</string>
+    <string name="settings_double_click_exit">双击返回键退出</string>
 
     <string name="settings_title_others">其他</string>
 
     <string name="settings_clear_cache">清理缓存</string>
     <string name="settings_check_update">检查更新</string>
-    <string name="settings_report">与我联系</string>
+    <string name="settings_report">联系我</string>
+    <string name="settings_go_to_market">前往应用商店评分</string>
+    <string name="settings_app_info">查看Lavender的应用信息</string>
     <string name="settings_about">关于</string>
     <string name="setting_image">图片处理</string>
     <string name="setting_accelerate">启用镜像加速</string>
     <string name="setting_accelerate_custom_image_size">自定义尺寸</string>
+    <string name="setting_accelerate_custom_image_size_hint">开启镜像加速生效</string>
     <string name="settings">设置</string>
+    <string name="settings_no_activity_handle">没有应用处理该选项</string>
 
     <string name="setting_dialog_custom_image_title">自定义图片较长边尺寸</string>
     <string name="setting_dialog_custom_image_content">输入较长边长度,获取的图片的较长边将不会超出这个数字</string>

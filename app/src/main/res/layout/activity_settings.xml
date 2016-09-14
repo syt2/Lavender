@@ -13,8 +13,13 @@
         <variable
             name="customImageSize"
             type="int" />
+
         <variable
             name="wifiOnly"
+            type="boolean" />
+
+        <variable
+            name="doubleClickExit"
             type="boolean" />
 
         <variable
@@ -45,6 +50,7 @@
                 app:wifiOnly="@{wifiOnly}"
                 app:clicks="@{clicks}"
                 app:accelerate="@{accelerate}"
+                app:doubleClickExit="@{doubleClickExit}"
                 app:customImageSize="@{customImageSize}"
                 app:cacheSize="@{cacheSize}"/>
 

@@ -74,20 +74,20 @@ public class AlbumActivity extends SwipeBackActivity {
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        PicassoHelper.getInstance(this).resumeTag(AlbumFragment.TAG_ALBUN_FRAGMENT);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        PicassoHelper.getInstance(this).cancelTag(AlbumFragment.TAG_ALBUN_FRAGMENT);
+        PicassoHelper.getInstance(this).resumeTag(AlbumFragment.TAG_ALBUM_FRAGMENT);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        PicassoHelper.getInstance(this).pauseTag(AlbumFragment.TAG_ALBUN_FRAGMENT);
+        PicassoHelper.getInstance(this).pauseTag(AlbumFragment.TAG_ALBUM_FRAGMENT);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PicassoHelper.getInstance(this).cancelTag(AlbumFragment.TAG_ALBUM_FRAGMENT);
     }
 
     private void setEnterAnimator() {

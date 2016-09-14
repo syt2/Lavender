@@ -1,7 +1,9 @@
 package party.danyang.nationalgeographic.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -96,6 +98,27 @@ public class AboutActivity extends ToolbarActivity {
         builder.show();
     }
 
+    public void onClickRating(View view) {
+        goToMarket();
+    }
+
+    private void goToMarket() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName()));
+        startIntent(intent);
+    }
+
+    //report
+    public void onClickReport(View view) {
+        sendEmailToMe();
+    }
+
+    private void sendEmailToMe() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.my_email)});
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.report_email_title));
+        intent.setType("message/rfc822");
+        startIntent(intent);
+    }
 
     private long lastClickTime;
     private int clickTime;
@@ -126,4 +149,11 @@ public class AboutActivity extends ToolbarActivity {
         }
     }
 
+    private void startIntent(Intent intent) {
+        if (Utils.isIntentSafe(this, intent)) {
+            startActivity(intent);
+        } else {
+            Utils.makeSnackBar(binding.getRoot(), R.string.settings_no_activity_handle, true);
+        }
+    }
 }

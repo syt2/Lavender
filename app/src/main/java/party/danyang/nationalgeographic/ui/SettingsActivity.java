@@ -3,7 +3,9 @@ package party.danyang.nationalgeographic.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,8 +31,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class SettingsActivity extends ToolbarActivity {
-
-    private static final String PREF_FIRST_CHANGE_ACCELERATE = "pref_first_change_accelerate";
 
     private ActivitySettingsBinding binding;
 
@@ -66,6 +66,7 @@ public class SettingsActivity extends ToolbarActivity {
 
     private void initViews() {
         binding.setWifiOnly(SettingsModel.getWifiOnly(this));
+        binding.setDoubleClickExit(SettingsModel.getDoubleClickExit(this));
         binding.setCacheSize(SettingsModel.getCacheSize(this));
         binding.setAccelerate(SettingsModel.getAccelerate(this));
         binding.setCustomImageSize(SettingsModel.getAccelerateImageSize(this));
@@ -80,6 +81,15 @@ public class SettingsActivity extends ToolbarActivity {
 
     public void onCheckChangedWifiOnly(CompoundButton v, boolean checked) {
         SettingsModel.setWifiOnly(this, checked);
+    }
+
+    public void onClickDoubleClickExit(View view) {
+        binding.setDoubleClickExit(!binding.getDoubleClickExit());
+    }
+
+    public void onCheckChangedDoubleClickExit(CompoundButton v, boolean checked) {
+        binding.setDoubleClickExit(checked);
+        SettingsModel.setDoubleClickExit(this, checked);
     }
 
     //七牛云加速
@@ -185,19 +195,6 @@ public class SettingsActivity extends ToolbarActivity {
                 });
     }
 
-    //report
-    public void onClickReport(View view) {
-        sendEmailToMe();
-    }
-
-    private void sendEmailToMe() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.my_email)});
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.report_email_title));
-        intent.setType("message/rfc822");
-        startActivity(intent);
-    }
-
     public void onClickCheckUpdate(View view) {
         appUpdater = new AppUpdater(this)
                 .setUpdateFrom(UpdateFrom.XML)
@@ -209,4 +206,9 @@ public class SettingsActivity extends ToolbarActivity {
         appUpdater.start();
     }
 
+    public void onClickAppInfo(View view) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.fromParts("package", getPackageName(), null));
+        startActivity(intent);
+    }
 }

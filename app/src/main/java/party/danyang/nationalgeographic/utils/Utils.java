@@ -2,6 +2,8 @@ package party.danyang.nationalgeographic.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -14,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import party.danyang.nationalgeographic.R;
@@ -179,4 +182,9 @@ public class Utils {
         return calendar.get(Calendar.MONTH) + 1;
     }
 
+    public static boolean isIntentSafe(Context context, Intent intent) {
+        PackageManager packageManager = context.getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+        return activities.size() > 0;
+    }
 }

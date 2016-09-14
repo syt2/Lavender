@@ -268,6 +268,8 @@ public class RecyclerViewUSFragment extends Fragment {
                 List<ItemsRealm> albums = ItemsRealm.all(activity.realm);
                 List<Items> list = new ArrayList<>();
                 for (ItemsRealm a : albums) {
+                    //修复进入AlbumActivity时内存爆炸
+                    if (list.size() > 50) break;
                     list.add(new Items(a));
                 }
                 subscriber.onNext(list);

@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <!--<uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />-->
 
     <application
         android:name=".App"
@@ -39,6 +39,7 @@
         </activity>
 
         <activity
+            android:configChanges="orientation|screenSize"
             android:name=".ui.DetailActivity"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -22,9 +22,9 @@
 
             <FrameLayout
                 android:id="@+id/recycler_content_fragment"
-                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </android.support.design.widget.CoordinatorLayout>
@@ -36,6 +36,7 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_home"
+            app:insetForeground="@android:color/transparent"
             app:itemIconTint="@color/md_grey_100"
             app:itemTextColor="@color/md_grey_300"
             app:menu="@menu/activity_home_drawer" />
