@@ -266,7 +266,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (SettingsModel.getDoubleClickExit(this)) {
-            if (System.currentTimeMillis() - lastClickBackTime < 300) {
+            if (System.currentTimeMillis() - lastClickBackTime < 500) {
                 supportFinishAfterTransition();
             } else {
                 Utils.makeSnackBar(binding.getRoot(), R.string.click_ono_more_to_exit, true);
@@ -281,7 +281,7 @@ public class HomeActivity extends AppCompatActivity {
     private long lastClickToolbarTime;
 
     private void onToolbarClicked() {
-        if (System.currentTimeMillis() - lastClickToolbarTime < 300) {
+        if (System.currentTimeMillis() - lastClickToolbarTime < 400) {
             if (type == Type.TW && getTWFragment() != null) {
                 getTWFragment().binding.recycler.smoothScrollToPosition(0);
             } else if (type == Type.US && getUSFragment() != null) {
