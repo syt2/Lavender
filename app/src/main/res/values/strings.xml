@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Lavender</string>
-    <string name="version">v 1.2.6</string>
+    <string name="version">v 1.2.6.1</string>
     <string name="lalala">~\(≧▽≦)/~</string>
     <string name="action_yourshotlink">page url</string>
     <string name="action_refresh">Random one</string>

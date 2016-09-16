@@ -1,12 +1,9 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.6</latestVersion>
+        <latestVersion>1.2.6.1</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            * 修复自动转屏失效的问题
-            * 适配平板设备
-            * 一些问题的修复
-            * 设置及关于界面的略微调整
+            * 修复设置竖屏后Lavender仍旧自动旋转
         </releaseNotes>
     </update>
 </AppUpdater>

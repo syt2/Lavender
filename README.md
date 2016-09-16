@@ -31,11 +31,8 @@ RxJava+Retrofit封装网络请求，Realm缓存网络数据
 
 Change log
 ----------
-**v1.2.6**  
-* 修复自动转屏失效的问题
-* 适配平板设备
-* 一些问题的修复
-* 设置及关于界面的略微调整
+**v1.2.6.1**  
+* 修复设置竖屏后Lavender仍旧自动旋转
 
 [**older**](changeLog/README.md)
 

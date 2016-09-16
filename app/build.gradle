@@ -9,8 +9,8 @@ android {
         applicationId "party.danyang.nationalgeographic"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 17
-        versionName "1.2.6"
+        versionCode 18
+        versionName "1.2.6.1"
     }
 
     dataBinding {
@@ -57,7 +57,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.9'
+    compile 'io.reactivex:rxjava:1.1.10'
     compile 'com.google.code.gson:gson:2.7'
     compile 'me.yokeyword:swipebackfragment:0.2.2'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
@@ -67,7 +67,7 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
-    compile 'com.github.javiersantos:AppUpdater:2.3'
+    compile 'com.github.javiersantos:AppUpdater:2.4'
     compile 'com.umeng.analytics:analytics:6.0.1'
     compile 'com.github.xiprox.errorview:library:2.+'
     compile 'org.jsoup:jsoup:1.9.2'
