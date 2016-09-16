@@ -48,11 +48,11 @@
             <include
                 layout="@layout/layout_settings"
                 app:wifiOnly="@{wifiOnly}"
-                app:clicks="@{clicks}"
                 app:accelerate="@{accelerate}"
                 app:doubleClickExit="@{doubleClickExit}"
                 app:customImageSize="@{customImageSize}"
-                app:cacheSize="@{cacheSize}"/>
+                app:cacheSize="@{cacheSize}"
+                app:clicks="@{clicks}" />
 
         </android.support.v4.widget.NestedScrollView>
 

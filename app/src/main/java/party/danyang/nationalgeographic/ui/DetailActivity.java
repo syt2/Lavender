@@ -1,6 +1,7 @@
 package party.danyang.nationalgeographic.ui;
 
 import android.Manifest;
+import android.app.DownloadManager;
 import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -42,7 +43,6 @@ import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
-import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -170,33 +170,28 @@ public class DetailActivity extends ToolbarActivity {
     }
 
     private void saveAllImg() {
-        if (adapter.getList().size() <= 0) {
+        if (!NetUtils.isConnected(this)) {
+            Utils.makeSnackBar(binding.getRoot(), R.string.offline, true);
             return;
         }
+        //if wifionly and not in wifi
+        if (SettingsModel.getWifiOnly(this) && !NetUtils.isWiFi(this)) {
+            Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
+            return;
+        }
+
+        File dir = new File(Environment.getExternalStorageDirectory(), "Lavender");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
         for (int i = 0; i < adapter.getList().size(); i++) {
-            mSubscription.add(Utils.saveImgFromUrl(this, adapter.get(i).getUrl(),
-                    adapter.get(i).getAlbumid() + "_" + i)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<Uri>() {
-                        @Override
-                        public void onCompleted() {
-                            File appDir = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name));
-                            String msg = String.format(getString(R.string.save_in_file), appDir.getAbsolutePath());
-                            Utils.makeSnackBar(binding.getRoot(), msg, true);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Utils.makeSnackBar(binding.getRoot(), e.toString(), true);
-                        }
-
-                        @Override
-                        public void onNext(Uri uri) {
-                        }
-                    })
-            );
+            File file = new File(dir, adapter.get(i).getAlbumid() + "_" + i + ".jpg");
+            DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            Uri uri = Uri.parse(adapter.get(i).getUrl());
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+            request.setDestinationUri(Uri.fromFile(file));
+            long id = downloadManager.enqueue(request);
         }
     }
 
@@ -237,7 +232,7 @@ public class DetailActivity extends ToolbarActivity {
             return;
         }
         //if wifionly and not in wifi
-        if (PreferencesHelper.getInstance(this).getBoolean(SettingsModel.PREF_WIFI_ONLY, false) && !NetUtils.isWiFi(this)) {
+        if (SettingsModel.getWifiOnly(this) && !NetUtils.isWiFi(this)) {
             Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
             return;
         }

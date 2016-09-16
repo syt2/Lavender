@@ -2,6 +2,7 @@ package party.danyang.nationalgeographic.ui;
 
 
 import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
@@ -28,13 +29,11 @@ import java.util.List;
 
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.FragmentBigPicBinding;
+import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class AlbumFragment extends Fragment {
@@ -189,28 +188,26 @@ public class AlbumFragment extends Fragment {
     }
 
     private void saveImg() {
-        mSubscriptions.add(Utils.saveImgFromUrl(
-                activity, urls.get(index), String.valueOf(urls.get(index).hashCode()))
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Uri>() {
-                    @Override
-                    public void onCompleted() {
-                        File appDir = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name));
-                        String msg = String.format(getString(R.string.save_in_file), appDir.getAbsolutePath());
-                        Utils.makeSnackBar(binding.getRoot(), msg, false);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Utils.makeSnackBar(binding.getRoot(), e.toString(), true);
-                    }
-
-                    @Override
-                    public void onNext(Uri uri) {
-                    }
-                }));
+        if (!NetUtils.isConnected(activity)) {
+            Utils.makeSnackBar(binding.getRoot(), R.string.offline, true);
+            return;
+        }
+        //if wifionly and not in wifi
+        if (SettingsModel.getWifiOnly(activity) && !NetUtils.isWiFi(activity)) {
+            Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
+            return;
+        }
+        File dir = new File(Environment.getExternalStorageDirectory(), "Lavender");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        File file = new File(dir, urls.get(index).hashCode() + ".jpg");
+        DownloadManager downloadManager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(urls.get(index));
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+        request.setDestinationUri(Uri.fromFile(file));
+        long id = downloadManager.enqueue(request);
     }
 
     public View getSharedElement() {

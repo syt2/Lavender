@@ -2,6 +2,7 @@ package party.danyang.nationalgeographic.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -37,7 +38,6 @@ import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
-import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -170,7 +170,7 @@ public class RandomAlbumActivity extends SwipeBackActivity {
             Utils.makeSnackBar(binding.getRoot(), R.string.offline, true);
             return;
         }
-        if (PreferencesHelper.getInstance(this).getBoolean(SettingsModel.PREF_WIFI_ONLY, false) && !NetUtils.isWiFi(this)) {
+        if (SettingsModel.getWifiOnly(this) && !NetUtils.isWiFi(this)) {
             Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
             return;
         }
@@ -296,27 +296,26 @@ public class RandomAlbumActivity extends SwipeBackActivity {
     }
 
     private void saveImg() {
-        Utils.saveImgFromUrl(this, url, String.valueOf(randomId))
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Uri>() {
-                    @Override
-                    public void onCompleted() {
-                        File appDir = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name));
-                        String msg = String.format(getString(R.string.save_in_file), appDir.getAbsolutePath());
-                        Utils.makeSnackBar(binding.getRoot(), msg, false);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Utils.makeSnackBar(binding.getRoot(), e.toString(), true);
-                    }
-
-                    @Override
-                    public void onNext(Uri uri) {
-                    }
-                });
+        if (!NetUtils.isConnected(this)) {
+            Utils.makeSnackBar(binding.getRoot(), R.string.offline, true);
+            return;
+        }
+        //if wifionly and not in wifi
+        if (SettingsModel.getWifiOnly(this) && !NetUtils.isWiFi(this)) {
+            Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
+            return;
+        }
+        File dir = new File(Environment.getExternalStorageDirectory(), "Lavender");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        File file = new File(dir, String.valueOf(randomId) + ".jpg");
+        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(url);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+        request.setDestinationUri(Uri.fromFile(file));
+        long id = downloadManager.enqueue(request);
     }
 
     @Override

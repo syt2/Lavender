@@ -4,7 +4,7 @@
 
 Download
 --------
-V 1.2.6  
+V 1.2.7  
 [![Lavender]](app/Lavender.apk)  
 [Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
 
@@ -31,8 +31,8 @@ RxJava+Retrofit封装网络请求，Realm缓存网络数据
 
 Change log
 ----------
-**v1.2.6.1**  
-* 修复设置竖屏后Lavender仍旧自动旋转
+**v1.2.7**  
+* 采用系统下载管理器来保存图片
 
 [**older**](changeLog/README.md)
 

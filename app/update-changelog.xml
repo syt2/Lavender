@@ -1,9 +1,9 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.6.1</latestVersion>
+        <latestVersion>1.2.7</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            * 修复设置竖屏后Lavender仍旧自动旋转
+            * 采用系统下载管理器保存图片
         </releaseNotes>
     </update>
 </AppUpdater>

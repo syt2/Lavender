@@ -40,7 +40,6 @@ import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
-import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -116,7 +115,7 @@ public class RecyclerViewUSFragment extends Fragment {
             Utils.setRefresher(binding.refresher, false);
             return;
         }
-        if (PreferencesHelper.getInstance(getActivity()).getBoolean(SettingsModel.PREF_WIFI_ONLY, false) && !NetUtils.isWiFi(activity)) {
+        if (SettingsModel.getWifiOnly(activity) && !NetUtils.isWiFi(activity)) {
             Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
             Utils.setRefresher(binding.refresher, false);
             return;

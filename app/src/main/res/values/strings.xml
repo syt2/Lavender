@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Lavender</string>
-    <string name="version">v 1.2.6.1</string>
+    <string name="version">v 1.2.7</string>
     <string name="lalala">~\(≧▽≦)/~</string>
     <string name="action_yourshotlink">page url</string>
     <string name="action_refresh">Random one</string>
@@ -36,7 +36,7 @@
     <string name="settings_clear_cache">Clear cache</string>
     <string name="settings_check_update">Check update</string>
     <string name="settings_report">Contact me</string>
-    <string name="settings_go_to_market">Rating in App store</string>
+    <string name="settings_go_to_market">Rating in market</string>
     <string name="settings_app_info">Lavender information</string>
     <string name="settings_about">About</string>
     <string name="setting_image">Image</string>

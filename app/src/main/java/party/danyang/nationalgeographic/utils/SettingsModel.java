@@ -12,7 +12,7 @@ public class SettingsModel {
     public static final String PREF_WIFI_ONLY = "pref_wifi_only";
     public static final String PREF_USE_ACCELERATE = "pref_use_accelerate";
     public static final String PREF_ACCELERATE_IMAGE_SIZE = "pref_image_size";
-    public static final String PREF_DOUBLE_CLICK_EXIT="pref_double_click_exit";
+    public static final String PREF_DOUBLE_CLICK_EXIT = "pref_double_click_exit";
 
     public static String getCacheSize(Context context) {
         return FileSizeUtil.getAutoFileOrFilesSize(context.getString(R.string.dir_picasso_cache));
