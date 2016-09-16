@@ -22,7 +22,7 @@
 
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="coolapk" />
+            android:value="Github" />
 
         <activity
             android:name=".ui.home.HomeActivity"
