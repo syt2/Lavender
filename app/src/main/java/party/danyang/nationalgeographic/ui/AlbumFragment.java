@@ -2,14 +2,11 @@ package party.danyang.nationalgeographic.ui;
 
 
 import android.Manifest;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -23,13 +20,12 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.FragmentBigPicBinding;
-import party.danyang.nationalgeographic.utils.NetUtils;
+import party.danyang.nationalgeographic.utils.SaveImage;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
@@ -188,26 +184,7 @@ public class AlbumFragment extends Fragment {
     }
 
     private void saveImg() {
-        if (!NetUtils.isConnected(activity)) {
-            Utils.makeSnackBar(binding.getRoot(), R.string.offline, true);
-            return;
-        }
-        //if wifionly and not in wifi
-        if (SettingsModel.getWifiOnly(activity) && !NetUtils.isWiFi(activity)) {
-            Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
-            return;
-        }
-        File dir = new File(Environment.getExternalStorageDirectory(), "Lavender");
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
-        File file = new File(dir, urls.get(index).hashCode() + ".jpg");
-        DownloadManager downloadManager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(urls.get(index));
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
-        request.setDestinationUri(Uri.fromFile(file));
-        long id = downloadManager.enqueue(request);
+        SaveImage.saveImg(activity, binding.getRoot(), urls.get(index).hashCode() + ".jpg", urls.get(index));
     }
 
     public View getSharedElement() {

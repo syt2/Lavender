@@ -1,15 +1,12 @@
 package party.danyang.nationalgeographic.ui;
 
 import android.Manifest;
-import android.app.DownloadManager;
 import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +20,6 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.umeng.analytics.MobclickAgent;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +36,7 @@ import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.net.NGApi;
 import party.danyang.nationalgeographic.ui.base.ToolbarActivity;
 import party.danyang.nationalgeographic.utils.NetUtils;
+import party.danyang.nationalgeographic.utils.SaveImage;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
@@ -179,19 +176,8 @@ public class DetailActivity extends ToolbarActivity {
             Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
             return;
         }
-
-        File dir = new File(Environment.getExternalStorageDirectory(), "Lavender");
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
         for (int i = 0; i < adapter.getList().size(); i++) {
-            File file = new File(dir, adapter.get(i).getAlbumid() + "_" + i + ".jpg");
-            DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-            Uri uri = Uri.parse(adapter.get(i).getUrl());
-            DownloadManager.Request request = new DownloadManager.Request(uri);
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
-            request.setDestinationUri(Uri.fromFile(file));
-            long id = downloadManager.enqueue(request);
+            SaveImage.saveImg(this, binding.getRoot(), adapter.get(i).getAlbumid() + "_" + i + ".jpg", adapter.get(i).getUrl());
         }
     }
 

@@ -150,6 +150,7 @@ public class AlbumActivity extends SwipeBackActivity {
 
     private void onToolbarMenuItemClicked(MenuItem menuItem) {
         int id = menuItem.getItemId();
+
         if (id == R.id.action_yourshotlink) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(pageUrls.get(binding.viewPager.getCurrentItem())));

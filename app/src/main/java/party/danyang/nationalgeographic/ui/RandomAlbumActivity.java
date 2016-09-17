@@ -2,13 +2,11 @@ package party.danyang.nationalgeographic.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -26,8 +24,6 @@ import com.squareup.picasso.NetworkPolicy;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.umeng.analytics.MobclickAgent;
 
-import java.io.File;
-
 import me.yokeyword.swipebackfragment.SwipeBackActivity;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivityRandomAlbumBinding;
@@ -35,6 +31,7 @@ import party.danyang.nationalgeographic.model.random.Random;
 import party.danyang.nationalgeographic.net.random.NGApi_random;
 import party.danyang.nationalgeographic.net.random.RamdomImgParser;
 import party.danyang.nationalgeographic.utils.NetUtils;
+import party.danyang.nationalgeographic.utils.SaveImage;
 import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
@@ -296,26 +293,7 @@ public class RandomAlbumActivity extends SwipeBackActivity {
     }
 
     private void saveImg() {
-        if (!NetUtils.isConnected(this)) {
-            Utils.makeSnackBar(binding.getRoot(), R.string.offline, true);
-            return;
-        }
-        //if wifionly and not in wifi
-        if (SettingsModel.getWifiOnly(this) && !NetUtils.isWiFi(this)) {
-            Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
-            return;
-        }
-        File dir = new File(Environment.getExternalStorageDirectory(), "Lavender");
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
-        File file = new File(dir, String.valueOf(randomId) + ".jpg");
-        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(url);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
-        request.setDestinationUri(Uri.fromFile(file));
-        long id = downloadManager.enqueue(request);
+        SaveImage.saveImg(this, binding.getRoot(), String.valueOf(randomId) + ".jpg", url);
     }
 
     @Override
