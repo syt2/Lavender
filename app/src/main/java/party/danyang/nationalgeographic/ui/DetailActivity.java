@@ -156,6 +156,10 @@ public class DetailActivity extends ToolbarActivity {
                     @Override
                     public void call(Boolean aBoolean) {
                         if (aBoolean) {//拥有该权限
+                            if (adapter.size() <= 0 || TextUtils.isEmpty(adapter.get(0).getUrl())) {
+                                Utils.makeSnackBar(binding.getRoot(), R.string.exception_content_null, true);
+                                return;
+                            }
                             saveAllImg();
                         } else {//拒绝该权限
                             Utils.makeSnackBar(binding.getRoot(), R.string.permission_denied, true);

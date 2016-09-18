@@ -9,8 +9,8 @@ android {
         applicationId "party.danyang.nationalgeographic"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 19
-        versionName "1.2.7"
+        versionCode 20
+        versionName "1.2.7.1"
     }
 
     dataBinding {

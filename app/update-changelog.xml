@@ -1,9 +1,9 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.7</latestVersion>
+        <latestVersion>1.2.7.1</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            * 采用系统下载管理器保存图片
+            * 修复每日精选下载图集未加载时点击保存crash的问题
         </releaseNotes>
     </update>
 </AppUpdater>

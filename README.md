@@ -4,7 +4,7 @@
 
 Download
 --------
-V 1.2.7  
+V 1.2.7.1  
 [![Lavender]](app/Lavender.apk)  
 [Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
 
@@ -31,8 +31,8 @@ RxJava+Retrofit封装网络请求，Realm缓存网络数据
 
 Change log
 ----------
-**v1.2.7**  
-* 采用系统下载管理器来保存图片
+**v1.2.7.1**  
+* 修复每日精选下载图集未加载时点击保存crash的问题
 
 [**older**](changeLog/README.md)
 
