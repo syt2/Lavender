@@ -27,7 +27,7 @@ import java.util.Map;
 import io.realm.Realm;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.adapter.AlbumDetailAdapter;
-import party.danyang.nationalgeographic.adapter.BaseAdapter;
+import party.danyang.nationalgeographic.adapter.base.BaseAdapter;
 import party.danyang.nationalgeographic.databinding.ActivityDetailBinding;
 import party.danyang.nationalgeographic.model.album.AlbumItem;
 import party.danyang.nationalgeographic.model.album.Picture;

@@ -12,9 +12,10 @@ import java.util.List;
 
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
+import party.danyang.nationalgeographic.adapter.base.BaseAdapter;
 import party.danyang.nationalgeographic.databinding.ItemDetailBinding;
 import party.danyang.nationalgeographic.model.album.Picture;
-import party.danyang.nationalgeographic.utils.SettingsModel;
+import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 
 /**
@@ -42,12 +43,7 @@ public class AlbumDetailAdapter extends BaseAdapter<Picture> {
     public void setBingVariables(ViewDataBinding binding, int position) {
         final ItemDetailBinding bd = (ItemDetailBinding) binding;
         String url = get(position).getUrl();
-        if (SettingsModel.getAccelerate(bd.iv.getContext())) {
-            if (url.startsWith("http://pic01.bdatu.com/Upload/picimg/")) {
-                int length = SettingsModel.getAccelerateImageSize(bd.iv.getContext());
-                url = url.replace("http://pic01.bdatu.com/Upload/picimg/", "https://ocgasl9gh.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
-            }
-        }
+        url = Utils.convertImageUrl(bd.iv.getContext(), url);
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
                 .error(R.mipmap.nat_geo_480)
                 .noFade()

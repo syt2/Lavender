@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/md_grey_700</color>
+    <color name="colorAccent">#009688</color>
 
     <color name="color_big_pic_bg">#30000000</color>
 

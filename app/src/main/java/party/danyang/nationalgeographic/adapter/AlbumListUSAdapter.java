@@ -13,9 +13,10 @@ import java.util.List;
 
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
+import party.danyang.nationalgeographic.adapter.base.BaseAdapter;
 import party.danyang.nationalgeographic.databinding.ItemMonthListUsBinding;
 import party.danyang.nationalgeographic.model.album_us.Items;
-import party.danyang.nationalgeographic.utils.SettingsModel;
+import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 
 /**
@@ -45,12 +46,7 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
         String url = get(position).getUrl();
 //        if (SettingsModel.getAccelerate(bd.iv.getContext()))
 //        强制使用七牛云，因为改版后图片太大，原图在切换activity时卡顿明显
-        int length = SettingsModel.getAccelerateImageSize(bd.iv.getContext());
-        if (url.startsWith("http://yourshot.nationalgeographic.com/")) {
-            url = url.replace("http://yourshot.nationalgeographic.com/", "https://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
-        } else if (url.startsWith("http://www.nationalgeographic.com/")) {
-            url = url.replace("http://www.nationalgeographic.com/", "https://ocwluxhzm.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
-        }
+        url = Utils.convertImageUrl(bd.iv.getContext(), url);
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
                 .error(R.mipmap.nat_geo_480)
                 .noFade()

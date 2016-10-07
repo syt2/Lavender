@@ -1,6 +1,7 @@
 package party.danyang.nationalgeographic.utils;
 
 import android.content.Context;
+import android.os.Environment;
 
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.utils.singleton.PreferencesHelper;
@@ -15,7 +16,11 @@ public class SettingsModel {
     public static final String PREF_DOUBLE_CLICK_EXIT = "pref_double_click_exit";
 
     public static String getCacheSize(Context context) {
-        return FileSizeUtil.getAutoFileOrFilesSize(context.getString(R.string.dir_picasso_cache));
+        String sharePath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) != null ?
+                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() : null;
+        return FileSizeUtil.getAutoMultiFileOrFilesSize(new String[]{
+                context.getString(R.string.dir_picasso_cache),
+                sharePath});
     }
 
     public static void setWifiOnly(Context context, boolean wifiOnly) {

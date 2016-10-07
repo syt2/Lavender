@@ -4,7 +4,7 @@
 
 Download
 --------
-V 1.2.7.1  
+V 1.2.8  
 [![Lavender]](app/Lavender.apk)  
 [Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
 
@@ -31,8 +31,9 @@ RxJava+Retrofit封装网络请求，Realm缓存网络数据
 
 Change log
 ----------
-**v1.2.7.1**  
-* 修复每日精选下载图集未加载时点击保存crash的问题
+**v1.2.8**  
+* 增加图片分享功能
+* 图标的细微修改
 
 [**older**](changeLog/README.md)
 
@@ -84,6 +85,6 @@ About Me
 
   
 :blue_heart::purple_heart::heart:  
-:yellow_heart:[:cloud:](http://danyang.party/wordpress/2016/09/14/235/ "云，如果妳能看到的话，我一直在等妳"):heartpulse:  
+:yellow_heart:[:cloud:](http://danyang.party/wordpress/2016/09/14/235/ "我爱妳，云。如果妳能看到的话，我一直在等妳"):heartpulse:  
 :sparkling_heart::revolving_hearts::two_hearts:  
 :bomb::girl::poop:

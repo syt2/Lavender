@@ -28,7 +28,7 @@ import java.util.List;
 
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.adapter.AlbumListAdapter;
-import party.danyang.nationalgeographic.adapter.BaseAdapter;
+import party.danyang.nationalgeographic.adapter.base.BaseAdapter;
 import party.danyang.nationalgeographic.databinding.LayoutRecyclerBinding;
 import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.model.albumlist.AlbumList;

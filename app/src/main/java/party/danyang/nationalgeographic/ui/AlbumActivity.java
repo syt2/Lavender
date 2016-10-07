@@ -159,6 +159,10 @@ public class AlbumActivity extends SwipeBackActivity {
             } else {
                 Utils.makeSnackBar(binding.getRoot(), R.string.not_legal_yourshotlink, true);
             }
+        } else if (id == R.id.action_share) {
+            int currentPosition = binding.viewPager.getCurrentItem();
+            Utils.shareItem(this, urls.get(currentPosition), titles.get(currentPosition),
+                    contents.get(currentPosition) + "\n" + authors.get(currentPosition), binding.getRoot());
         }
     }
 

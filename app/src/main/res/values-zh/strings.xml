@@ -3,8 +3,10 @@
     <string name="exception_content_null">获取的数据是空的唉</string>
     <string name="action_yourshotlink">外部链接</string>
     <string name="action_refresh">随机一个</string>
+    <string name="action_share">分享</string>
     <string name="maybe_no_more">可能是没有更多了哦</string>
     <string name="error">出现了一个连我都布吉岛的错误呢</string>
+    <string name="error_share">分享图片失败了呢</string>
     <string name="not_legal_yourshotlink">没有有效的外部链接，跳转不过去55555~</string>
     <string name="save_in_file">图片已保存至 %s 文件夹~</string>
     <string name="save_img_with_resolution">保存图片 [%1$d * %2$d]</string>

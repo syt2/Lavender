@@ -1,5 +1,6 @@
 package party.danyang.nationalgeographic.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -36,6 +37,25 @@ public class FileSizeUtil {
             Log.e("获取文件大小", "获取失败!");
         }
         return FormetFileSize(blockSize, sizeType);
+    }
+
+    public static String getAutoMultiFileOrFilesSize(String[] filePaths) {
+        long blockSize = 0;
+        for (String filePath : filePaths) {
+            if (TextUtils.isEmpty(filePath)) continue;
+            File file = new File(filePath);
+            try {
+                if (file.isDirectory()) {
+                    blockSize += getFileSizes(file);
+                } else {
+                    blockSize += getFileSize(file);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("获取文件大小", "获取失败!");
+            }
+        }
+        return FormetFileSize(blockSize);
     }
 
     /**

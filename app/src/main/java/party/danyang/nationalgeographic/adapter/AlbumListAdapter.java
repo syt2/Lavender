@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import java.util.List;
 
 import party.danyang.nationalgeographic.R;
+import party.danyang.nationalgeographic.adapter.base.BaseAdapter;
 import party.danyang.nationalgeographic.databinding.ItemAlbumListBinding;
 import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -169,7 +170,11 @@ public class SettingsActivity extends ToolbarActivity {
     }
 
     private void clearCache() {
-        Utils.deleteFileObservable(getString(R.string.dir_picasso_cache))
+        String sharePath = getExternalFilesDir(Environment.DIRECTORY_PICTURES) != null ?
+                getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() : null;
+
+        Utils.deleteFileObservable(new String[]{getString(R.string.dir_picasso_cache),
+                sharePath})
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override

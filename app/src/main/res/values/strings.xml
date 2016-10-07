@@ -1,14 +1,16 @@
 <resources>
     <string name="app_name">Lavender</string>
-    <string name="version">v 1.2.7.1</string>
+    <string name="version">v 1.2.8</string>
     <string name="lalala">~\(≧▽≦)/~</string>
     <string name="action_yourshotlink">page url</string>
     <string name="action_refresh">Random one</string>
+    <string name="action_share">Share</string>
     <string name="report_email_title">Lavender suggests and reports</string>
     <string name="notfound404">HTTP 404 Not Found</string>
     <string name="exception_content_null">Content null</string>
     <string name="maybe_no_more">Maybe no more lists</string>
     <string name="error">Error without reason</string>
+    <string name="error_share">share image failed</string>
     <string name="not_legal_yourshotlink">This image has no valid url</string>
     <string name="dir_picasso_cache">/data/data/party.danyang.nationalgeographic/cache/picasso-cache</string>
     <string name="save_in_file">image saved in %s </string>
