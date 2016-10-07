@@ -316,7 +316,7 @@ public class RandomAlbumActivity extends SwipeBackActivity {
         } else if (id == R.id.action_refresh) {
             getPic(getRandomInt());
         } else if (id == R.id.action_share) {
-            if (random == null || TextUtils.isEmpty(random.getThumbnail_url())) return;
+            if (random == null || TextUtils.isEmpty(random.getThumbnail_url())||TextUtils.isEmpty(url)) return;
             Utils.shareItem(this, url, random.getTitle(), null, binding.getRoot());
         }
     }
