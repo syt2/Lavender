@@ -31,9 +31,8 @@ RxJava+Retrofit封装网络请求，Realm缓存网络数据
 
 Change log
 ----------
-**v1.2.8**  
-* 增加图片分享功能
-* 图标的细微修改
+**v1.2.8.1**  
+* bug修复
 
 [**older**](changeLog/README.md)
 

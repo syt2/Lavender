@@ -1,10 +1,11 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.8</latestVersion>
+        <latestVersion>1.2.8.1</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
             * 增加图片分享功能
             * 图标的细微修改
+            * bug修复
         </releaseNotes>
     </update>
 </AppUpdater>
