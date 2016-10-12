@@ -20,7 +20,6 @@ import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.umeng.analytics.MobclickAgent;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivitySettingsBinding;
@@ -55,11 +54,6 @@ public class SettingsActivity extends ToolbarActivity {
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         if (appUpdater != null) {
             appUpdater.stop();
         }
@@ -127,14 +121,14 @@ public class SettingsActivity extends ToolbarActivity {
                 int value = Integer.valueOf(charSequence.toString());
                 if (value > 2000) {
                     if (value > 4000)
-                        inputBinding.inputLayout.setError("太大啦，系统已自动调回默认值1000啦");
+                        inputBinding.inputLayout.setError("太大啦，为了app的流畅，已自动调回默认值1000啦");
                     else
-                        inputBinding.inputLayout.setError("亲确定要设成" + charSequence + "嘛? 在查看某些大图的时候可能会有卡顿哦");
-                } else if (Integer.valueOf(charSequence.toString()) < 800) {
+                        inputBinding.inputLayout.setError("设成" + charSequence + "在查看某些大图的时候可能会有卡顿哦");
+                } else if (value < 800) {
                     if (value < 500)
-                        inputBinding.inputLayout.setError("太小啦，系统已自动调回默认值1000啦");
+                        inputBinding.inputLayout.setError("太小啦，已自动调回默认值1000啦");
                     else
-                        inputBinding.inputLayout.setError("亲确定要设成" + charSequence + "嘛? 在看图时会很模糊的哦");
+                        inputBinding.inputLayout.setError("设成" + charSequence + "在看图时会很模糊的哦");
                 } else {
                     inputBinding.inputLayout.setErrorEnabled(false);
                 }
@@ -161,6 +155,7 @@ public class SettingsActivity extends ToolbarActivity {
                 dialogInterface.dismiss();
             }
         });
+        builder.setNegativeButton(R.string.cancel, null);
         builder.show();
     }
 
@@ -190,11 +185,13 @@ public class SettingsActivity extends ToolbarActivity {
 
                     @Override
                     public void onNext(Boolean aBoolean) {
-                        Realm.setDefaultConfiguration(new RealmConfiguration.Builder(SettingsActivity.this).build());
                         Realm realm = Realm.getDefaultInstance();
-                        realm.beginTransaction();
-                        realm.deleteAll();
-                        realm.commitTransaction();
+                        realm.executeTransactionAsync(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                realm.deleteAll();
+                            }
+                        });
                         realm.close();
                     }
                 });
@@ -205,8 +202,8 @@ public class SettingsActivity extends ToolbarActivity {
                 .setUpdateFrom(UpdateFrom.XML)
                 .setUpdateXML("https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/update-changelog.xml")
                 .setDisplay(Display.DIALOG)
-                .setDialogTitleWhenUpdateAvailable("")
-                .setDialogTitleWhenUpdateNotAvailable("")
+                .setTitleOnUpdateAvailable("")
+                .setTitleOnUpdateNotAvailable("")
                 .showAppUpdated(true);
         appUpdater.start();
     }

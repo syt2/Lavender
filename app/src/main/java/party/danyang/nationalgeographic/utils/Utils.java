@@ -32,7 +32,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by dream on 16-6-9.
  */
-public class Utils {
+public final class Utils {
 
     public static boolean deleteFile(String filename) {
         return new File(filename).delete();
@@ -167,7 +167,7 @@ public class Utils {
                 url = url.replace("http://pic01.bdatu.com/Upload/picimg/", "https://ocgasl9gh.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
             }
         }
-        //图太大故直接七牛云转换
+        //us接口图太大故直接七牛云转换
         if (url.startsWith("http://yourshot.nationalgeographic.com/")) {
             url = url.replace("http://yourshot.nationalgeographic.com/", "https://ocgawl9z2.qnssl.com/") + "?imageMogr2/thumbnail/" + length + "x" + length;
         } else if (url.startsWith("http://www.nationalgeographic.com/")) {

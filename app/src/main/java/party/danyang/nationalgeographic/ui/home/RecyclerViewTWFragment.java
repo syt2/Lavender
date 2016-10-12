@@ -23,7 +23,6 @@ import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import party.danyang.nationalgeographic.R;
@@ -32,7 +31,6 @@ import party.danyang.nationalgeographic.adapter.base.BaseAdapter;
 import party.danyang.nationalgeographic.databinding.LayoutRecyclerBinding;
 import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.model.albumlist.AlbumList;
-import party.danyang.nationalgeographic.model.albumlist.AlbumRealm;
 import party.danyang.nationalgeographic.net.NGApi;
 import party.danyang.nationalgeographic.ui.DetailActivity;
 import party.danyang.nationalgeographic.ui.LayoutSpanCountUtils;
@@ -235,12 +233,7 @@ public class RecyclerViewTWFragment extends Fragment {
                         } else {
                             adapter.addAll(albumList.getAlbum());
                         }
-
-                        activity.realm.beginTransaction();
-                        for (Album a : albumList.getAlbum()) {
-                            activity.realm.copyToRealmOrUpdate(new AlbumRealm(a));
-                        }
-                        activity.realm.commitTransaction();
+                        Album.updateRealm(activity.realm,albumList.getAlbum());
                     }
                 }));
     }
@@ -249,11 +242,7 @@ public class RecyclerViewTWFragment extends Fragment {
         mSubscription.add(Observable.create(new Observable.OnSubscribe<List<Album>>() {
             @Override
             public void call(Subscriber<? super List<Album>> subscriber) {
-                List<AlbumRealm> albums = AlbumRealm.all(activity.realm);
-                List<Album> list = new ArrayList<Album>();
-                for (AlbumRealm a : albums) {
-                    list.add(new Album(a));
-                }
+                List<Album> list = Album.all(activity.realm);
                 subscriber.onNext(list);
                 subscriber.onCompleted();
             }
@@ -294,7 +283,8 @@ public class RecyclerViewTWFragment extends Fragment {
 
     public void startDetailActivity(View v, int i) {
         Intent intent = new Intent(activity, DetailActivity.class);
-        intent.putExtra(DetailActivity.INTENT_ALBUM, adapter.get(i));
+        intent.putExtra(DetailActivity.INTENT_ALBUM_ID, adapter.get(i).getId());
+        intent.putExtra(DetailActivity.INTENT_ALBUM_TITLE, adapter.get(i).getTitle());
 
         ImageView imageView = (ImageView) v.findViewById(R.id.iv);
         Bitmap bitmap = null;

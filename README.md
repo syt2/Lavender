@@ -31,8 +31,9 @@ RxJava+Retrofit封装网络请求，Realm缓存网络数据
 
 Change log
 ----------
-**v1.2.8.1**  
-* bug修复
+**v1.2.9**  
+* 修复一些引起crash的bug
+* 一些微小的修改
 
 [**older**](changeLog/README.md)
 

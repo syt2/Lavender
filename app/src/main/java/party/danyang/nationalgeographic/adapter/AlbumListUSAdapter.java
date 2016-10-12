@@ -43,10 +43,7 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
     @Override
     public void setBingVariables(ViewDataBinding binding, int position) {
         final ItemMonthListUsBinding bd = (ItemMonthListUsBinding) binding;
-        String url = get(position).getUrl();
-//        if (SettingsModel.getAccelerate(bd.iv.getContext()))
-//        强制使用七牛云，因为改版后图片太大，原图在切换activity时卡顿明显
-        url = Utils.convertImageUrl(bd.iv.getContext(), url);
+        String url = Utils.convertImageUrl(bd.iv.getContext(), get(position).getUrl());
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
                 .error(R.mipmap.nat_geo_480)
                 .noFade()
@@ -62,8 +59,6 @@ public class AlbumListUSAdapter extends BaseAdapter<Items> {
 
                     @Override
                     public void onError() {
-                        if (BuildConfig.LOG_DEBUG)
-                            Log.e("Picasso load image", "why...");
                         bd.iv.setVisibility(View.GONE);
                     }
                 });

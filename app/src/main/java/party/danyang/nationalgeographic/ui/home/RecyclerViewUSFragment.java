@@ -32,7 +32,6 @@ import party.danyang.nationalgeographic.adapter.base.BaseAdapter;
 import party.danyang.nationalgeographic.databinding.LayoutRecyclerBinding;
 import party.danyang.nationalgeographic.model.album_us.AlbumList;
 import party.danyang.nationalgeographic.model.album_us.Items;
-import party.danyang.nationalgeographic.model.album_us.ItemsRealm;
 import party.danyang.nationalgeographic.net.NGApi_US;
 import party.danyang.nationalgeographic.ui.AlbumActivity;
 import party.danyang.nationalgeographic.ui.LayoutSpanCountUtils;
@@ -250,12 +249,7 @@ public class RecyclerViewUSFragment extends Fragment {
                         } else {
                             adapter.addAll(albumList.getItems());
                         }
-
-                        activity.realm.beginTransaction();
-                        for (Items a : albumList.getItems()) {
-                            activity.realm.copyToRealmOrUpdate(new ItemsRealm(a));
-                        }
-                        activity.realm.commitTransaction();
+                        Items.updateRealm(activity.realm,albumList.getItems());
                     }
                 }));
     }
@@ -264,13 +258,7 @@ public class RecyclerViewUSFragment extends Fragment {
         mSubscription.add(Observable.create(new Observable.OnSubscribe<List<Items>>() {
             @Override
             public void call(Subscriber<? super List<Items>> subscriber) {
-                List<ItemsRealm> albums = ItemsRealm.all(activity.realm);
-                List<Items> list = new ArrayList<>();
-                for (ItemsRealm a : albums) {
-                    //修复进入AlbumActivity时内存爆炸
-                    if (list.size() > 50) break;
-                    list.add(new Items(a));
-                }
+                List<Items> list = Items.all(activity.realm);
                 subscriber.onNext(list);
                 subscriber.onCompleted();
             }

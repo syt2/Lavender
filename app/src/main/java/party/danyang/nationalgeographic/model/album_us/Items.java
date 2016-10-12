@@ -2,10 +2,15 @@ package party.danyang.nationalgeographic.model.album_us;
 
 import android.text.TextUtils;
 
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmObject;
+
 /**
  * Created by dream on 16-8-20.
  */
-public class Items {
+public class Items extends RealmObject {
     private String title;
     private String url;
     private String publishDate;
@@ -13,15 +18,22 @@ public class Items {
     private String originalUrl;
     private String caption;
 
-    public Items() {
+    public static List<Items> all(Realm realm) {
+        List<Items> items = realm.where(Items.class)
+                .findAll();
+        if (items.size() > 51) {
+            items = items.subList(0, 50);
+        }
+        return items;
     }
 
-    public Items(ItemsRealm items) {
-        this.title = items.getTitle();
-        this.url = items.getUrl();
-        this.publishDate = items.getPublishDate();
-        this.pageUrl = items.getPageUrl();
-        this.caption = items.getCaption();
+    public static void updateRealm(Realm realm, final List<Items> items) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(items);
+            }
+        });
     }
 
     public String getOriginalUrl() {

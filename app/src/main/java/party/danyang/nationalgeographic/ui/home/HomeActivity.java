@@ -45,17 +45,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final String SAVED_INSTANCE_STATE_TYPE = "savedInstanceState.type";
 
-    private enum Type {
-        TW, US;
-
-        public static Type valueOf(int ordinal) {
-            if (ordinal < 0 || ordinal >= values().length) {
-                throw new IndexOutOfBoundsException("Invalid ordinal");
-            }
-            return values()[ordinal];
-        }
-    }
-
     private Type type = Type.TW;
     private ActivityHomeBinding binding;
 
@@ -157,16 +146,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onCollapsed() {
                 toggle.setDrawerIndicatorEnabled(true);
-            }
-
-            @Override
-            public void onInternediateFromExpand() {
-
-            }
-
-            @Override
-            public void onInternediateFromCollapsed() {
-
             }
 
             @Override

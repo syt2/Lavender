@@ -4,9 +4,11 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 
 import java.io.File;
+import java.util.List;
 
 import party.danyang.nationalgeographic.R;
 

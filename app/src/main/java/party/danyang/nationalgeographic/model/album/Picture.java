@@ -1,12 +1,15 @@
 package party.danyang.nationalgeographic.model.album;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.Sort;
 
 /**
  * Created by yaki on 16-7-7.
  */
-public class Picture implements Parcelable {
+public class Picture extends RealmObject {
     private String id;
     private String albumid;
     private String title;
@@ -19,25 +22,19 @@ public class Picture implements Parcelable {
     private String yourshotlink;
     private String copyright;
 
-    public Picture(Parcel in) {
-        readFromParcel(in);
+    public static List<Picture> all(Realm realm, String albumId) {
+        return realm.where(Picture.class)
+                .equalTo("albumid", albumId)
+                .findAllSorted("id", Sort.DESCENDING);
     }
 
-    public Picture() {
-    }
-
-    public Picture(PictureRealm pictureRealm) {
-        id = pictureRealm.getId();
-        albumid = pictureRealm.getAlbumid();
-        title = pictureRealm.getTitle();
-        content = pictureRealm.getContent();
-        url = pictureRealm.getUrl();
-        author = pictureRealm.getAuthor();
-        thumb = pictureRealm.getThumb();
-        weburl = pictureRealm.getWeburl();
-        type = pictureRealm.getType();
-        yourshotlink = pictureRealm.getYourshotlink();
-        copyright = pictureRealm.getCopyright();
+    public static void updateRealm(Realm realm, final List<Picture> pictures) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(pictures);
+            }
+        });
     }
 
     public void setId(String id) {
@@ -127,50 +124,4 @@ public class Picture implements Parcelable {
     public String getCopyright() {
         return this.copyright;
     }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        parcel.writeString(albumid);
-        parcel.writeString(title);
-        parcel.writeString(content);
-        parcel.writeString(url);
-        parcel.writeString(author);
-        parcel.writeString(thumb);
-        parcel.writeString(weburl);
-        parcel.writeString(type);
-        parcel.writeString(yourshotlink);
-        parcel.writeString(copyright);
-    }
-
-    private void readFromParcel(Parcel in) {
-        id = in.readString();
-        albumid = in.readString();
-        title = in.readString();
-        content = in.readString();
-        url = in.readString();
-        author = in.readString();
-        thumb = in.readString();
-        weburl = in.readString();
-        type = in.readString();
-        yourshotlink = in.readString();
-        copyright = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Parcelable.Creator<Picture> CREATOR = new Creator<Picture>() {
-        @Override
-        public Picture createFromParcel(Parcel parcel) {
-            return new Picture(parcel);
-        }
-
-        @Override
-        public Picture[] newArray(int i) {
-            return new Picture[i];
-        }
-    };
 }

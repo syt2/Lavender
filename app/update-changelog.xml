@@ -1,11 +1,11 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.2.8.1</latestVersion>
+        <latestVersion>1.2.9</latestVersion>
         <url>https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/Lavender.apk</url>
         <releaseNotes>
-            * 增加图片分享功能
-            * 图标的细微修改
-            * bug修复
+            * 一些微小的修改
+            * 修复一些引起crash的bug
+            * 客户端直接闪退的先尝试下清除数据，依旧闪退的将Lavender加入PrefectColorBar黑名单。
         </releaseNotes>
     </update>
 </AppUpdater>

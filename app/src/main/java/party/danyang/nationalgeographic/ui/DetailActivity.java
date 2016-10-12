@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -31,10 +32,9 @@ import party.danyang.nationalgeographic.adapter.base.BaseAdapter;
 import party.danyang.nationalgeographic.databinding.ActivityDetailBinding;
 import party.danyang.nationalgeographic.model.album.AlbumItem;
 import party.danyang.nationalgeographic.model.album.Picture;
-import party.danyang.nationalgeographic.model.album.PictureRealm;
-import party.danyang.nationalgeographic.model.albumlist.Album;
 import party.danyang.nationalgeographic.net.NGApi;
 import party.danyang.nationalgeographic.ui.base.ToolbarActivity;
+import party.danyang.nationalgeographic.utils.DownloadMangerResolver;
 import party.danyang.nationalgeographic.utils.NetUtils;
 import party.danyang.nationalgeographic.utils.SaveImage;
 import party.danyang.nationalgeographic.utils.SettingsModel;
@@ -50,11 +50,14 @@ import tr.xip.errorview.ErrorView;
 
 public class DetailActivity extends ToolbarActivity {
     public static final String TAG = DetailActivity.class.getSimpleName();
-    public static final String INTENT_ALBUM = "party.danyang.ng.album";
+    public static final String INTENT_ALBUM_ID = "party.danyang.ng.album.id";
+    public static final String INTENT_ALBUM_TITLE = "party.danyang.ng.album.title";
 
     private ActivityDetailBinding binding;
 
-    private Album album;
+    //    private Album album;
+    private String id;
+    private String title;
 
     private Realm realm;
     private AlbumDetailAdapter adapter;
@@ -69,7 +72,8 @@ public class DetailActivity extends ToolbarActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         Intent intent = getIntent();
         if (intent != null) {
-            album = intent.getParcelableExtra(INTENT_ALBUM);
+            id = intent.getStringExtra(INTENT_ALBUM_ID);
+            title = intent.getStringExtra(INTENT_ALBUM_TITLE);
         }
 
         mSubscription = new CompositeSubscription();
@@ -116,7 +120,7 @@ public class DetailActivity extends ToolbarActivity {
 
     private void initViews() {
         setupToolbar(binding.toolbarContent);
-        binding.toolbarContent.toolbarLayout.setTitle(album.getTitle());
+        binding.toolbarContent.toolbarLayout.setTitle(title);
 
         binding.recyclerContent.setShowErrorView(false);
         binding.recyclerContent.errorView.setOnRetryListener(new ErrorView.RetryListener() {
@@ -180,9 +184,11 @@ public class DetailActivity extends ToolbarActivity {
             Utils.makeSnackBar(binding.getRoot(), R.string.load_not_in_wifi_while_in_wifi_only, true);
             return;
         }
-        for (int i = 0; i < adapter.getList().size(); i++) {
-            SaveImage.saveImg(this, binding.getRoot(), adapter.get(i).getAlbumid() + "_" + i + ".jpg", adapter.get(i).getUrl());
-        }
+
+        if (DownloadMangerResolver.resolve(this))
+            for (int i = 0; i < adapter.size(); i++) {
+                SaveImage.saveImg(this, binding.getRoot(), adapter.get(i).getAlbumid() + "_" + i + ".jpg", adapter.get(i).getUrl());
+            }
     }
 
     private void load() {
@@ -193,11 +199,7 @@ public class DetailActivity extends ToolbarActivity {
         mSubscription.add(Observable.create(new Observable.OnSubscribe<List<Picture>>() {
             @Override
             public void call(Subscriber<? super List<Picture>> subscriber) {
-                List<PictureRealm> pictures = PictureRealm.all(realm, album.getId());
-                List<Picture> list = new ArrayList<Picture>();
-                for (PictureRealm p : pictures) {
-                    list.add(new Picture(p));
-                }
+                List<Picture> list = Picture.all(realm, id);
                 subscriber.onNext(list);
                 subscriber.onCompleted();
             }
@@ -228,7 +230,7 @@ public class DetailActivity extends ToolbarActivity {
         }
 
         Utils.setRefresher(binding.recyclerContent.refresher, true);
-        mSubscription.add(NGApi.loadAlbum(album.getId())
+        mSubscription.add(NGApi.loadAlbum(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -260,11 +262,7 @@ public class DetailActivity extends ToolbarActivity {
                             onError(new Exception(getString(R.string.exception_content_null)));
                         }
                         adapter.setNewData(albumItem.getPicture());
-                        realm.beginTransaction();
-                        for (Picture p : albumItem.getPicture()) {
-                            realm.copyToRealmOrUpdate(new PictureRealm(p));
-                        }
-                        realm.commitTransaction();
+                        Picture.updateRealm(realm, albumItem.getPicture());
                     }
                 }));
     }

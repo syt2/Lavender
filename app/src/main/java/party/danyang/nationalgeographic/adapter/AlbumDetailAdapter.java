@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.squareup.picasso.Callback;
 
@@ -42,8 +43,7 @@ public class AlbumDetailAdapter extends BaseAdapter<Picture> {
     @Override
     public void setBingVariables(ViewDataBinding binding, int position) {
         final ItemDetailBinding bd = (ItemDetailBinding) binding;
-        String url = get(position).getUrl();
-        url = Utils.convertImageUrl(bd.iv.getContext(), url);
+        String url = Utils.convertImageUrl(bd.iv.getContext(), get(position).getUrl());
         PicassoHelper.getInstance(bd.iv.getContext()).load(url)
                 .error(R.mipmap.nat_geo_480)
                 .noFade()
@@ -59,8 +59,7 @@ public class AlbumDetailAdapter extends BaseAdapter<Picture> {
 
                     @Override
                     public void onError() {
-                        if (BuildConfig.LOG_DEBUG)
-                            Log.e("Picasso load image", "why...");
+                        bd.iv.setVisibility(View.GONE);
                     }
                 });
     }

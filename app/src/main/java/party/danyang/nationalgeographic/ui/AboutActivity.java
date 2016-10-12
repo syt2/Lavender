@@ -68,16 +68,6 @@ public class AboutActivity extends ToolbarActivity {
             }
 
             @Override
-            public void onInternediateFromExpand() {
-
-            }
-
-            @Override
-            public void onInternediateFromCollapsed() {
-
-            }
-
-            @Override
             public void onInternediate() {
                 setTitle(null);
                 binding.toolbarLayout.setTitle(null);
@@ -124,12 +114,10 @@ public class AboutActivity extends ToolbarActivity {
     private int clickTime;
 
     public void onClickIcon(View view) {
-        Log.e("click", clickTime + "  ");
         if (System.currentTimeMillis() - lastClickTime < 800) {
             if (System.currentTimeMillis() - lastClickTime < 400) {
                 return;
             }
-            Log.e("click", clickTime + "  ");
             clickTime++;
             lastClickTime = System.currentTimeMillis();
             if (clickTime == 5) {

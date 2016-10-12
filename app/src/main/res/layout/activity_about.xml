@@ -48,6 +48,7 @@
                         android:layout_height="60dp"
                         android:layout_gravity="center_horizontal"
                         android:clickable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:src="@mipmap/ic_launcher"
                         app:onClickListener="@{clicks::onClickIcon}" />
 

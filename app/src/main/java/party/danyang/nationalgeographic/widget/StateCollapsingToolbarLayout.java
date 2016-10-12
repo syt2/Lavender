@@ -72,12 +72,6 @@ public class StateCollapsingToolbarLayout extends CollapsingToolbarLayout {
                     }
                 } else {
                     if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
-                        if (state == CollapsingToolbarLayoutState.COLLAPSED) {
-                            //由折叠变为中间状态时
-                            mOnStateChangedListener.onInternediateFromCollapsed();
-                        } else if (state == CollapsingToolbarLayoutState.EXPANDED) {
-                            mOnStateChangedListener.onInternediateFromExpand();
-                        }
                         state = CollapsingToolbarLayoutState.INTERNEDIATE;
                     }
                     mOnStateChangedListener.onInternediate();

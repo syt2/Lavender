@@ -32,16 +32,6 @@ public class ToolbarActivity extends SwipeBackActivity {
             }
 
             @Override
-            public void onInternediateFromExpand() {
-
-            }
-
-            @Override
-            public void onInternediateFromCollapsed() {
-
-            }
-
-            @Override
             public void onInternediate() {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
