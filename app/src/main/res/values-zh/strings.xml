@@ -33,6 +33,7 @@
     <string name="settings_clear_cache">清理缓存</string>
     <string name="settings_check_update">检查更新</string>
     <string name="settings_report">联系我</string>
+    <string name="settings_donate">捐助我</string>
     <string name="settings_go_to_market">前往应用商店评分</string>
     <string name="settings_app_info">查看Lavender的应用信息</string>
     <string name="settings_about">关于</string>
@@ -46,7 +47,6 @@
     <string name="setting_dialog_custom_image_title">自定义图片较长边尺寸</string>
     <string name="setting_dialog_custom_image_content">输入较长边长度,获取的图片的较长边将不会超出这个数字</string>
     <string name="setting_dialog_custom_image_hint">建议800到2000</string>
-
 
     <string name="single_pic_us">每日一图</string>
     <string name="group_pic">每日精选</string>

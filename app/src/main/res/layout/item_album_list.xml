@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <party.danyang.nationalgeographic.widget.RadioImageView
                 android:id="@+id/iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                 android:id="@+id/tv_album_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|start|left"
+                android:layout_gravity="bottom|start"
                 android:maxLines="3"
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"

@@ -153,7 +153,7 @@ public class AlbumFragment extends Fragment {
     }
 
     private void showSaveImgDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
         builder.setMessage(R.string.save_img);
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override

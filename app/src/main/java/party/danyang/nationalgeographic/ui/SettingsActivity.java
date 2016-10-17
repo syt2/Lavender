@@ -103,7 +103,7 @@ public class SettingsActivity extends ToolbarActivity {
     }
 
     public void onClickAccelerateCustomImageSize(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogTheme);
         final LayoutDialogInputBinding inputBinding = DataBindingUtil
                 .inflate(getLayoutInflater(), R.layout.layout_dialog_input, null, false);
         inputBinding.input.addTextChangedListener(new TextWatcher() {

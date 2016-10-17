@@ -275,7 +275,7 @@ public class RandomAlbumActivity extends SwipeBackActivity {
     }
 
     private void showSaveImgDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
         builder.setMessage(R.string.save_img);
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override

@@ -51,4 +51,6 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert" />
+
 </resources>

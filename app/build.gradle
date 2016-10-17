@@ -9,8 +9,8 @@ android {
         applicationId "party.danyang.nationalgeographic"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 23
-        versionName "1.2.9"
+        versionCode 24
+        versionName "1.3.0"
     }
 
     dataBinding {
@@ -44,9 +44,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
+//    不能用24.2.1 CollapsingToolbarLayout收缩时title不显示
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.android.support:cardview-v7:24.0.0'
     compile 'com.android.support:support-v4:24.0.0'
@@ -71,4 +71,5 @@ dependencies {
     compile 'com.umeng.analytics:analytics:6.0.1'
     compile 'com.github.xiprox.errorview:library:2.+'
     compile 'org.jsoup:jsoup:1.9.2'
+    testCompile 'junit:junit:4.12'
 }

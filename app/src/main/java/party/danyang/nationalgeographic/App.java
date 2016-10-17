@@ -16,7 +16,7 @@ public class App extends Application {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("LavenderWaitCy")
-                .schemaVersion(23)
+                .schemaVersion(24)
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);

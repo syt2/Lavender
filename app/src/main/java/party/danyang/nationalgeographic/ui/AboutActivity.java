@@ -77,14 +77,9 @@ public class AboutActivity extends ToolbarActivity {
     }
 
     public void onClickUseAttention(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
         builder.setMessage(R.string.about_attention_content);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
+        builder.setPositiveButton(R.string.ok, null);
         builder.show();
     }
 
