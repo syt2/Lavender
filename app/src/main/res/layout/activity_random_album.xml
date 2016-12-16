@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.AlbumActivity">
 
     <data>
-
-        <variable
-            name="showErrorView"
-            type="boolean" />
-
         <variable
             name="fullScreen"
             type="boolean" />
@@ -29,29 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
+            <party.danyang.nationalgeographic.widget.TouchImageView
+                android:id="@+id/img_touch"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <tr.xip.errorview.ErrorView
-                    android:id="@+id/error_View"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_margin="64dp"
-                    android:visibility="@{showErrorView?View.VISIBLE:View.GONE}"
-                    app:ev_retryButtonText="@string/error_view_retry"
-                    app:ev_retryButtonTextColor="@color/md_pink_A200"
-                    app:ev_subtitleColor="@color/md_grey_400"
-                    app:ev_titleColor="@color/md_grey_200"
-                    tools:visibility="gone" />
-
-                <party.danyang.nationalgeographic.widget.TouchImageView
-                    android:id="@+id/img_touch"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </FrameLayout>
+                android:layout_height="match_parent" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <android.support.v7.widget.Toolbar

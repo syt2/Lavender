@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Lavender</string>
-    <string name="version">v 1.3.0</string>
+    <string name="version">v 1.3.1</string>
     <string name="lalala">~\(≧▽≦)/~</string>
     <string name="action_yourshotlink">page url</string>
     <string name="action_refresh">Random one</string>
@@ -10,6 +10,7 @@
     <string name="exception_content_null">Content null</string>
     <string name="maybe_no_more">Maybe no more lists</string>
     <string name="error">Error without reason</string>
+    <string name="retry">Retry</string>
     <string name="error_share">share image failed</string>
     <string name="not_legal_yourshotlink">This image has no valid url</string>
     <string name="dir_picasso_cache">/data/data/party.danyang.nationalgeographic/cache/picasso-cache</string>
@@ -79,11 +80,8 @@
     <string name="about_libs_swipebackfragment"><a href="https://github.com/YoKeyword/SwipeBackFragment">YoKeyword/SwipeBackFragment</a></string>
     <string name="about_libs_picasso2_okhttp3_downloader"><a href="https://github.com/JakeWharton/picasso2-okhttp3-downloader">JakeWharton/picasso2-okhttp3-downloader</a></string>
     <string name="about_libs_rxpermissions"><a href="https://github.com/tbruyelle/RxPermissions">tbruyelle/RxPermissions</a></string>
-    <string name="about_libs_rxbinding"><a href="https://github.com/JakeWharton/RxBinding">JakeWharton/RxBinding</a></string>
     <string name="about_libs_realm"><a href="https://github.com/realm/realm-java">realm/realm-java</a></string>
     <string name="about_libs_touch_image_view"><a href="https://github.com/MikeOrtiz/TouchImageView">MikeOrtiz/TouchImageView</a></string>
-    <string name="about_libs_appupdater"><a href="https://github.com/javiersantos/AppUpdater">javiersantos/AppUpdater</a></string>
-    <string name="about_libs_error_view"><a href="https://github.com/xiprox/ErrorView">xiprox/ErrorView</a></string>
     <string name="about_libs_jsoup"><a href="https://jsoup.org/">jsoup</a></string>
     <string name="about_me">\@developer 梦的延续</string>
 

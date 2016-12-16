@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import com.jakewharton.rxbinding.view.RxView;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
@@ -36,7 +35,6 @@ import party.danyang.nationalgeographic.utils.SettingsModel;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
 import party.danyang.nationalgeographic.widget.OnStateChangedListener;
-import rx.functions.Action1;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
@@ -109,9 +107,9 @@ public class HomeActivity extends AppCompatActivity {
     public void setupToolbar() {
         setSupportActionBar(binding.toolbarContent.toolbar);
         //双击toolbar recyclerView回滚
-        RxView.clicks(binding.toolbarContent.toolbar).subscribe(new Action1<Void>() {
+        binding.toolbarContent.toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void call(Void aVoid) {
+            public void onClick(View view) {
                 onToolbarClicked();
             }
         });
@@ -120,7 +118,8 @@ public class HomeActivity extends AppCompatActivity {
     private void setupDrawer() {
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, binding.drawerLayout, binding.toolbarContent.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        binding.drawerLayout.setDrawerListener(toggle);
+        binding.drawerLayout.addDrawerListener(toggle);
+//        binding.drawerLayout.setDrawerListener(toggle);
         if (type == Type.TW) {
             binding.navView.setCheckedItem(R.id.nav_group_pic);
         } else if (type == Type.US) {

@@ -8,16 +8,16 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
-import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
-import com.jakewharton.rxbinding.view.RxView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -41,7 +41,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-import tr.xip.errorview.ErrorView;
 
 /**
  * Created by dream on 16-8-22.
@@ -98,58 +97,43 @@ public class RandomAlbumActivity extends SwipeBackActivity {
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_grey_300_24dp);
         setSupportActionBar(binding.toolbar);
         setTitle(null);
-        RxToolbar.navigationClicks(binding.toolbar).subscribe(new Action1<Void>() {
+        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void call(Void aVoid) {
+            public void onClick(View view) {
                 supportFinishAfterTransition();
             }
         });
-        RxToolbar.itemClicks(binding.toolbar).subscribe(new Action1<MenuItem>() {
+        binding.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void call(MenuItem menuItem) {
-                onToolbarMenuItemClicked(menuItem);
+            public boolean onMenuItemClick(MenuItem item) {
+                onToolbarMenuItemClicked(item);
+                return true;
             }
         });
 
         binding.setFullScreen(false);
-        binding.setShowErrorView(false);
-
-        RxView.clicks(binding.imgTouch).subscribe(new Action1<Void>() {
+        binding.imgTouch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void call(Void aVoid) {
+            public void onClick(View view) {
                 toggle();
             }
         });
 
-        RxView.longClicks(binding.imgTouch)
-                .compose(RxPermissions.getInstance(this).ensure(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        if (aBoolean) {//有权限
-                            showSaveImgDialog();
-                        } else {//无权限
-                            Utils.makeSnackBar(binding.getRoot(), R.string.permission_denied, true);
-                        }
-                    }
-                });
-
-        binding.errorView.setOnRetryListener(new ErrorView.RetryListener() {
+        binding.imgTouch.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onRetry() {
-                binding.setShowErrorView(false);
+            public boolean onLongClick(View view) {
+                showSaveImgDialog();
+                return true;
+            }
+        });
+        binding.refresh.setProgressViewOffset(true, 100, 300);
+        binding.refresh.setColorSchemeResources(R.color.md_grey_600, R.color.md_grey_800);
+        binding.refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
                 getPic(getRandomInt());
             }
         });
-        binding.refresh.setProgressViewOffset(true, 100, 200);
-        binding.refresh.setColorSchemeResources(R.color.md_grey_600, R.color.md_grey_800);
-        RxSwipeRefreshLayout.refreshes(binding.refresh)
-                .subscribe(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        getPic(getRandomInt());
-                    }
-                });
         getPic(randomId);
     }
 
@@ -191,15 +175,20 @@ public class RandomAlbumActivity extends SwipeBackActivity {
                         if (e != null && !TextUtils.isEmpty(e.getMessage()) && e.getMessage().trim().equals(getString(R.string.notfound404))) {
                             getPic(getRandomInt());
                         } else {
-                            binding.setShowErrorView(true);
                             Utils.setRefresher(binding.refresh, false);
+                            String text;
                             if (e == null || TextUtils.isEmpty(e.getMessage())) {
-                                binding.errorView.setTitle(R.string.lalala);
-                                binding.errorView.setSubtitle(R.string.error);
+                                text = getString(R.string.error);
                             } else {
-                                binding.errorView.setTitle(R.string.lalala);
-                                binding.errorView.setSubtitle(e.getMessage());
+                                text = e.getMessage();
                             }
+                            Snackbar.make(binding.getRoot(), text, Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.retry, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            getPic(getRandomInt());
+                                        }
+                                    }).show();
                         }
                         unsubscribe();
                     }
@@ -223,22 +212,26 @@ public class RandomAlbumActivity extends SwipeBackActivity {
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
-                        binding.setShowErrorView(false);
 //                        refresher false 在图片加载完后再设false
                         unsubscribe();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        binding.setShowErrorView(true);
                         Utils.setRefresher(binding.refresh, false);
+                        String text;
                         if (e == null || TextUtils.isEmpty(e.getMessage())) {
-                            binding.errorView.setTitle(R.string.lalala);
-                            binding.errorView.setSubtitle(R.string.error);
+                            text = getString(R.string.error);
                         } else {
-                            binding.errorView.setTitle(R.string.lalala);
-                            binding.errorView.setSubtitle(e.getMessage());
+                            text = e.getMessage();
                         }
+                        Snackbar.make(binding.getRoot(), text, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.retry, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        getPic(getRandomInt());
+                                    }
+                                }).show();
                         unsubscribe();
                     }
 
@@ -280,8 +273,19 @@ public class RandomAlbumActivity extends SwipeBackActivity {
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                RxPermissions rxPermissions = new RxPermissions(RandomAlbumActivity.this);
+                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .subscribe(new Action1<Boolean>() {
+                            @Override
+                            public void call(Boolean aBoolean) {
+                                if (aBoolean) {
+                                    saveImg();
+                                } else {
+                                    Utils.makeSnackBar(binding.getRoot(), R.string.permission_denied, true);
+                                }
+                            }
+                        });
                 dialogInterface.dismiss();
-                saveImg();
             }
         });
         builder.setNegativeButton(R.string.cancel, null);

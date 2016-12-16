@@ -4,8 +4,8 @@
 
 Download
 --------
-V 1.3.0  
-[![Lavender]](app/Lavender.apk)  
+V 1.3.1  
+[![Lavender]](app/app-release.apk)  
 [Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
 
 
@@ -31,9 +31,11 @@ RxJava+Retrofit封装网络请求，Realm缓存网络数据
 
 Change log
 ----------
-**v1.3.0**  
-* 修复7.0上dialog按钮颜色的问题
-* 高分辨率机型上的图片展示适配
+**v1.3.1**  
+* 修复7.0以上分享图片闪退的bug
+* 删除检查更新模块
+* snack view替代error view
+* 更新依赖包
 
 [**older**](changeLog/README.md)
 
@@ -85,6 +87,7 @@ About Me
 
   
 :blue_heart::purple_heart::heart:  
-:yellow_heart:[:cloud:](http://danyang.party/wordpress/2016/09/14/235/ "我爱妳，云。如果妳能看到的话，我一直在等妳"):heartpulse:  
+:yellow_heart:[:cloud:](http://danyang.party/wordpress/2016/09/14/235/ "我一直一直喜欢妳，云。如果妳能看到的话，我等妳，永远"):heartpulse:  
 :sparkling_heart::revolving_hearts::two_hearts:  
 :bomb::girl::poop:
+~~还有7天就要再也见不到妳了，愿余生幸福，愿来世能继续遇见妳。~~

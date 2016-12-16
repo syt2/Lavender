@@ -1,15 +1,12 @@
 package party.danyang.nationalgeographic.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 
-import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.umeng.analytics.MobclickAgent;
 
 import party.danyang.nationalgeographic.R;
@@ -17,7 +14,6 @@ import party.danyang.nationalgeographic.databinding.ActivityAboutBinding;
 import party.danyang.nationalgeographic.ui.base.ToolbarActivity;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.widget.OnStateChangedListener;
-import rx.functions.Action1;
 
 public class AboutActivity extends ToolbarActivity {
 
@@ -47,9 +43,9 @@ public class AboutActivity extends ToolbarActivity {
         setSupportActionBar(binding.toolbar);
         setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        RxToolbar.navigationClicks(binding.toolbar).subscribe(new Action1<Void>() {
+        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void call(Void aVoid) {
+            public void onClick(View view) {
                 supportFinishAfterTransition();
             }
         });

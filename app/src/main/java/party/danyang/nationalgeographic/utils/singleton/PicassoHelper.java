@@ -26,7 +26,6 @@ public class PicassoHelper {
                             .listener(new Picasso.Listener() {
                                 @Override
                                 public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                                    if (BuildConfig.LOG_DEBUG)
                                         Log.e(TAG, "Failed to load image: " + uri.toString(), exception);
                                 }
                             })

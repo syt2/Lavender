@@ -1,11 +1,10 @@
 package party.danyang.nationalgeographic.ui.base;
 
-import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
+import android.view.View;
 
 import me.yokeyword.swipebackfragment.SwipeBackActivity;
 import party.danyang.nationalgeographic.databinding.LayoutToolbarBinding;
 import party.danyang.nationalgeographic.widget.OnStateChangedListener;
-import rx.functions.Action1;
 
 /**
  * Created by dream on 16-8-12.
@@ -14,9 +13,9 @@ public class ToolbarActivity extends SwipeBackActivity {
 
     public void setupToolbar(LayoutToolbarBinding toolbarBinding) {
         setSupportActionBar(toolbarBinding.toolbar);
-        RxToolbar.navigationClicks(toolbarBinding.toolbar).subscribe(new Action1<Void>() {
+        toolbarBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void call(Void aVoid) {
+            public void onClick(View view) {
                 supportFinishAfterTransition();
             }
         });

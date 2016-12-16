@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +16,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
-import com.jakewharton.rxbinding.view.RxView;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.umeng.analytics.MobclickAgent;
 
@@ -45,7 +44,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-import tr.xip.errorview.ErrorView;
 
 public class DetailActivity extends ToolbarActivity {
     public static final String TAG = DetailActivity.class.getSimpleName();
@@ -121,15 +119,6 @@ public class DetailActivity extends ToolbarActivity {
         setupToolbar(binding.toolbarContent);
         binding.toolbarContent.toolbarLayout.setTitle(title);
 
-        binding.recyclerContent.setShowErrorView(false);
-        binding.recyclerContent.errorView.setOnRetryListener(new ErrorView.RetryListener() {
-            @Override
-            public void onRetry() {
-                getAlbum();
-                binding.recyclerContent.setShowErrorView(false);
-            }
-        });
-
         adapter = new AlbumDetailAdapter(new ArrayList<Picture>());
         adapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
@@ -142,10 +131,11 @@ public class DetailActivity extends ToolbarActivity {
                 , StaggeredGridLayoutManager.VERTICAL);
         binding.recyclerContent.recycler.setAdapter(adapter);
         binding.recyclerContent.recycler.setLayoutManager(layoutManager);
-        RxRecyclerView.scrollStateChanges(binding.recyclerContent.recycler).subscribe(new Action1<Integer>() {
+        binding.recyclerContent.recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void call(Integer integer) {
-                if (integer == RecyclerView.SCROLL_STATE_IDLE) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     PicassoHelper.getInstance(DetailActivity.this).resumeTag(AlbumDetailAdapter.TAG_DETAIL);
                 } else {
                     PicassoHelper.getInstance(DetailActivity.this).pauseTag(AlbumDetailAdapter.TAG_DETAIL);
@@ -153,22 +143,27 @@ public class DetailActivity extends ToolbarActivity {
             }
         });
         load();
-        RxView.clicks(binding.fab)//点击fab
-                .compose(RxPermissions.getInstance(this).ensure(Manifest.permission.WRITE_EXTERNAL_STORAGE))//检查权限
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        if (aBoolean) {//拥有该权限
-                            if (adapter.size() <= 0 || TextUtils.isEmpty(adapter.get(0).getUrl())) {
-                                Utils.makeSnackBar(binding.getRoot(), R.string.exception_content_null, true);
-                                return;
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RxPermissions rxPermissions = new RxPermissions(DetailActivity.this);
+                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .subscribe(new Action1<Boolean>() {
+                            @Override
+                            public void call(Boolean aBoolean) {
+                                if (aBoolean) {//拥有该权限
+                                    if (adapter.size() <= 0 || TextUtils.isEmpty(adapter.get(0).getUrl())) {
+                                        Utils.makeSnackBar(binding.getRoot(), R.string.exception_content_null, true);
+                                        return;
+                                    }
+                                    saveAllImg();
+                                } else {//拒绝该权限
+                                    Utils.makeSnackBar(binding.getRoot(), R.string.permission_denied, true);
+                                }
                             }
-                            saveAllImg();
-                        } else {//拒绝该权限
-                            Utils.makeSnackBar(binding.getRoot(), R.string.permission_denied, true);
-                        }
-                    }
-                });
+                        });
+            }
+        });
 
         binding.recyclerContent.refresher.setEnabled(false);
     }
@@ -237,21 +232,25 @@ public class DetailActivity extends ToolbarActivity {
                     @Override
                     public void onCompleted() {
                         Utils.setRefresher(binding.recyclerContent.refresher, false);
-                        binding.recyclerContent.setShowErrorView(false);
                         unsubscribe();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Utils.setRefresher(binding.recyclerContent.refresher, false);
-                        binding.recyclerContent.setShowErrorView(true);
+                        String text;
                         if (e == null || TextUtils.isEmpty(e.getMessage())) {
-                            binding.recyclerContent.errorView.setTitle(R.string.lalala);
-                            binding.recyclerContent.errorView.setSubtitle(R.string.error);
+                            text = getString(R.string.error);
                         } else {
-                            binding.recyclerContent.errorView.setTitle(R.string.lalala);
-                            binding.recyclerContent.errorView.setSubtitle(e.getMessage());
+                            text = e.getMessage();
                         }
+                        Snackbar.make(binding.getRoot(), text, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.retry, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        getAlbum();
+                                    }
+                                }).show();
                         unsubscribe();
                     }
 

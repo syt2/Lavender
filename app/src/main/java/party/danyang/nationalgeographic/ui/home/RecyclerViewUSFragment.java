@@ -6,19 +6,18 @@ import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
-import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
-import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -45,7 +44,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-import tr.xip.errorview.ErrorView;
 
 public class RecyclerViewUSFragment extends Fragment {
 
@@ -134,15 +132,6 @@ public class RecyclerViewUSFragment extends Fragment {
     }
 
     private void setupRecyclerContent() {
-        binding.setShowErrorView(false);
-        binding.errorView.setOnRetryListener(new ErrorView.RetryListener() {
-            @Override
-            public void onRetry() {
-                sendToLoad(year, month);
-                binding.setShowErrorView(false);
-            }
-        });
-
         adapter = new AlbumListUSAdapter(null);
         adapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
@@ -155,42 +144,39 @@ public class RecyclerViewUSFragment extends Fragment {
                 , StaggeredGridLayoutManager.VERTICAL);
         binding.recycler.setAdapter(adapter);
         binding.recycler.setLayoutManager(layoutManager);
-        //滑动是暂停加载
-        RxRecyclerView.scrollStateChanges(binding.recycler)
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer newState) {
-                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                            PicassoHelper.getInstance(getActivity()).resumeTag(AlbumListUSAdapter.TAG_LIST_US);
-                        } else {
-                            PicassoHelper.getInstance(getActivity()).pauseTag(AlbumListUSAdapter.TAG_LIST_US);
-                        }
-                    }
-                });
-        //load more
-        RxRecyclerView.scrollEvents(binding.recycler)
-                .subscribe(new Action1<RecyclerViewScrollEvent>() {
-                    @Override
-                    public void call(RecyclerViewScrollEvent recyclerViewScrollEvent) {
-                        int[] positions = new int[layoutManager.getSpanCount()];
-                        layoutManager.findLastCompletelyVisibleItemPositions(positions);
-                        int maxPosition = positions[0];
-                        for (int position : positions) {
-                            maxPosition = Math.max(position, maxPosition);
-                        }
-                        if (maxPosition == layoutManager.getItemCount() - 1) {
-                            loadMore();
-                        }
-                    }
-                });
+        binding.recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int[] positions = new int[layoutManager.getSpanCount()];
+                layoutManager.findLastCompletelyVisibleItemPositions(positions);
+                int maxPosition = positions[0];
+                for (int position : positions) {
+                    maxPosition = Math.max(position, maxPosition);
+                }
+                if (maxPosition == layoutManager.getItemCount() - 1) {
+                    loadMore();
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    PicassoHelper.getInstance(getActivity()).resumeTag(AlbumListUSAdapter.TAG_LIST_US);
+                } else {
+                    PicassoHelper.getInstance(getActivity()).pauseTag(AlbumListUSAdapter.TAG_LIST_US);
+                }
+            }
+        });
         binding.refresher.setColorSchemeResources(R.color.md_grey_600, R.color.md_grey_800);
-        RxSwipeRefreshLayout.refreshes(binding.refresher)
-                .subscribe(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        sendToLoad(Utils.getYearOfNow(), Utils.getMonthOfNow());
-                    }
-                });
+        binding.refresher.setProgressViewOffset(true, 0, 100);
+        binding.refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                sendToLoad(Utils.getYearOfNow(), Utils.getMonthOfNow());
+            }
+        });
     }
 
     private void getAlbumUSList() {
@@ -205,9 +191,8 @@ public class RecyclerViewUSFragment extends Fragment {
                     public void onCompleted() {
                         hasLoad = false;
                         Utils.setRefresher(binding.refresher, false);
-                        binding.setShowErrorView(false);
+                        //处理数量为空或不足导致recyclerView无法scroll的load more问题
 
-                        //处理数量为空或不足导致recyclerView无法scroll的loadmore问题
                         int[] positions = new int[layoutManager.getSpanCount()];
                         layoutManager.findLastCompletelyVisibleItemPositions(positions);
                         int maxPosition = positions[0];
@@ -225,17 +210,30 @@ public class RecyclerViewUSFragment extends Fragment {
                     public void onError(Throwable e) {
                         hasLoad = false;
                         Utils.setRefresher(binding.refresher, false);
-                        binding.setShowErrorView(true);
+
+                        String text;
                         if (e == null || TextUtils.isEmpty(e.getMessage())) {
-                            binding.errorView.setTitle(R.string.lalala);
-                            binding.errorView.setSubtitle(R.string.error);
+                            text = getString(R.string.error);
                         } else if (e.getMessage().trim().equals(getString(R.string.notfound404))) {
-                            binding.errorView.setTitle(R.string.lalala);
-                            binding.errorView.setSubtitle(getString(R.string.notfound404) + getString(R.string.maybe_no_more));
+                            text = getString(R.string.notfound404) + getString(R.string.maybe_no_more);
                         } else {
-                            binding.errorView.setTitle(R.string.lalala);
-                            binding.errorView.setSubtitle(e.getMessage());
+                            text = e.getMessage();
                         }
+                        month++;
+                        if (month == 13) {
+                            year++;
+                            month = 1;
+                        }
+
+                        Snackbar.make(binding.getRoot(), text, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.retry, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        loadMore();
+//                                        sendToLoad(year, month);
+                                    }
+                                }).show();
+
                         unsubscribe();
                     }
 
@@ -249,7 +247,7 @@ public class RecyclerViewUSFragment extends Fragment {
                         } else {
                             adapter.addAll(albumList.getItems());
                         }
-                        Items.updateRealm(activity.realm,albumList.getItems());
+                        Items.updateRealm(activity.realm, albumList.getItems());
                     }
                 }));
     }

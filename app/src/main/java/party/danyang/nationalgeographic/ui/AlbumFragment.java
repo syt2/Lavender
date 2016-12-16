@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.jakewharton.rxbinding.view.RxView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -75,26 +74,21 @@ public class AlbumFragment extends Fragment {
                 return true;
             }
         });
-
-        RxView.clicks(binding.imgTouch).subscribe(new Action1<Void>() {
+        binding.imgTouch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void call(Void aVoid) {
+            public void onClick(View view) {
                 toggle();
             }
         });
-        //检查读写权限
-        RxView.longClicks(binding.imgTouch)
-                .compose(RxPermissions.getInstance(activity).ensure(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        if (aBoolean) {//有权限
-                            showSaveImgDialog();
-                        } else {//无权限
-                            Utils.makeSnackBar(binding.getRoot(), R.string.permission_denied, true);
-                        }
-                    }
-                });
+
+        binding.imgTouch.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showSaveImgDialog();
+                return true;
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -159,7 +153,19 @@ public class AlbumFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                saveImg();
+
+                RxPermissions rxPermissions = new RxPermissions(getActivity());
+                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .subscribe(new Action1<Boolean>() {
+                            @Override
+                            public void call(Boolean aBoolean) {
+                                if (aBoolean) {
+                                    saveImg();
+                                } else {//无权限
+                                    Utils.makeSnackBar(binding.getRoot(), R.string.permission_denied, true);
+                                }
+                            }
+                        });
             }
         });
         builder.setNegativeButton(R.string.cancel, null);

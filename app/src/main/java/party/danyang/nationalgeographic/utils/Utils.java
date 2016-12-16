@@ -7,10 +7,13 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.squareup.picasso.Picasso;
@@ -124,8 +127,17 @@ public final class Utils {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("image/*");
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                            intent.setType("image/");
+//                            intent.setData(Utils.getLocalBitmapUri(context, bitmap, name));
+//                            intent.setDataAndType(getLocalBitmapUri(context, bitmap, name), "image/*");
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                        } else {
+//                            intent.setType("image/");
+//                        }
                         intent.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(context, bitmap, name));
+                        intent.setType("image/");
+//                        intent.setDataAndType(getLocalBitmapUri(context, bitmap, name), "image/*");
                         intent.putExtra(Intent.EXTRA_TITLE, title);
                         intent.putExtra(Intent.EXTRA_TEXT, describe);
                         intent.putExtra(Intent.EXTRA_SUBJECT, title);
@@ -149,11 +161,18 @@ public final class Utils {
     public static Uri getLocalBitmapUri(Context context, Bitmap bmp, String name) {
         Uri bmpUri = null;
         try {
+//            File file = new File(Environment.getExternalStorageDirectory(), "share_image_" + name + ".jpg");
             File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + name + ".jpg");
+//            File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + name + ".jpg");
             FileOutputStream out = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.close();
-            bmpUri = Uri.fromFile(file);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                bmpUri = FileProvider.getUriForFile(context, "party.danyang.nationalgeographic.provider", file);
+            } else {
+                bmpUri = Uri.fromFile(file);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

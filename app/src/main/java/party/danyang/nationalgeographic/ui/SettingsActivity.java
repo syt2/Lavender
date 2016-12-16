@@ -14,13 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 
-import com.github.javiersantos.appupdater.AppUpdater;
-import com.github.javiersantos.appupdater.enums.Display;
-import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.umeng.analytics.MobclickAgent;
 
 import io.realm.Realm;
-import party.danyang.nationalgeographic.BuildConfig;
 import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivitySettingsBinding;
 import party.danyang.nationalgeographic.databinding.LayoutDialogInputBinding;
@@ -33,8 +29,6 @@ import rx.android.schedulers.AndroidSchedulers;
 public class SettingsActivity extends ToolbarActivity {
 
     private ActivitySettingsBinding binding;
-
-    private AppUpdater appUpdater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +48,6 @@ public class SettingsActivity extends ToolbarActivity {
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        if (appUpdater != null) {
-            appUpdater.stop();
-        }
     }
 
     private void initViews() {
@@ -103,7 +94,7 @@ public class SettingsActivity extends ToolbarActivity {
     }
 
     public void onClickAccelerateCustomImageSize(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogTheme);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
         final LayoutDialogInputBinding inputBinding = DataBindingUtil
                 .inflate(getLayoutInflater(), R.layout.layout_dialog_input, null, false);
         inputBinding.input.addTextChangedListener(new TextWatcher() {
@@ -179,8 +170,7 @@ public class SettingsActivity extends ToolbarActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        if (BuildConfig.LOG_DEBUG)
-                            Log.e("clear cache", e.toString());
+                        Log.e("clear cache", e.toString());
                     }
 
                     @Override
@@ -197,16 +187,16 @@ public class SettingsActivity extends ToolbarActivity {
                 });
     }
 
-    public void onClickCheckUpdate(View view) {
-        appUpdater = new AppUpdater(this)
-                .setUpdateFrom(UpdateFrom.XML)
-                .setUpdateXML("https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/update-changelog.xml")
-                .setDisplay(Display.DIALOG)
-                .setTitleOnUpdateAvailable("")
-                .setTitleOnUpdateNotAvailable("")
-                .showAppUpdated(true);
-        appUpdater.start();
-    }
+//    public void onClickCheckUpdate(View view) {
+//        appUpdater = new AppUpdater(this)
+//                .setUpdateFrom(UpdateFrom.XML)
+//                .setUpdateXML("https://raw.githubusercontent.com/dreamcontinue/Lavender/master/app/update-changelog.xml")
+//                .setDisplay(Display.DIALOG)
+//                .setTitleOnUpdateAvailable("")
+//                .setTitleOnUpdateNotAvailable("")
+//                .showAppUpdated(true);
+//        appUpdater.start();
+//    }
 
     public void onClickAppInfo(View view) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);

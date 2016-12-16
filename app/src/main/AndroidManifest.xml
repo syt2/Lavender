@@ -60,6 +60,16 @@
             android:name=".ui.AboutActivity"
             android:label="@string/settings_about"
             android:screenOrientation="user" />
+        
+        <provider
+            android:authorities="party.danyang.nationalgeographic.provider"
+            android:name="android.support.v4.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
     </application>
 
 </manifest>

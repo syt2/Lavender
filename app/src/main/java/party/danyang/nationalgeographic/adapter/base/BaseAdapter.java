@@ -7,11 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jakewharton.rxbinding.view.RxView;
-
 import java.util.List;
-
-import rx.functions.Action1;
 
 /**
  * Created by dream on 16-7-27.
@@ -45,9 +41,9 @@ public abstract class BaseAdapter<E> extends ArrayRecyclerAdapter<E, BaseAdapter
     public void onBindViewHolder(final BaseAdapter.ViewHolder holder, final int position) {
         setBingVariables(holder.getBinding(), position);
         if (mOnItemClickListener != null)
-            RxView.clicks(holder.itemView).subscribe(new Action1<Void>() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void call(Void aVoid) {
+                public void onClick(View view) {
                     mOnItemClickListener.onItemClick(holder.itemView, position);
                 }
             });

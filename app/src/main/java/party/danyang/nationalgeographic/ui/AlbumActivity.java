@@ -10,13 +10,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
-import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -28,7 +28,6 @@ import party.danyang.nationalgeographic.R;
 import party.danyang.nationalgeographic.databinding.ActivityAlbumBinding;
 import party.danyang.nationalgeographic.utils.Utils;
 import party.danyang.nationalgeographic.utils.singleton.PicassoHelper;
-import rx.functions.Action1;
 
 public class AlbumActivity extends SwipeBackActivity {
     private static final String TAG = AlbumActivity.class.getSimpleName();
@@ -116,16 +115,17 @@ public class AlbumActivity extends SwipeBackActivity {
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_grey_300_24dp);
         setSupportActionBar(binding.toolbar);
         setTitle(null);
-        RxToolbar.navigationClicks(binding.toolbar).subscribe(new Action1<Void>() {
+        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void call(Void aVoid) {
+            public void onClick(View view) {
                 supportFinishAfterTransition();
             }
         });
-        RxToolbar.itemClicks(binding.toolbar).subscribe(new Action1<MenuItem>() {
+        binding.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void call(MenuItem menuItem) {
-                onToolbarMenuItemClicked(menuItem);
+            public boolean onMenuItemClick(MenuItem item) {
+                onToolbarMenuItemClicked(item);
+                return true;
             }
         });
         adapter = new PagerAdapter();
@@ -138,9 +138,10 @@ public class AlbumActivity extends SwipeBackActivity {
         //初始化为可见
         binding.setFullScreen(false);
         //viewPage 滑动时改变title content author
-        RxViewPager.pageSelections(binding.viewPager).subscribe(new Action1<Integer>() {
+        binding.viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
-            public void call(Integer position) {
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
                 binding.setTitle(titles.get(position));
                 binding.setContent(contents.get(position));
                 binding.setAuthor(authors.get(position));
