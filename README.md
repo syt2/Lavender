@@ -73,23 +73,6 @@ About Me
 
 ~~About Lavender~~
 -----------------
-~~Lavender是薰衣草的意思  
-为什么会起这个名呢  
-因为薰衣草是妳最喜欢的花啊  
-薰衣草呢，有个花语  
-“等待无望的爱"  
-描述我是多么的合适啊。  
-![](screenshot/Lavender.jpg)  
-谨以此名，献给终将与我分离的妳。  
-即便如此，我永远,永远  
-等妳~~  
+~~nothing but u~~
 
 
-  
-:blue_heart::purple_heart::heart:  
-:yellow_heart:[:cloud:](http://danyang.party/wordpress/2016/09/14/235/ "我一直一直喜欢妳，云。如果妳能看到的话，我等妳，永远"):heartpulse:  
-:sparkling_heart::revolving_hearts::two_hearts:  
-:bomb::girl::poop:  
-
-
-~~还有7天就要再也见不到妳了，愿余生幸福，愿来世能继续遇见妳。~~
