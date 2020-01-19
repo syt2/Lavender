@@ -5,8 +5,7 @@
 Download
 --------
 V 1.3.1  
-[![Lavender]](app/app-release.apk)  
-[Lavender]:app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "Lavender"
+[![](app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)](app/app-release.apk)  
 
 
 ScreenShot
