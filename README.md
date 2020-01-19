@@ -14,7 +14,7 @@ ScreenShot
 
 
 
-Discription:
+Description:
 -----------------
 **图片来源**  
 http://ng.bdatu.com/  
@@ -44,6 +44,6 @@ Thanks
 感谢国家地理  
 感谢默默付出的开源者  
 感谢[70kg/Meizi](https://github.com/70kg/Meizi) [oxoooo/earth](https://github.com/oxoooo/earth)的开源，Lavender借鉴了部分代码  
-感谢酷友 [@柠冰羽痕Ice](http://www.coolapk.com/u/482620)(前任图标) [@WangMT](http://www.coolapk.com/u/413199)(现在的图标) 的帮助
+感谢 [@柠冰羽痕Ice](http://www.coolapk.com/u/482620) [@WangMT](http://www.coolapk.com/u/413199) 对Lavender图标的帮助
 
 
